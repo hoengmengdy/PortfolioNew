@@ -1,0 +1,181 @@
+import json
+import re
+import sqlite3
+from pathlib import Path
+
+import pytest
+from werkzeug.security import generate_password_hash
+from app import create_app
+
+
+@pytest.fixture
+def app(tmp_path):
+    application = create_app({'TESTING': True, 'SECRET_KEY': 'test-secret', 'DATABASE': str(tmp_path / 'test.db'), 'RATELIMIT_ENABLED': False})
+    with sqlite3.connect(application.config['DATABASE']) as connection:
+        connection.execute('INSERT INTO admins(username,password_hash) VALUES(?,?)', ('owner', generate_password_hash('long-test-password')))
+        connection.executemany('INSERT INTO retailers(name,country,city,address) VALUES(?,?,?,?)', [('Kigali Store', 'Rwanda', 'Kigali', 'Kicukiro'), ('Phnom Store', 'Cambodia', 'Phnom Penh', 'BKK1')])
+    return application
+
+
+@pytest.fixture
+def client(app):
+    return app.test_client()
+
+
+def token(client, path='/contact'):
+    response = client.get(path)
+    return re.search(r'name="csrf_token" value="([^"]+)"', response.text)[1]
+
+
+def login(client):
+    return client.post('/admin/login', data={'csrf_token': token(client, '/admin/login'), 'username': 'owner', 'password': 'long-test-password'})
+
+
+def payload(client):
+    return dict(csrf_token=token(client), name='Test Visitor', email='visitor@example.com', phone='+250 123 456 789', subject='Retail partnership', message='Please send more information about your collection.')
+
+
+@pytest.mark.parametrize('path', ['/', '/about', '/retailers', '/contact', '/admin/login'])
+@pytest.mark.parametrize('language', ['en', 'km'])
+def test_all_pages_and_languages(client, path, language):
+    response = client.get(f'/set-language/{language}?next={path}', follow_redirects=True)
+    assert response.status_code == 200
+    assert f'<html lang="{language}">' in response.text
+    assert 'name="description"' in response.text
+    assert 'Content-Security-Policy' in response.headers
+    assert response.headers['Cache-Control'] == 'no-store'
+
+
+def test_language_remembered_and_redirects_safe(client):
+    response = client.get('/set-language/km?next=https://evil.example')
+    assert response.location == '/'
+    assert 'Max-Age=31536000' in response.headers.getlist('Set-Cookie')[0]
+    with client.session_transaction() as session:
+        session.clear()
+    assert '<html lang="km">' in client.get('/about').text
+    for target in ['//evil.example', '/\\evil.example', 'javascript:alert(1)']:
+        assert client.get('/set-language/en', query_string={'next': target}).location == '/'
+    assert client.get('/set-language/fr').status_code == 404
+
+
+def test_header_and_retired_language(client):
+    client.set_cookie('language', 'rw')
+    with client.session_transaction() as session:
+        session['language'] = 'rw'
+    response = client.get('/')
+    assert response.status_code == 200
+    assert '<html lang="en">' in response.text
+    assert 'class="announcement"' not in response.text
+    assert 'class="nav-cta"' not in response.text
+    assert '/set-language/rw' not in response.text
+    assert '/set-language/en' in response.text
+    assert '/set-language/km' in response.text
+    assert client.get('/set-language/rw').status_code == 404
+
+
+def test_contact_saved_and_admin_view_escapes_html(client, app):
+    data = payload(client)
+    data['message'] = '<script>alert("xss")</script> This is a test inquiry.'
+    response = client.post('/api/contact', data=data, follow_redirects=True)
+    assert response.status_code == 200
+    assert 'Your message has been received' in response.text
+    with sqlite3.connect(app.config['DATABASE']) as connection:
+        row = connection.execute('SELECT name,email,message,status FROM messages').fetchone()
+    assert row == ('Test Visitor', 'visitor@example.com', data['message'], 'new')
+    assert login(client).status_code == 302
+    html = client.get('/admin').text
+    assert '&lt;script&gt;' in html
+    assert '<script>alert(' not in html
+
+
+def test_json_api_validation_csrf_and_persistence(client, app):
+    assert client.post('/api/contact', json={'name': 'Test'}).status_code == 400
+    data = payload(client)
+    csrf_token = data.pop('csrf_token')
+    response = client.post('/api/contact', json=data, headers={'X-CSRFToken': csrf_token})
+    assert response.status_code == 201 and response.json['ok']
+    data['email'] = 'bad-email'
+    data['message'] = 'short'
+    response = client.post('/api/contact', json=data, headers={'X-CSRFToken': csrf_token})
+    assert response.status_code == 422
+    assert set(response.json['errors']) == {'email', 'message'}
+    with sqlite3.connect(app.config['DATABASE']) as connection:
+        assert connection.execute('SELECT count(*) FROM messages').fetchone()[0] == 1
+
+
+def test_form_error_preserves_input_and_honeypot(client):
+    data = payload(client)
+    data.update(email='wrong', name='A', phone='not-a-phone', message='short', subject='x')
+    response = client.post('/api/contact', data=data)
+    assert response.status_code == 422
+    assert 'value="wrong"' in response.text
+    assert 'aria-invalid="true"' in response.text
+    data = payload(client)
+    data['website'] = 'spam'
+    assert client.post('/api/contact', data=data).status_code == 422
+
+
+def test_admin_access_status_and_logout(client, app):
+    assert client.get('/admin').status_code == 302
+    assert client.post('/admin/retailers', data={'csrf_token': token(client)}).status_code == 302
+    assert client.post('/admin/login', data={'csrf_token': token(client, '/admin/login'), 'username': "' OR 1=1--", 'password': 'bad'}).status_code == 200
+    assert client.get('/admin').status_code == 302
+    client.post('/api/contact', data=payload(client))
+    login(client)
+    assert client.get('/admin').status_code == 200
+    assert client.post('/admin/messages/1/status', data={'csrf_token': token(client, '/admin'), 'status': 'read'}).status_code == 302
+    with sqlite3.connect(app.config['DATABASE']) as connection:
+        assert connection.execute('SELECT status FROM messages WHERE id=1').fetchone()[0] == 'read'
+    assert client.post('/admin/messages/1/status', data={'csrf_token': token(client, '/admin'), 'status': 'invalid'}).status_code == 400
+    assert client.post('/admin/logout', data={'csrf_token': token(client, '/admin')}).status_code == 302
+    assert client.get('/admin').status_code == 302
+
+
+def test_retailer_search_and_admin_crud(client, app):
+    response = client.get('/retailers?country=Rwanda&city=kig')
+    assert 'Kigali Store' in response.text and 'Phnom Store' not in response.text
+    assert 'No retailers found' in client.get('/retailers?city=unknown').text
+    assert client.get('/retailers?country=%27%20OR%201%3D1--').status_code == 200
+    login(client)
+    retailer = dict(csrf_token=token(client, '/admin'), name='New Store', country='Rwanda', city='Huye', address='Main street', phone='', email='store@example.com')
+    assert client.post('/admin/retailers', data=retailer).status_code == 302
+    assert 'New Store' in client.get('/retailers?city=Huye').text
+    with sqlite3.connect(app.config['DATABASE']) as connection:
+        retailer_id = connection.execute('SELECT id FROM retailers WHERE name=?', ('New Store',)).fetchone()[0]
+    retailer.update(id=str(retailer_id), name='Updated Store')
+    assert client.post('/admin/retailers', data=retailer).status_code == 302
+    assert 'Updated Store' in client.get('/retailers?city=Huye').text
+    assert client.post(f'/admin/retailers/{retailer_id}/delete', data={'csrf_token': token(client, '/admin')}).status_code == 302
+    assert 'Updated Store' not in client.get('/retailers').text
+
+
+def test_admin_cli(app):
+    runner = app.test_cli_runner()
+    assert runner.invoke(args=['create-admin', '--username', 'new-owner'], input='short\nshort\n').exit_code != 0
+    assert runner.invoke(args=['create-admin', '--username', 'new-owner'], input='a-long-password-123\na-long-password-123\n').exit_code == 0
+    assert runner.invoke(args=['create-admin', '--username', 'new-owner'], input='a-long-password-123\na-long-password-123\n').exit_code != 0
+
+
+def test_rate_limit_and_csrf_on_admin(app):
+    from app import limiter
+    app.config['RATELIMIT_ENABLED'] = True
+    limiter.enabled = True
+    limiter.reset()
+    client = app.test_client()
+    assert client.post('/admin/login', data={'username': 'owner'}).status_code == 400
+    data = payload(client)
+    statuses = [client.post('/api/contact', data=data).status_code for _ in range(6)]
+    assert statuses[:5] == [303] * 5
+    assert statuses[5] == 429
+
+
+def test_translation_catalogs_are_complete(client):
+    root = Path(__file__).resolve().parents[1]
+    catalogs = [json.loads((root / 'translations' / f'{lang}.json').read_text(encoding='utf-8')) for lang in ('en', 'km')]
+    assert all(set(catalog) == set(catalogs[0]) for catalog in catalogs)
+    assert all(all(value.strip() for value in catalog.values()) for catalog in catalogs)
+    # Catch encoding loss when regenerating Khmer text on Windows.
+    assert all('???' not in value for value in catalogs[1].values())
+    for template in (root / 'templates').glob('*.html'):
+        for key in re.findall(r"t\('([a-z_]+)'\)", template.read_text(encoding='utf-8')):
+            assert key in catalogs[0], (template.name, key)

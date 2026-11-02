@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="login-section">
+  <div class="form-card login-card">
+    <span class="round-icon"><i class="fa-solid fa-lock" aria-hidden="true"></i></span>
+    <h1>{{ t('admin_title') }}</h1>
+    <p>{{ t('admin_intro') }}</p>
+    {% if error %}<p role="alert" class="notice error">{{ error }}</p>{% endif %}
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="field"><label for="username">{{ t('username') }}</label><input id="username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required maxlength="100"></div>
+      <div class="field">
+        <label for="password">{{ t('password') }}</label>
+        <div class="password-control">
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button class="password-toggle icon-button" type="button" aria-controls="password" aria-pressed="false" aria-label="{{ t('show_password') }}" data-show-label="{{ t('show_password') }}" data-hide-label="{{ t('hide_password') }}"><i class="fa-regular fa-eye" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="button">{{ t('sign_in') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+    </form>
+  </div>
+</section>
+{% endblock %}

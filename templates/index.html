@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-copy">
+    <div class="hero-content">
+      <p class="eyebrow hero-welcome">{{ t('welcome_hero') }}</p>
+      <h1 id="hero-heading">{{ t('reference_hero_heading') }}</h1>
+      <p class="hero-description">{{ t('reference_hero_description') }}</p>
+      <a class="button hero-contact" href="{{ url_for('contact') }}">{{ t('contact_us') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img src="{{ url_for('static', filename='images/soap-hero.webp') }}"
+         srcset="{{ url_for('static', filename='images/soap-hero-small.webp') }} 640w, {{ url_for('static', filename='images/soap-hero.webp') }} 1120w"
+         sizes="(max-width: 600px) 100vw, 48vw" alt="{{ t('alt_soap_hero') }}"
+         fetchpriority="high" width="1120" height="1400">
+  </div>
+</section>
+
+<section class="collection section" id="collection" aria-labelledby="collection-heading">
+  <div class="section-heading">
+    <div><p class="eyebrow">{{ t('collection_eyebrow') }}</p><h2 id="collection-heading">{{ t('collection_simple') }}</h2></div>
+    <a class="text-link" href="{{ url_for('retailers') }}">{{ t('find_nearby') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+  </div>
+  <div class="product-grid">
+    {% for slug,image in [('serum','hero'),('cleanser','soap-hero'),('cream','collection-original')] %}
+    <article class="product-card">
+      <a href="{{ url_for('contact', subject=t(slug + '_name')) }}">
+        <div class="product-image product-{{ slug }}"><img src="{{ url_for('static', filename='images/' + image + '.webp') }}" loading="lazy" alt="{{ t('alt_' + slug) }}" width="800" height="1000"></div>
+        <div class="product-meta"><h3>{{ t(slug + '_name') }}</h3></div>
+        <p>{{ t(slug + '_description') }}</p>
+        <span class="product-inquiry">{{ t('product_details') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+  <p class="fine-print">{{ t('collection_disclaimer') }}</p>
+</section>
+
+<section class="ritual-section section" aria-labelledby="care-heading">
+  <div class="ritual-image"><img src="{{ url_for('static', filename='images/botanical.webp') }}" alt="{{ t('alt_forest') }}" loading="lazy" width="1200" height="800"></div>
+  <div class="ritual-copy">
+    <p class="eyebrow">{{ t('our_philosophy') }}</p>
+    <h2 id="care-heading">{{ t('care_intro') }}</h2>
+    {% for key in ['skincare','wellness'] %}
+    <div class="numbered-feature"><div><h3>{{ t(key) }}</h3><p>{{ t(key + '_description') }}</p></div></div>
+    {% endfor %}
+    <a class="text-link" href="{{ url_for('about') }}">{{ t('meet_brand') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+  </div>
+</section>
+
+<section class="journal section" aria-labelledby="gallery-heading">
+  <div class="section-heading"><h2 id="gallery-heading">{{ t('gallery_simple') }}</h2></div>
+  <div class="gallery-grid">
+    {% for image,key in [('hero','light'),('soap-hero','slow'),('botanical','nature')] %}
+    <button class="gallery-item" type="button" data-lightbox="{{ url_for('static', filename='images/' + image + '.webp') }}" aria-label="{{ t('view_image') }}: {{ t(key + '_caption') }}">
+      <img src="{{ url_for('static', filename='images/' + image + '.webp') }}" alt="{{ t(key + '_caption') }}" loading="lazy" width="700" height="800">
+      <span>{{ t(key + '_caption') }} <i class="fa-solid fa-expand" aria-hidden="true"></i></span>
+    </button>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="commitment section" aria-labelledby="commitment-heading">
+  <div><p class="eyebrow">{{ t('promise_eyebrow') }}</p><h2 id="commitment-heading">{{ t('commitment') }}</h2><p>{{ t('promise_description') }}</p><a class="text-link" href="{{ url_for('about') }}">{{ t('read_story') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
+  <div>{% for key in ['why','commitment'] %}<article class="numbered-feature"><div><h3>{{ t('why_choose' if key == 'why' else 'commitment') }}</h3><p>{{ t(key + '_description') }}</p></div></article>{% endfor %}</div>
+</section>
+{% include 'inquiry.html' %}
+{% endblock %}
+{% block extra %}
+<dialog class="lightbox" aria-label="{{ t('visual_journal') }}"><button type="button" class="lightbox-close icon-button" aria-label="{{ t('close') }}">&times;</button><img alt=""><p></p></dialog>
+{% endblock %}
