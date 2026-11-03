@@ -691,3 +691,7 @@ html:lang(km) .marquee{letter-spacing:0;text-transform:none;font-size:14px}
 .button:hover .fa-arrow-right,.text-link:hover .fa-arrow-right,a:hover .product-inquiry .fa-arrow-right{transform:translateX(4px)}
 .marquee:hover .marquee-track{animation-play-state:paused}
 .page-admin .button:hover{transform:none;box-shadow:none}
+/* Sky-blue (#87cefa) hero and page headings; text is darkened so it stays readable on the brighter blue. */
+.hero,.page-hero{background:#87cefa}
+.hero .eyebrow,.page-hero .eyebrow{color:#0f4c75}
+.hero-description,.page-hero>p:not(.eyebrow){color:#17293a}
