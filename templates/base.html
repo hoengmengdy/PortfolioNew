@@ -14,7 +14,7 @@
   <link rel="icon" href="{{ url_for('static', filename='images/Logo-Empress.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='17') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='18') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='3') }}"></script>
 </head>
 <body class="page-{{ page }}">
@@ -34,9 +34,9 @@
       <a class="cart-link icon-button" href="{{ url_for('account') if customer else url_for('account_login') }}" aria-label="{{ t('account_title') if customer else t('account_login_title') }}" {% if request.endpoint in ['account', 'account_login', 'verify_login_code'] %}aria-current="page"{% endif %}><i class="fa-{{ 'solid' if customer else 'regular' }} fa-user" aria-hidden="true"></i></a>
       <a class="cart-link icon-button" href="{{ url_for('cart') }}" aria-label="{{ t('cart_title') }} ({{ cart_count }})" {% if request.endpoint == 'cart' %}aria-current="page"{% endif %}><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>{% if cart_count %}<span class="cart-count" aria-hidden="true">{{ cart_count }}</span>{% endif %}</a>
       <details class="language-selector">
-        <summary><i class="fa-solid fa-globe" aria-hidden="true"></i><span>{{ languages[lang] }}</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+        <summary><img class="flag" src="{{ url_for('static', filename='images/flags/' + lang + '.svg') }}" alt="" width="21" height="14"><span>{{ languages[lang] }}</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
         <div class="language-options">
-          {% for code,label in languages.items() %}<a lang="{{ code }}" href="{{ url_for('set_language', language=code, next=request.full_path) }}" {% if lang == code %}aria-current="true"{% endif %}>{{ label }}{% if lang == code %} <span aria-hidden="true">✓</span>{% endif %}</a>{% endfor %}
+          {% for code,label in languages.items() %}<a lang="{{ code }}" href="{{ url_for('set_language', language=code, next=request.full_path) }}" {% if lang == code %}aria-current="true"{% endif %}><img class="flag" src="{{ url_for('static', filename='images/flags/' + code + '.svg') }}" alt="" width="21" height="14"><span>{{ label }}</span>{% if lang == code %}<i class="fa-solid fa-check" aria-hidden="true"></i>{% endif %}</a>{% endfor %}
         </div>
       </details>
     </div>
