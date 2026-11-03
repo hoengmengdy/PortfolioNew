@@ -665,3 +665,5 @@ html:lang(km) .hero-description{font-size:16px;line-height:1.9}
 .footer h2{font-family:var(--body);letter-spacing:0}
 /* Letter spacing breaks Khmer character clusters apart. */
 html:lang(km) .marquee{letter-spacing:0;text-transform:none;font-size:14px}
+/* On larger screens the hero and the marquee strip fill the first screen exactly (header 84px, strip about 46px). */
+@media(min-width:801px){.hero{min-height:max(560px,calc(100svh - 84px - 46px))}.hero-visual{min-height:100%}}
