@@ -24,7 +24,8 @@ def add_to_cart(client, product_id=1, quantity=2):
 
 
 def order_form(client, **changes):
-    data = dict(csrf_token=token(client, '/checkout'), name='Sok Dara', email='', address='Street 51, BKK1', city='Phnom Penh', note='', payment_method='bank')
+    data = dict(csrf_token=token(client, '/checkout'), first_name='Sok', last_name='Dara', phone='012 345 678', province='12', district='1201',
+                commune='120101', street='House 12, Street 51', note='', payment_method='bank', save_address='1')
     data.update(changes)
     return data
 
@@ -52,6 +53,7 @@ def test_shop_cart_and_checkout(client, app, telegram_codes):
     assert 'Bank transfer' in page and '$37.50' in page and 'Sok Dara' in page
     assert query(app, 'SELECT total_cents,payment_method,status,payment_status,phone,customer_id FROM orders') == [(3750, 'bank', 'pending', 'unpaid', '+85512345678', 1)]
     assert query(app, 'SELECT name,unit_cents,quantity FROM order_items') == [('The Daily Glow', 1800, 2)]
+    assert query(app, 'SELECT address,city FROM orders') == [('House 12, Street 51, Tonle Basak, Chamkar Mon', 'Phnom Penh')]
     assert query(app, 'SELECT stock FROM products WHERE id=1') == [(23,)]
     assert 'Your cart is empty' in client.get('/cart').text
     assert client.get('/orders/not-a-real-token').status_code == 404
@@ -81,11 +83,17 @@ def test_cart_update_remove_and_stock_limits(client, app, telegram_codes):
 def test_checkout_validation(client, app, telegram_codes):
     sign_in(client, telegram_codes)
     add_to_cart(client)
-    response = client.post('/checkout', data=order_form(client, name='A', phone='abc', address='x', email='bad', payment_method='crypto'))
+    response = client.post('/checkout', data=order_form(client, first_name='Sok', last_name='', phone='abc', street='x', payment_method='crypto'))
     assert response.status_code == 422
-    for message in ['delivery address', 'valid email', 'payment method']:
+    for message in ['last name', 'valid phone number', 'house number and street', 'payment method']:
         assert message in response.text
-    assert 'value="A"' in response.text
+    # The chosen district and commune lists are rendered again with the choice kept.
+    assert 'value="Sok"' in response.text and '<option value="120101" selected>Tonle Basak</option>' in response.text
+    # A commune that is not in the chosen district is refused, pointing at the commune list.
+    response = client.post('/checkout', data=order_form(client, commune='010201'))
+    assert response.status_code == 422 and 'choose a commune' in response.text
+    assert client.post('/checkout', data=order_form(client, district='0102')).status_code == 422
+    assert client.post('/checkout', data=order_form(client, province='99')).status_code == 422
     assert query(app, 'SELECT count(*) FROM orders') == [(0,)]
     app.config['PAYMENT_ACCOUNT_NUMBER'] = ''
     assert 'Bank transfer' not in client.get('/checkout').text
@@ -145,3 +153,25 @@ def test_admin_product_management(client, app):
     assert client.post('/cart/add', data={'csrf_token': admin_token, 'product_id': product_id}).status_code == 404
     assert client.post('/admin/products', data={**hidden, 'id': 'abc'}).status_code == 400
     assert client.post('/admin/retailers', data={'csrf_token': admin_token, 'id': 'abc', 'name': 'x', 'country': 'x', 'city': 'x', 'address': 'x'}).status_code == 400
+
+
+def test_default_address_and_khmer_address(client, app, telegram_codes):
+    sign_in(client, telegram_codes)
+    add_to_cart(client)
+    page = client.get('/checkout').text
+    # First checkout: phone comes from the account and saving the address is ticked.
+    assert 'value="12 345 678"' in page and 'name="save_address" value="1" checked' in page
+    assert 'name="district" required disabled' in page
+    client.get('/set-language/km')
+    # A number typed after the +855 prefix without its leading 0 is still accepted.
+    assert client.post('/checkout', data=order_form(client, phone='15 663 024', province='01', district='0102', commune='010201')).status_code == 303
+    assert query(app, 'SELECT phone,address,city FROM orders') == [('+85515663024', 'House 12, Street 51, ឃុំបន្ទាយនាង, ស្រុកមង្គលបូរី', 'បន្ទាយមានជ័យ')]
+    assert query(app, 'SELECT first_name,phone,province,district,commune FROM customer_addresses') == [('Sok', '+85515663024', '01', '0102', '010201')]
+    add_to_cart(client)
+    page = client.get('/checkout').text
+    assert 'value="15 663 024"' in page and '<option value="010201" selected>' in page
+    # Leaving the box unticked keeps the saved address as it was.
+    data = order_form(client, first_name='Dara')
+    data.pop('save_address', None)
+    client.post('/checkout', data=data)
+    assert query(app, 'SELECT first_name FROM customer_addresses') == [('Sok',)]

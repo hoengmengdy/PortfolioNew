@@ -103,3 +103,25 @@ if (!reduceMotion && 'IntersectionObserver' in window && !document.body.classLis
     observer.observe(element);
   });
 }
+
+// Delivery address: each choice fills the next list (province -> district/khan -> commune/sangkat).
+const places = document.querySelector('[data-places]');
+if (places) {
+  const [province, district, commune] = ['province', 'district', 'commune'].map(id => document.getElementById(id));
+  const khmer = document.documentElement.lang === 'km';
+  let request;
+  const load = () => request ??= fetch(places.dataset.places).then(response => response.json());
+  const fill = (select, rows) => {
+    select.length = 1;
+    rows.map(row => [row[0], khmer ? row[1] : row[2]])
+      .sort((a, b) => a[1].localeCompare(b[1], khmer ? 'km' : 'en'))
+      .forEach(([value, label]) => select.add(new Option(label, value)));
+    select.disabled = !rows.length;
+  };
+  province.addEventListener('change', async () => {
+    const data = await load();
+    fill(district, data.districts[province.value] || []);
+    fill(commune, []);
+  });
+  district.addEventListener('change', async () => fill(commune, (await load()).communes[district.value] || []));
+}

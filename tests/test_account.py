@@ -96,9 +96,9 @@ def test_accounts_only_see_their_own_orders(app, telegram_codes):
     assert 'Order #1' in first.get('/account').text
     sign_in(second, telegram_codes, '022 222 222')
     assert 'no orders yet' in second.get('/account').text
-    # Checkout reuses the details of the customer's previous order.
+    # Checkout reuses the customer's saved delivery address.
     add_to_cart(first)
-    assert 'value="Sok Dara"' in first.get('/checkout').text
+    assert 'value="Sok"' in first.get('/checkout').text and 'value="Dara"' in first.get('/checkout').text
     assert first.get(order_url).status_code == 200
 
 

@@ -232,6 +232,28 @@ checkout_title|Checkout|បង់ប្រាក់
 checkout_intro|Tell us where to deliver and how you would like to pay.|ប្រាប់យើងពីទីកន្លែងដឹកជញ្ជូន និងវិធីដែលអ្នកចង់បង់ប្រាក់។
 delivery_details|Delivery details|ព័ត៌មានដឹកជញ្ជូន
 order_note|Order note|កំណត់ចំណាំការកុម្ម៉ង់
+first_name|First name|នាមខ្លួន
+last_name|Last name|នាមត្រកូល
+first_name_placeholder|Enter your first name|បញ្ចូលនាមខ្លួន
+last_name_placeholder|Enter your last name|បញ្ចូលនាមត្រកូល
+delivery_phone|Phone number|លេខទូរស័ព្ទ
+phone_placeholder|Enter your phone number|បញ្ចូលលេខទូរស័ព្ទ
+province|Capital / province (Cambodia)|រាជធានី/ខេត្ត (កម្ពុជា)
+district|District / khan|ស្រុក/ខណ្ឌ
+commune|Commune / sangkat|ឃុំ/សង្កាត់
+choose_province|Choose a capital or province|ជ្រើសរើសរាជធានី/ខេត្ត
+choose_district|Choose a district or khan|ជ្រើសរើសស្រុក/ខណ្ឌ
+choose_commune|Choose a commune or sangkat|ជ្រើសរើសឃុំ/សង្កាត់
+street|Street|ផ្លូវ
+street_placeholder|House number and street|បញ្ចូលលេខផ្ទះ និងផ្លូវ
+save_default_address|Set as my default address|កំណត់ជាអាសយដ្ឋានលំនាំដើម
+error_first_name|Please enter your first name.|សូមបញ្ចូលនាមខ្លួន។
+error_last_name|Please enter your last name.|សូមបញ្ចូលនាមត្រកូល។
+error_delivery_phone|Please enter a valid phone number.|សូមបញ្ចូលលេខទូរស័ព្ទឱ្យបានត្រឹមត្រូវ។
+error_province|Please choose a capital or province.|សូមជ្រើសរើសរាជធានី/ខេត្ត។
+error_district|Please choose a district or khan.|សូមជ្រើសរើសស្រុក/ខណ្ឌ។
+error_commune|Please choose a commune or sangkat.|សូមជ្រើសរើសឃុំ/សង្កាត់។
+error_street|Please enter your house number and street.|សូមបញ្ចូលលេខផ្ទះ និងផ្លូវ។
 payment_method|Payment method|វិធីបង់ប្រាក់
 pay_cod|Cash on delivery|បង់ប្រាក់ពេលទទួលទំនិញ
 pay_cod_description|Pay in cash when your order arrives.|បង់ជាសាច់ប្រាក់នៅពេលទំនិញមកដល់។

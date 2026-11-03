@@ -8,15 +8,23 @@
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <h2>{{ t('delivery_details') }}</h2>
       <p>{{ t('required_note') }}</p>
-      <div class="form-grid">
-        <div class="field"><label for="account-phone">{{ t('phone') }}</label><input id="account-phone" type="tel" value="{{ customer.phone }}" readonly aria-describedby="account-phone-note"><small class="field-note" id="account-phone-note"><i class="fa-brands fa-telegram" aria-hidden="true"></i> {{ t('phone_verified') }}</small></div>
-        {% for field,type,required,maxlen,autocomplete in [('name','text',true,100,'name'),('email','email',false,254,'email'),('city','text',true,100,'address-level2')] %}
-        <div class="field"><label for="{{ field }}">{{ t(field) }}{% if required %} *{% endif %}</label><input id="{{ field }}" name="{{ field }}" type="{{ type }}" value="{{ values.get(field, '') }}" maxlength="{{ maxlen }}" autocomplete="{{ autocomplete }}" {% if required %}required{% endif %} {% if errors.get(field) %}aria-invalid="true" aria-describedby="{{ field }}-error"{% endif %}>{% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}</div>
+      {% macro error(field) %}{% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}{% endmacro %}
+      {% macro invalid(field) %}{% if errors.get(field) %}aria-invalid="true" aria-describedby="{{ field }}-error"{% endif %}{% endmacro %}
+      <div class="form-grid name-grid">
+        {% for field,autocomplete in [('first_name','given-name'),('last_name','family-name')] %}
+        <div class="field"><label for="{{ field }}">{{ t(field) }} *</label><input id="{{ field }}" name="{{ field }}" value="{{ values.get(field, '') }}" maxlength="60" autocomplete="{{ autocomplete }}" placeholder="{{ t(field + '_placeholder') }}" required {{ invalid(field) }}>{{ error(field) }}</div>
         {% endfor %}
       </div>
-      {% for field,maxlen,required in [('address',300,true),('note',500,false)] %}
-      <div class="field"><label for="{{ field }}">{{ t(field if field != 'note' else 'order_note') }}{% if required %} *{% endif %}</label><textarea id="{{ field }}" name="{{ field }}" rows="3" maxlength="{{ maxlen }}" {% if required %}required autocomplete="street-address"{% endif %} {% if errors.get(field) %}aria-invalid="true" aria-describedby="{{ field }}-error"{% endif %}>{{ values.get(field, '') }}</textarea>{% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}</div>
-      {% endfor %}
+      <div class="field"><label for="phone">{{ t('delivery_phone') }} *</label>
+        <div class="phone-group"><span class="phone-prefix"><img src="{{ url_for('static', filename='images/flags/km.svg') }}" alt="" width="20" height="14"> +855</span><input id="phone" name="phone" type="tel" inputmode="tel" value="{{ values.get('phone', '') }}" maxlength="20" autocomplete="tel-national" placeholder="{{ t('phone_placeholder') }}" required {{ invalid('phone') }}></div>{{ error('phone') }}</div>
+      <div class="address-selects" data-places="{{ url_for('static', filename='data/cambodia.json', v='1') }}">
+        {% for field,kind in [('province','provinces'),('district','districts'),('commune','communes')] %}
+        <div class="field"><label for="{{ field }}">{{ t(field) }} *</label><select id="{{ field }}" name="{{ field }}" required {% if not places[kind] %}disabled{% endif %} {{ invalid(field) }}><option value="">{{ t('choose_' + field) }}</option>{% for row in places[kind] %}<option value="{{ row[0] }}" {% if values.get(field) == row[0] %}selected{% endif %}>{{ place_name(row) }}</option>{% endfor %}</select>{{ error(field) }}</div>
+        {% endfor %}
+      </div>
+      <div class="field"><label for="street">{{ t('street') }} *</label><input id="street" name="street" value="{{ values.get('street', '') }}" maxlength="200" autocomplete="address-line1" placeholder="{{ t('street_placeholder') }}" required {{ invalid('street') }}>{{ error('street') }}</div>
+      <label class="check-row"><input type="checkbox" name="save_address" value="1" {% if values.get('save_address') or values.get('customer_id') %}checked{% endif %}> {{ t('save_default_address') }}</label>
+      <div class="field"><label for="note">{{ t('order_note') }}</label><textarea id="note" name="note" rows="3" maxlength="500" {{ invalid('note') }}>{{ values.get('note', '') }}</textarea>{{ error('note') }}</div>
       <fieldset class="payment-options" id="payment_method">
         <legend>{{ t('payment_method') }} *</legend>
         {% for method in methods %}

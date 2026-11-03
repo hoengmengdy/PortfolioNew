@@ -18,6 +18,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import check_password_hash, generate_password_hash
 
 import database
+import locations
 import payway
 import telegram_bot
 from config import Config, ROOT
@@ -325,20 +326,35 @@ def create_app(test_config=None):
         session['cart'] = cart
         return redirect(url_for('cart'), code=303)
 
+    ADDRESS_FIELDS = ('first_name', 'last_name', 'phone', 'province', 'district', 'commune', 'street')
+
+    def local_phone(phone):
+        # Shown after the +855 prefix in the form: +85512345678 becomes 12 345 678.
+        if not phone.startswith('+855'):
+            return phone
+        digits = phone[4:]
+        return f'{digits[:2]} {digits[2:5]} {digits[5:]}'.strip()
+
     def render_checkout(values, errors, status=200):
         items, subtotal = load_cart()
         delivery = app.config['DELIVERY_FEE_CENTS']
+        lang = session.get('language', 'en')
+        # Options for the chosen province and district are rendered here too, so a re-shown form keeps its choices.
+        places = {'provinces': locations.provinces(lang), 'districts': locations.children('districts', values.get('province'), lang),
+                  'communes': locations.children('communes', values.get('district'), lang)}
         return render_template('checkout.html', page='checkout', items=items, subtotal=subtotal, delivery=delivery,
-                               values=values, errors=errors, methods=payment_methods()), status
+                               values=values, errors=errors, methods=payment_methods(), places=places,
+                               place_name=lambda row: locations.name(row, lang)), status
 
     @app.get('/checkout')
     @customer_required
     def checkout():
         if not session.get('cart'):
             return redirect(url_for('cart'))
-        # Prefill delivery details from the customer's most recent order.
-        last = db().execute('SELECT name,email,address,city FROM orders WHERE customer_id=? ORDER BY id DESC LIMIT 1', (current_customer()['id'],)).fetchone()
-        values = dict(last) if last else {'name': current_customer()['name']}
+        customer = current_customer()
+        saved = db().execute('SELECT * FROM customer_addresses WHERE customer_id=?', (customer['id'],)).fetchone()
+        values = dict(saved) if saved else {'phone': customer['phone'], 'save_address': '1'}
+        values['phone'] = local_phone(values['phone'])
         values['payment_method'] = next(iter(payment_methods()), '')
         return render_checkout(values, {})
 
@@ -346,23 +362,34 @@ def create_app(test_config=None):
     @customer_required
     @limiter.limit('10 per minute;60 per hour')
     def place_order():
-        values = {key: request.form.get(key, '').strip() for key in ('name', 'email', 'address', 'city', 'note', 'payment_method')}
-        values['phone'] = current_customer()['phone']
+        values = {key: request.form.get(key, '').strip() for key in (*ADDRESS_FIELDS, 'note', 'payment_method', 'save_address')}
         items, subtotal = load_cart()
         if not items:
             return redirect(url_for('cart'), code=303)
         errors = {}
-        for key, minimum, maximum in [('name', 2, 100), ('address', 5, 300), ('city', 2, 100)]:
+        for key, minimum, maximum in [('first_name', 1, 60), ('last_name', 1, 60), ('street', 2, 200)]:
             if not minimum <= len(values[key]) <= maximum:
                 errors[key] = t('error_' + key)
-        if values['email'] and (len(values['email']) > 254 or not re.fullmatch(EMAIL_RE, values['email'])):
-            errors['email'] = t('error_email')
+        # The form shows +855 in front, so a number typed without the leading 0 is still Cambodian.
+        typed = values['phone']
+        phone = normalize_phone(typed if typed.startswith(('0', '+', '855')) else '0' + typed)
+        if not phone:
+            errors['phone'] = t('error_delivery_phone')
+        lang = session.get('language', 'en')
+        place = locations.find(values['province'], values['district'], values['commune'])
+        if not place:
+            # Point at the first level that is missing or does not belong to the one above it.
+            district_codes = [row[0] for row in locations.children('districts', values['province'], lang)]
+            key = 'province' if not district_codes else 'district' if values['district'] not in district_codes else 'commune'
+            errors[key] = t('error_' + key)
         if len(values['note']) > 500:
             errors['note'] = t('error_note')
         if values['payment_method'] not in payment_methods():
             errors['payment_method'] = t('error_payment_method')
         if errors:
             return render_checkout(values, errors, 422)
+        name = f"{values['first_name']} {values['last_name']}"
+        address, city = locations.describe(place, values['street'], lang)
         delivery = app.config['DELIVERY_FEE_CENTS']
         token = secrets.token_urlsafe(16)
         connection = db()
@@ -375,11 +402,16 @@ def create_app(test_config=None):
                     return render_checkout(values, {'form': t('stock_changed')}, 409)
             order_id = connection.execute(
                 'INSERT INTO orders(token,customer_id,name,phone,email,address,city,note,payment_method,subtotal_cents,delivery_cents,total_cents,language) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
-                (token, current_customer()['id'], values['name'], values['phone'], values['email'], values['address'], values['city'], values['note'], values['payment_method'],
-                 subtotal, delivery, subtotal + delivery, session.get('language', 'en'))).lastrowid
+                (token, current_customer()['id'], name, phone, '', address, city, values['note'], values['payment_method'],
+                 subtotal, delivery, subtotal + delivery, lang)).lastrowid
             connection.executemany('INSERT INTO order_items(order_id,product_id,name,unit_cents,quantity) VALUES(?,?,?,?,?)',
                                    [(order_id, item['product']['id'], item['product']['name'], item['product']['price_cents'], item['quantity']) for item in items])
-            connection.execute("UPDATE customers SET name=? WHERE id=? AND name=''", (values['name'], current_customer()['id']))
+            connection.execute("UPDATE customers SET name=? WHERE id=? AND name=''", (name, current_customer()['id']))
+            if values['save_address']:
+                saved = (current_customer()['id'], values['first_name'], values['last_name'], phone, values['province'], values['district'], values['commune'], values['street'])
+                connection.execute('INSERT INTO customer_addresses(customer_id,first_name,last_name,phone,province,district,commune,street) VALUES(?,?,?,?,?,?,?,?) '
+                                   'ON CONFLICT(customer_id) DO UPDATE SET first_name=excluded.first_name,last_name=excluded.last_name,phone=excluded.phone,'
+                                   'province=excluded.province,district=excluded.district,commune=excluded.commune,street=excluded.street', saved)
             connection.commit()
         except database.ERRORS:
             connection.rollback()

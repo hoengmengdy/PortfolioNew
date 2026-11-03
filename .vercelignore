@@ -11,3 +11,4 @@ static/fonts/*.ttf
 prepare_assets.py
 requirements-dev.txt
 requirements.lock.txt
+build_locations.py

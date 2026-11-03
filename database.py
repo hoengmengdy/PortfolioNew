@@ -51,6 +51,9 @@ SQLITE_SCHEMA = '''
     CREATE TABLE IF NOT EXISTS telegram_chats (phone TEXT PRIMARY KEY, chat_id INTEGER NOT NULL, updated_at INTEGER NOT NULL);
     CREATE TABLE IF NOT EXISTS payway_transactions (tran_id TEXT PRIMARY KEY, order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
         amount_cents INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'pending', apv TEXT NOT NULL DEFAULT '', created_at INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS customer_addresses (customer_id INTEGER NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
+        first_name TEXT NOT NULL, last_name TEXT NOT NULL, phone TEXT NOT NULL, province TEXT NOT NULL, district TEXT NOT NULL,
+        commune TEXT NOT NULL, street TEXT NOT NULL, PRIMARY KEY(customer_id));
 '''
 # Columns added after the first release; older local databases get them on start-up.
 SQLITE_MIGRATIONS = [('orders', 'customer_id', 'INTEGER REFERENCES customers(id)'), ('login_codes', 'ip', "TEXT NOT NULL DEFAULT ''"),
@@ -217,7 +220,7 @@ def is_postgres(connection):
 def create_schema(connection):
     if is_postgres(connection):
         # Skip the DDL on every cold start once the newest table exists (update this name when adding tables).
-        if connection.execute("SELECT to_regclass('payway_transactions')").fetchone()[0]:
+        if connection.execute("SELECT to_regclass('customer_addresses')").fetchone()[0]:
             return
         # Concurrent cold starts on Vercel may run this at the same time; serialise them with an advisory lock.
         connection.execute('SELECT pg_advisory_xact_lock(4242)')

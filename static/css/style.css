@@ -697,3 +697,11 @@ html:lang(km) .marquee{letter-spacing:0;text-transform:none;font-size:14px}
 .hero,.page-hero{background:#87cefa}
 .hero .eyebrow,.page-hero .eyebrow{color:#0f4c75}
 .hero-description,.page-hero>p:not(.eyebrow){color:#17293a}
+/* Delivery address form: +855 phone prefix, province -> district -> commune lists and the default-address tick box. */
+.phone-group{display:flex;gap:10px}
+.phone-prefix{display:flex;align-items:center;gap:8px;flex-shrink:0;min-height:48px;padding:0 13px;border:1px solid #c5d4df;border-radius:8px;background:#fff;font-size:15px}
+.phone-prefix img{display:block;border-radius:2px}
+select:disabled{background:#eef2f5;color:var(--muted);cursor:not-allowed}
+.check-row{display:flex;align-items:center;gap:10px;margin:4px 0 22px;font-size:14px;cursor:pointer}
+.check-row input{width:18px;height:18px;min-height:0;margin:0;flex-shrink:0;accent-color:var(--primary)}
+.form-grid.name-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}

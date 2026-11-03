@@ -39,6 +39,10 @@ The inbox shows the latest 200 inquiries per filter. Archived records remain in 
 
 Customers browse `/shop`, add items to a session cart (`/cart`), and check out at `/checkout` with their name, phone, delivery address, and payment method. Each order gets a private, unguessable link (`/orders/<token>`) showing its status and payment instructions.
 
+Delivery address: first and last name, a phone number after a fixed `+855` prefix, then **capital/province → district/khan → commune/sangkat** lists (each choice fills the next one) and the house number and street. The server checks that the three choices belong together. The order stores the address as text in the customer's language, for example `House 12, Street 51, Tonle Basak, Chamkar Mon` with `Phnom Penh` as the city. **Set as my default address** (ticked by default) saves it in `customer_addresses`, and the next checkout is filled in from it.
+
+The list of 25 provinces, 210 districts and 1,652 communes is `static/data/cambodia.json`, built by `python build_locations.py <folder>` from the YAML files of the [pumi](https://github.com/dwilkie/pumi) gazetteer (MIT licence, `static/data/PUMI-LICENSE.txt`). Re-run it if the government changes the boundaries.
+
 Payment methods:
 
 - **ABA PayWay** (ABA PAY, KHQR from any Cambodian bank app, Visa/Mastercard) appears first when `PAYWAY_MERCHANT_ID` and `PAYWAY_API_KEY` are set. After placing the order, the customer is sent to ABA's secure checkout page, and card details never touch this site. When they return to the order page, the site asks PayWay (Check Transaction API) whether the payment was approved for the full amount, and only then marks the order **Paid**. PayWay's server notice to `/payway/callback` triggers the same check. That notice only reaches a public HTTPS domain that is whitelisted in your PayWay profile. Start with sandbox keys from https://sandbox.payway.com.kh/register-sandbox/, then set `PAYWAY_BASE_URL=https://checkout.payway.com.kh` with your live keys from ABA (paywaysales@ababank.com).
@@ -169,6 +173,8 @@ database.db             Local SQLite data (ignored by Git)
 templates/              Shared layout and all public/admin pages
 static/css/             Custom responsive styling and Font Awesome
 static/js/main.js       Progressive enhancement
+static/data/            Cambodian provinces, districts and communes (build_locations.py)
+locations.py            Address lookup and validation
 static/images/          Local optimized images and favicon
 static/fonts/           Local typefaces and licenses
 static/webfonts/        Font Awesome WOFF2 files

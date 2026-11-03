@@ -6,3 +6,5 @@ pgserver>=0.1,<1
 Pillow>=11,<13
 fonttools>=4.60,<5
 brotli>=1.2,<2
+# Cambodian address data (build_locations.py) only.
+pyyaml>=6,<7
