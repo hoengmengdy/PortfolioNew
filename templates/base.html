@@ -61,7 +61,7 @@
         <a href="{{ url_for('contact', subject=t('partnership')) }}">{{ t('partnership') }}</a>
         {% if contact_email %}<a href="mailto:{{ contact_email }}">{{ contact_email }}</a>{% endif %}
         {% if contact_phone %}<a href="tel:{{ contact_phone_link }}"><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ contact_phone }}</a>{% endif %}
-        {% if config.FACEBOOK_URL %}<a href="{{ config.FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Empress Beauty</a>{% endif %}
+        {% if config.FACEBOOK_URL %}<a href="{{ config.FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Empress Cambodia</a>{% endif %}
         {% if config.COMPANY_FACEBOOK_URL %}<a href="{{ config.COMPANY_FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook" aria-hidden="true"></i> LSV Industry</a>{% endif %}
         {% if config.TELEGRAM_URL %}<a href="{{ config.TELEGRAM_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram" aria-hidden="true"></i> Telegram</a>{% endif %}
         {% if config.CONTACT_ADDRESS %}<p class="footer-detail"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ config.CONTACT_ADDRESS }}</p>{% endif %}
