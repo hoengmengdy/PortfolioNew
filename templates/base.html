@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ t(page + '_title') }} · Empress Cambodia</title>
   <meta name="description" content="{{ t('meta_description') }}">
-  <meta name="theme-color" content="#e8f3fb">
+  <meta name="theme-color" content="#e8f4fc">
   {% if page in ['admin', 'error'] %}<meta name="robots" content="noindex,nofollow">{% endif %}
   <meta property="og:title" content="{{ t(page + '_title') }} · Empress Cambodia">
   <meta property="og:description" content="{{ t('meta_description') }}">
@@ -14,7 +14,7 @@
   <link rel="icon" href="{{ url_for('static', filename='images/Logo-Empress.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='20') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='21') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='3') }}"></script>
 </head>
 <body class="page-{{ page }}">
