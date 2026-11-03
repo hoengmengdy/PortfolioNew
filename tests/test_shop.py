@@ -24,7 +24,7 @@ def add_to_cart(client, product_id=1, quantity=2):
 
 
 def order_form(client, **changes):
-    data = dict(csrf_token=token(client, '/checkout'), name='Sok Dara', email='', address='Street 51, BKK1', city='Phnom Penh', note='', payment_method='cod')
+    data = dict(csrf_token=token(client, '/checkout'), name='Sok Dara', email='', address='Street 51, BKK1', city='Phnom Penh', note='', payment_method='bank')
     data.update(changes)
     return data
 
@@ -34,7 +34,7 @@ def query(app, sql, *args):
         return connection.execute(sql, args).fetchall()
 
 
-def test_shop_cart_and_cash_on_delivery_checkout(client, app, telegram_codes):
+def test_shop_cart_and_checkout(client, app, telegram_codes):
     assert '/account/login' in client.get('/checkout').location
     shop = client.get('/shop').text
     assert '$18.00' in shop and 'Add to cart' in shop
@@ -44,11 +44,13 @@ def test_shop_cart_and_cash_on_delivery_checkout(client, app, telegram_codes):
     assert '$36.00' in cart and '$37.50' in cart
     assert 'class="cart-count" aria-hidden="true">2<' in cart
     sign_in(client, telegram_codes)
+    assert 'Cash on delivery' not in client.get('/checkout').text
+    assert client.post('/checkout', data=order_form(client, payment_method='cod')).status_code == 422
     response = client.post('/checkout', data=order_form(client))
     assert response.status_code == 303
     page = client.get(response.location).text
-    assert 'Cash on delivery' in page and '$37.50' in page and 'Sok Dara' in page
-    assert query(app, 'SELECT total_cents,payment_method,status,payment_status,phone,customer_id FROM orders') == [(3750, 'cod', 'pending', 'unpaid', '+85512345678', 1)]
+    assert 'Bank transfer' in page and '$37.50' in page and 'Sok Dara' in page
+    assert query(app, 'SELECT total_cents,payment_method,status,payment_status,phone,customer_id FROM orders') == [(3750, 'bank', 'pending', 'unpaid', '+85512345678', 1)]
     assert query(app, 'SELECT name,unit_cents,quantity FROM order_items') == [('The Daily Glow', 1800, 2)]
     assert query(app, 'SELECT stock FROM products WHERE id=1') == [(23,)]
     assert 'Your cart is empty' in client.get('/cart').text

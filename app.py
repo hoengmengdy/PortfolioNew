@@ -141,8 +141,8 @@ def create_app(test_config=None):
         return (session.get('language') == 'km' and row[field + '_km']) or row[field]
 
     def payment_methods():
+        # Cash on delivery is no longer offered; older 'cod' orders still display and complete as before.
         methods = ['payway'] if payway.enabled(app.config) else []
-        methods.append('cod')
         if app.config['PAYMENT_ACCOUNT_NUMBER']:
             methods.append('bank')
         return tuple(methods)
@@ -339,7 +339,7 @@ def create_app(test_config=None):
         # Prefill delivery details from the customer's most recent order.
         last = db().execute('SELECT name,email,address,city FROM orders WHERE customer_id=? ORDER BY id DESC LIMIT 1', (current_customer()['id'],)).fetchone()
         values = dict(last) if last else {'name': current_customer()['name']}
-        values['payment_method'] = payment_methods()[0]
+        values['payment_method'] = next(iter(payment_methods()), '')
         return render_checkout(values, {})
 
     @app.post('/checkout')

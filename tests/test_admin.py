@@ -3,7 +3,7 @@ from test_app import app, client, connect_db, login, payload, token  # noqa: F40
 from test_shop import add_to_cart, order_form, query, sign_in, telegram_codes  # noqa: F401
 
 
-def place_order(client, codes, method='cod'):
+def place_order(client, codes, method='bank'):
     sign_in(client, codes)
     add_to_cart(client, quantity=2)
     client.post('/checkout', data=order_form(client, payment_method=method))
@@ -38,6 +38,9 @@ def test_admin_tabs(client, app, telegram_codes):
 
 def test_one_tap_order_actions(client, app, telegram_codes):
     place_order(client, telegram_codes)
+    # Checkout no longer offers cash on delivery, but older orders paid that way still exist.
+    with connect_db(app) as connection:
+        connection.execute("UPDATE orders SET payment_method='cod'")
     login(client)
     assert act(client, 1, 'confirm').location == '/admin/orders'
     assert query(app, 'SELECT status,payment_status FROM orders') == [('confirmed', 'unpaid')]

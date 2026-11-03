@@ -42,7 +42,7 @@ Customers browse `/shop`, add items to a session cart (`/cart`), and check out a
 Payment methods:
 
 - **ABA PayWay** (ABA PAY, KHQR from any Cambodian bank app, Visa/Mastercard) appears first when `PAYWAY_MERCHANT_ID` and `PAYWAY_API_KEY` are set. After placing the order, the customer is sent to ABA's secure checkout page, and card details never touch this site. When they return to the order page, the site asks PayWay (Check Transaction API) whether the payment was approved for the full amount, and only then marks the order **Paid**. PayWay's server notice to `/payway/callback` triggers the same check. That notice only reaches a public HTTPS domain that is whitelisted in your PayWay profile. Start with sandbox keys from https://sandbox.payway.com.kh/register-sandbox/, then set `PAYWAY_BASE_URL=https://checkout.payway.com.kh` with your live keys from ABA (paywaysales@ababank.com).
-- **Cash on delivery** is always available.
+- **Cash on delivery** is not offered at checkout. Older cash-on-delivery orders still show and can be completed in the admin.
 - **Bank transfer / KHQR** (ABA, ACLEDA, Wing, or any bank app) appears only when `PAYMENT_ACCOUNT_NUMBER` is set in `.env`. The order page shows the bank, account name, number, amount, and memo `EMP-<order id>`. The customer enters their transaction reference and the payment becomes *Awaiting confirmation*. After checking your bank app, mark it *Paid* in the admin dashboard.
 
 `DELIVERY_FEE` (for example `1.50`) is added to every order, and `CURRENCY_SYMBOL` controls price display. Stock is reserved when an order is placed. It cannot oversell, and it is returned when an admin cancels the order.
