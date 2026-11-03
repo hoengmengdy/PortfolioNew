@@ -34,7 +34,9 @@ class Config:
     FACEBOOK_URL = os.getenv('FACEBOOK_URL', 'https://www.facebook.com/myempressbeauty') if os.getenv('FACEBOOK_URL', 'https://').startswith('https://') else ''
     # Second Facebook page: the LSV Industry company page.
     COMPANY_FACEBOOK_URL = os.getenv('COMPANY_FACEBOOK_URL', 'https://www.facebook.com/lsvindustry') if os.getenv('COMPANY_FACEBOOK_URL', 'https://').startswith('https://') else ''
+    # Telegram group (lsvindustrykh) and the LSV Industry account customers can message directly.
     TELEGRAM_URL = os.getenv('TELEGRAM_URL', 'https://t.me/lsvindustrykh') if os.getenv('TELEGRAM_URL', 'https://').startswith('https://') else ''
+    TELEGRAM_CHAT_URL = os.getenv('TELEGRAM_CHAT_URL', 'https://t.me/LSVINDUSTRY') if os.getenv('TELEGRAM_CHAT_URL', 'https://').startswith('https://') else ''
     INSTAGRAM_URL = os.getenv('INSTAGRAM_URL', '') if os.getenv('INSTAGRAM_URL', '').startswith('https://') else ''
     # Free option: a bot from @BotFather sends sign-in codes. Takes priority over the Gateway when set.
     TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')

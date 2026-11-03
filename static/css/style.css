@@ -168,8 +168,8 @@ textarea{resize:vertical;min-height:150px}
 .contact-detail a{display:block;overflow-wrap:anywhere}
 .privacy-note{display:flex;gap:12px;margin-top:28px;font-size:12px!important}
 .privacy-note i{padding-top:6px;color:var(--primary)}
-.contact-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
-.contact-links .button{gap:10px}
+.contact-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.contact-links .button{gap:8px;width:100%;padding:12px 10px;white-space:nowrap}
 .login-section{padding:64px 24px;background:var(--blue);min-height:calc(100svh - 84px)}
 .login-card{max-width:440px;margin:0 auto;padding:36px}
 .login-card>.round-icon{margin-bottom:22px}
@@ -728,3 +728,4 @@ select:disabled{background:#eef2f5;color:var(--muted);cursor:not-allowed}
 .check-row{display:flex;align-items:center;gap:10px;margin:4px 0 22px;font-size:14px;cursor:pointer}
 .check-row input{width:18px;height:18px;min-height:0;margin:0;flex-shrink:0;accent-color:var(--primary)}
 .form-grid.name-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}
+@media(max-width:374px){.contact-links{grid-template-columns:1fr}}
