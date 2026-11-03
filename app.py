@@ -164,7 +164,7 @@ def create_app(test_config=None):
     @app.context_processor
     def context():
         cart_count = sum(session.get('cart', {}).values())
-        return dict(t=t, lang=session.get('language', 'en'), languages={'en': 'English', 'km': 'ខ្មែរ'}, contact_email=app.config['CONTACT_EMAIL'], contact_phone=app.config['CONTACT_PHONE'], localized=localized, cart_count=cart_count, customer=current_customer())
+        return dict(t=t, lang=session.get('language', 'en'), languages={'en': 'English', 'km': 'ខ្មែរ'}, contact_email=app.config['CONTACT_EMAIL'], contact_phone=app.config['CONTACT_PHONE'], contact_phone_link=normalize_phone(app.config['CONTACT_PHONE']) or app.config['CONTACT_PHONE'].replace(' ', ''), localized=localized, cart_count=cart_count, customer=current_customer())
 
     @app.teardown_appcontext
     def close_db(error=None):

@@ -14,7 +14,7 @@
   <link rel="icon" href="{{ url_for('static', filename='images/Logo-Empress.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='24') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='25') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='4') }}"></script>
 </head>
 <body class="page-{{ page }}">
@@ -60,7 +60,8 @@
         <a href="{{ url_for('contact') }}">{{ t('general_inquiry') }}</a>
         <a href="{{ url_for('contact', subject=t('partnership')) }}">{{ t('partnership') }}</a>
         {% if contact_email %}<a href="mailto:{{ contact_email }}">{{ contact_email }}</a>{% endif %}
-        {% if contact_phone %}<a href="tel:{{ contact_phone }}">{{ contact_phone }}</a>{% endif %}
+        {% if contact_phone %}<a href="tel:{{ contact_phone_link }}"><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ contact_phone }}</a>{% endif %}
+        {% if config.FACEBOOK_URL %}<a href="{{ config.FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Facebook</a>{% endif %}
         {% if config.CONTACT_ADDRESS %}<p class="footer-detail"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ config.CONTACT_ADDRESS }}</p>{% endif %}
         {% if config.BUSINESS_HOURS %}<p class="footer-detail"><i class="fa-regular fa-clock" aria-hidden="true"></i> {{ config.BUSINESS_HOURS }}</p>{% endif %}
         {% if config.INSTAGRAM_URL %}<a href="{{ config.INSTAGRAM_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a>{% endif %}

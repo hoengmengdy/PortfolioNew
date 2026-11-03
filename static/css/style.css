@@ -168,6 +168,8 @@ textarea{resize:vertical;min-height:150px}
 .contact-detail a{display:block;overflow-wrap:anywhere}
 .privacy-note{display:flex;gap:12px;margin-top:28px;font-size:12px!important}
 .privacy-note i{padding-top:6px;color:var(--primary)}
+.contact-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.contact-links .button{gap:10px}
 .login-section{padding:64px 24px;background:var(--blue);min-height:calc(100svh - 84px)}
 .login-card{max-width:440px;margin:0 auto;padding:36px}
 .login-card>.round-icon{margin-bottom:22px}
