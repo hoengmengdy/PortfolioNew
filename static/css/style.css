@@ -667,3 +667,27 @@ html:lang(km) .hero-description{font-size:16px;line-height:1.9}
 html:lang(km) .marquee{letter-spacing:0;text-transform:none;font-size:14px}
 /* On larger screens the hero and the marquee strip fill the first screen exactly (header 84px, strip about 46px). */
 @media(min-width:801px){.hero{min-height:max(560px,calc(100svh - 84px - 46px))}.hero-visual{min-height:100%}}
+/* Motion: hero entrance, scroll reveal and hover feedback. All of it is switched off for reduced-motion users. */
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes settle{from{transform:scale(1.08)}to{transform:scale(1)}}
+.hero-content>*{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.hero-content>:nth-child(2){animation-delay:.12s}
+.hero-content>:nth-child(3){animation-delay:.24s}
+.hero-content>:nth-child(4){animation-delay:.36s}
+.hero-visual>img{animation:settle 1.8s cubic-bezier(.2,.7,.2,1) both}
+.page-hero>*{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.page-hero>:nth-child(2){animation-delay:.1s}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.is-visible{opacity:1;transform:none}
+.product-card,.retailer-card,.three-grid article,.step-card img,.gallery-item img{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s}
+.product-card:hover,.retailer-card:hover,.three-grid article:hover{transform:translateY(-6px);box-shadow:0 18px 36px #17293a1f}
+.step-card:hover img,.gallery-item:hover img{transform:scale(1.03)}
+.product-card a:hover .product-image>img{transform:scale(1.06)}
+.product-image>img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.button{transition:background .15s,border-color .15s,transform .15s,box-shadow .15s}
+.button:hover{transform:translateY(-2px);box-shadow:0 8px 18px #2a6f9e33}
+.button:active{transform:none;box-shadow:none}
+.button .fa-arrow-right,.text-link .fa-arrow-right{transition:transform .2s}
+.button:hover .fa-arrow-right,.text-link:hover .fa-arrow-right,a:hover .product-inquiry .fa-arrow-right{transform:translateX(4px)}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.page-admin .button:hover{transform:none;box-shadow:none}

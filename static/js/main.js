@@ -76,3 +76,30 @@ document.querySelector('form[data-autosubmit]')?.submit();
 document.querySelectorAll('[data-confirm]').forEach(form => form.addEventListener('submit', event => {
   if (!window.confirm(form.dataset.confirm)) event.preventDefault();
 }));
+
+// Scroll reveal for public pages. Only elements below the first screen are hidden first, so nothing visible
+// flashes, and nothing is hidden when JavaScript or IntersectionObserver is unavailable.
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion && 'IntersectionObserver' in window && !document.body.classList.contains('page-admin')) {
+  const targets = document.querySelectorAll('main .section-heading, main .product-card, main .step-card, main .gallery-item, main .numbered-feature, main .ritual-image, main .story-photo, main .sustainability img, main .three-grid article, main .retailer-card, main .inquiry, main .commitment > div:first-child');
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const element = entry.target;
+      element.classList.add('is-visible');
+      observer.unobserve(element);
+      // Once shown, drop the reveal timing so hover effects respond immediately again.
+      setTimeout(() => {
+        element.classList.remove('reveal', 'is-visible');
+        element.style.transitionDelay = '';
+      }, 1000);
+    }
+  }), {rootMargin: '0px 0px -8% 0px', threshold: 0.12});
+  targets.forEach(element => {
+    if (element.getBoundingClientRect().top < window.innerHeight) return;
+    // Cards in the same row appear one after another.
+    const siblings = [...element.parentElement.children].filter(child => child.matches(element.tagName));
+    element.style.transitionDelay = `${(siblings.indexOf(element) % 3) * 90}ms`;
+    element.classList.add('reveal');
+    observer.observe(element);
+  });
+}
