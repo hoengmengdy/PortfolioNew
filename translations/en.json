@@ -359,5 +359,10 @@
   "mark_new": "Mark unread",
   "edit": "Edit",
   "retailers_admin_note": "Locations listed on the \"Find a retailer\" page:",
-  "order_updated": "Order #{id} updated."
+  "order_updated": "Order #{id} updated.",
+  "marquee_1": "Simple care, every day",
+  "marquee_2": "Order online",
+  "marquee_3": "Pay with KHQR, card or cash",
+  "marquee_4": "Delivery to your door",
+  "steps_intro": "From choosing your favourite to delivery at your door, caring for yourself stays simple."
 }
