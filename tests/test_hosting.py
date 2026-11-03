@@ -65,3 +65,9 @@ def test_postgres_connections_are_pooled_across_threads(app):
     # A request on another thread gets the same idle connection instead of opening a new one.
     assert seen[0] is first
     seen[0].release()
+
+
+def test_missing_static_files_are_not_cached(client):
+    response = client.get('/static/images/does-not-exist.svg')
+    assert response.status_code == 404
+    assert 's-maxage' not in response.headers.get('Cache-Control', '')
