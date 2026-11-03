@@ -712,12 +712,12 @@ body:has(.flash-container .success) .cart-count{animation:pop .7s cubic-bezier(.
 .button .fa-arrow-right,.text-link .fa-arrow-right{transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .button:hover .fa-arrow-right,.text-link:hover .fa-arrow-right,a:hover .product-inquiry .fa-arrow-right{transform:translateX(8px)}
 .ripple{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:#ffffff80;transform:scale(0);animation:ripple .65s ease-out forwards;pointer-events:none}
-.scroll-progress{position:fixed;top:0;left:0;right:0;z-index:60;height:4px;background:linear-gradient(90deg,#2a6f9e,#87cefa,#2a6f9e);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+.scroll-progress{position:fixed;top:0;left:0;right:0;z-index:60;height:4px;background:linear-gradient(90deg,#2a6f9e,#9acdeb,#2a6f9e);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
 .marquee:hover .marquee-track{animation-play-state:paused}
 .page-admin .button:hover,.page-admin .button:active{transform:none;box-shadow:none}
 .page-admin .button::after{display:none}
-/* Sky-blue (#87cefa) hero and page headings; text is darkened so it stays readable on the brighter blue. */
-.hero,.page-hero{background:#87cefa}
+/* Sky-blue (#9acdeb) hero and page headings; text is darkened so it stays readable on the brighter blue. */
+.hero,.page-hero{background:#9acdeb}
 .hero .eyebrow,.page-hero .eyebrow{color:#0f4c75}
 .hero-description,.page-hero>p:not(.eyebrow){color:#17293a}
 /* Delivery address form: +855 phone prefix, province -> district -> commune lists and the default-address tick box. */
