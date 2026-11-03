@@ -149,9 +149,9 @@ retailer_disclaimer|Demo directory: example stores show how the locator works. T
 contact_eyebrow|GOOD CONVERSATIONS START HERE|ការសន្ទនាល្អចាប់ផ្តើមទីនេះ
 contact_heading|Let's make|តោះធ្វើអ្វី
 contact_emphasis|a connection.|ភ្ជាប់ទំនាក់ទំនង។
-contact_intro|Questions about our concept, products, or retail partnerships? We would love to hear what is on your mind.|មានសំណួរអំពីគំនិត ផលិតផល ឬភាពជាដៃគូ? យើងចង់ស្តាប់ពីអ្នក។
-contact_aside|A little hello goes a long way.|ការសួរសុខទុក្ខតូចមួយមានន័យច្រើន។
-contact_aside_description|Send your message and our team can review it in our secure inquiry inbox.|ផ្ញើសារ ហើយក្រុមយើងអាចពិនិត្យវាក្នុងប្រអប់សារដែលមានសុវត្ថិភាព។
+contact_intro|Questions about our concept, products, or retail partnerships? We would love to hear what is on your mind.|សម្រាប់ព័ត៌មានអំពីផលិតផល និងឱកាសសហការជាដៃគូលក់រាយ យើងខ្ញុំរីករាយឆ្លើយតប និងស្វាគមន៍រាល់សំណួររបស់លោកអ្នក។
+contact_aside|A little hello goes a long way.|រាល់ការទំនាក់ទំនងរបស់លោកអ្នក មានតម្លៃសម្រាប់យើងខ្ញុំ
+contact_aside_description|Send your message and our team can review it in our secure inquiry inbox.|ព័ត៌មានរបស់លោកអ្នកត្រូវបានរក្សាទុកដោយសុវត្ថិភាព និងប្រើប្រាស់សម្រាប់ដោះស្រាយសំណើរបស់លោកអ្នកតែប៉ុណ្ណោះ ដោយមិនបង្ហាញជាសាធារណៈឡើយ។
 use_form|Use the form to reach our team.|ប្រើទម្រង់ដើម្បីទាក់ទងក្រុមយើង។
 partnership_description|Tell us about your store, location, and the products you are interested in.|ប្រាប់យើងអំពីហាង ទីតាំង និងផលិតផលដែលអ្នកចាប់អារម្មណ៍។
 facebook_page|Our Facebook page|ទំព័រ Facebook របស់យើង
