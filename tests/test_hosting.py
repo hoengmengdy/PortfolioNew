@@ -50,3 +50,18 @@ def test_static_files_are_cacheable_and_cookie_free(client):
     page = client.get('/shop')
     assert page.headers['Cache-Control'] == 'no-store'
     assert 'app;dur=' in page.headers['Server-Timing'] and 'db-connect;dur=' in page.headers['Server-Timing']
+
+
+@pytest.mark.skipif(not TEST_DATABASE_URL, reason='needs TEST_DATABASE_URL (Postgres)')
+def test_postgres_connections_are_pooled_across_threads(app):
+    import threading
+    import database
+    first = database.connect(app.config, reuse=True)
+    first.release()
+    seen = []
+    worker = threading.Thread(target=lambda: seen.append(database.connect(app.config, reuse=True)))
+    worker.start()
+    worker.join()
+    # A request on another thread gets the same idle connection instead of opening a new one.
+    assert seen[0] is first
+    seen[0].release()

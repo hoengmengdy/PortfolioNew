@@ -115,8 +115,9 @@ class PostgresConnection:
             return lambda values: Row(values, names)
 
         # Automatic server-side prepared statements are disabled: they do not survive Neon's connection pooler reliably.
-        self._connection = psycopg.connect(url, row_factory=row_factory, connect_timeout=10, prepare_threshold=None)
-        self.last_used = time.monotonic()
+        # GSS encryption is never used by hosted Postgres; skipping its negotiation shortens every new connection.
+        self._connection = psycopg.connect(url, row_factory=row_factory, connect_timeout=10, prepare_threshold=None, gssencmode='disable')
+        self.url, self.last_used = url, time.monotonic()
 
     def usable(self):
         """True when this connection can serve another request; checks the server after a quiet minute."""
@@ -132,12 +133,19 @@ class PostgresConnection:
         return True
 
     def release(self):
-        """End the request: discard any unfinished transaction but keep the connection open for the next one."""
+        """End the request: discard any unfinished transaction and return the connection to the shared pool."""
         try:
             self._connection.rollback()
         except psycopg.Error:
             self.close()
+            return
         self.last_used = time.monotonic()
+        with _pool_lock:
+            idle = _pool.setdefault(self.url, [])
+            if len(idle) < POOL_SIZE:
+                idle.append(self)
+                return
+        self.close()
 
     @staticmethod
     def _translate(sql):
@@ -172,23 +180,30 @@ class PostgresConnection:
         self._connection.close()
 
 
-_reusable = threading.local()
+# Idle Postgres connections shared by all threads of this process. Hosts such as Vercel may run each request on a
+# new thread, so connections are pooled per process rather than per thread.
+POOL_SIZE = 4
+_pool = {}
+_pool_lock = threading.Lock()
 
 
 def connect(config, reuse=False):
     """Open a connection: Postgres when DATABASE_URL is set, otherwise the local SQLite file.
 
-    With reuse=True a Postgres connection is kept per thread between requests, saving the TLS and login round trips
-    (the slowest part of a request on serverless hosts). Release it with release() instead of close().
+    With reuse=True a Postgres connection is taken from the process pool when one is idle, saving the TLS and login
+    round trips (the slowest part of a request on serverless hosts). Give it back with release() instead of close().
     """
-    if config.get('DATABASE_URL'):
-        if not reuse:
-            return PostgresConnection(config['DATABASE_URL'])
-        cached = getattr(_reusable, 'connections', {}).get(config['DATABASE_URL'])
-        if cached and cached.usable():
-            return cached
-        _reusable.__dict__.setdefault('connections', {})[config['DATABASE_URL']] = connection = PostgresConnection(config['DATABASE_URL'])
-        return connection
+    url = config.get('DATABASE_URL')
+    if url:
+        while reuse:
+            with _pool_lock:
+                idle = _pool.get(url)
+                connection = idle.pop() if idle else None
+            if connection is None:
+                break
+            if connection.usable():
+                return connection
+        return PostgresConnection(url)
     connection = sqlite3.connect(config['DATABASE'], timeout=10)
     connection.row_factory = sqlite3.Row
     connection.execute('PRAGMA foreign_keys=ON')
