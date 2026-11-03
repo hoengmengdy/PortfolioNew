@@ -205,3 +205,12 @@ def test_translation_catalogs_are_complete(client):
     for template in (root / 'templates').glob('*.html'):
         for key in re.findall(r"\bt\('([a-z_]+)'\)", template.read_text(encoding='utf-8')):
             assert key in catalogs[0], (template.name, key)
+
+
+def test_contact_map_is_allowed_only_from_google(client, app):
+    response = client.get('/contact')
+    assert 'src="https://www.google.com/maps/embed?' in response.text and 'maps.google.com/?cid=' in response.text
+    assert 'frame-src https://www.google.com;' in response.headers['Content-Security-Policy']
+    app.config['MAP_EMBED_URL'] = ''
+    response = client.get('/contact')
+    assert '<iframe' not in response.text and "frame-src 'none'" in response.headers['Content-Security-Policy']

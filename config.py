@@ -37,6 +37,11 @@ class Config:
     # Telegram group (lsvindustrykh) and the LSV Industry account customers can message directly.
     TELEGRAM_URL = os.getenv('TELEGRAM_URL', 'https://t.me/lsvindustrykh') if os.getenv('TELEGRAM_URL', 'https://').startswith('https://') else ''
     TELEGRAM_CHAT_URL = os.getenv('TELEGRAM_CHAT_URL', 'https://t.me/LSVINDUSTRY') if os.getenv('TELEGRAM_CHAT_URL', 'https://').startswith('https://') else ''
+    # Google Maps embed (Share -> Embed a map -> the src link) and the place's own Google Maps link.
+    MAP_EMBED_URL = os.getenv('MAP_EMBED_URL', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d730.3013961561218!2d104.85608354954493!3d11.58680000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31095151b1b0b307%3A0x40a694e229dd62d8!2sLSV%20Industry%20-%20OKA!5e1!3m2!1skm!2skh!4v1793693664874!5m2!1skm!2skh')
+    MAP_EMBED_URL = MAP_EMBED_URL if MAP_EMBED_URL.startswith('https://www.google.com/maps/embed?') else ''
+    MAP_URL = os.getenv('MAP_URL', 'https://maps.google.com/?cid=4658574563647251160')
+    MAP_NAME = os.getenv('MAP_NAME', 'LSV Industry - OKA')
     INSTAGRAM_URL = os.getenv('INSTAGRAM_URL', '') if os.getenv('INSTAGRAM_URL', '').startswith('https://') else ''
     # Free option: a bot from @BotFather sends sign-in codes. Takes priority over the Gateway when set.
     TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
