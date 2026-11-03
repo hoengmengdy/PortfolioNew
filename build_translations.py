@@ -157,6 +157,7 @@ partnership_description|Tell us about your store, location, and the products you
 facebook_page|Our Facebook page|ទំព័រ Facebook របស់យើង
 telegram_chat|Chat on Telegram|ជជែកតាម Telegram
 find_us|Find us|ទីតាំងរបស់យើង
+reach_us|Ways to reach us|មធ្យោបាយទាក់ទងយើង
 open_in_maps|Open in Google Maps|បើកក្នុង Google Maps
 map_title|Map|ផែនទី
 privacy|Your details are stored securely for handling your inquiry. They are not displayed publicly.|ព័ត៌មានអ្នករក្សាទុកសម្រាប់ដោះស្រាយសំណួរ ហើយមិនបង្ហាញជាសាធារណៈទេ។
