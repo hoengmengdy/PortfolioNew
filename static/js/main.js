@@ -77,11 +77,20 @@ document.querySelectorAll('[data-confirm]').forEach(form => form.addEventListene
   if (!window.confirm(form.dataset.confirm)) event.preventDefault();
 }));
 
-// Scroll reveal for public pages. Only elements below the first screen are hidden first, so nothing visible
-// flashes, and nothing is hidden when JavaScript or IntersectionObserver is unavailable.
+// Motion for public pages: scroll reveals, 3D card tilt, button ripples and a scroll progress bar. Only elements below
+// the first screen are hidden first, so nothing visible flashes, and nothing is hidden without JavaScript or with
+// reduced motion turned on.
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reduceMotion && 'IntersectionObserver' in window && !document.body.classList.contains('page-admin')) {
-  const targets = document.querySelectorAll('main .section-heading, main .product-card, main .step-card, main .gallery-item, main .numbered-feature, main .ritual-image, main .story-photo, main .sustainability img, main .three-grid article, main .retailer-card, main .inquiry, main .commitment > div:first-child');
+const publicPage = !document.body.classList.contains('page-admin');
+if (!reduceMotion && publicPage && 'IntersectionObserver' in window) {
+  // Each kind of element enters its own way: headings slide in, cards jump up, steps flip up, photos spin in.
+  const effects = [
+    ['main .section-heading, main .numbered-feature', 'left'],
+    ['main .product-card, main .retailer-card, main .three-grid article, main .inquiry, main .commitment > div:first-child', 'up'],
+    ['main .step-card', 'flip'],
+    ['main .gallery-item', 'zoom'],
+    ['main .ritual-image, main .story-photo, main .sustainability img', 'side'],
+  ];
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
     if (entry.isIntersecting) {
       const element = entry.target;
@@ -90,18 +99,68 @@ if (!reduceMotion && 'IntersectionObserver' in window && !document.body.classLis
       // Once shown, drop the reveal timing so hover effects respond immediately again.
       setTimeout(() => {
         element.classList.remove('reveal', 'is-visible');
+        element.removeAttribute('data-reveal');
         element.style.transitionDelay = '';
-      }, 1000);
+      }, 1600);
     }
-  }), {rootMargin: '0px 0px -8% 0px', threshold: 0.12});
-  targets.forEach(element => {
+  }), {rootMargin: '0px 0px -10% 0px', threshold: 0.1});
+  let side = 0;
+  effects.forEach(([selector, effect]) => document.querySelectorAll(selector).forEach(element => {
     if (element.getBoundingClientRect().top < window.innerHeight) return;
-    // Cards in the same row appear one after another.
+    // Cards in the same row arrive one after another.
     const siblings = [...element.parentElement.children].filter(child => child.matches(element.tagName));
-    element.style.transitionDelay = `${(siblings.indexOf(element) % 3) * 90}ms`;
+    element.style.transitionDelay = `${(siblings.indexOf(element) % 4) * 130}ms`;
+    element.dataset.reveal = effect === 'side' ? (side++ % 2 ? 'left' : 'right') : effect;
     element.classList.add('reveal');
     observer.observe(element);
+  }));
+}
+if (!reduceMotion && publicPage) {
+  // Cards lean towards the mouse pointer.
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('mousemove', event => {
+        if (card.classList.contains('reveal')) return;
+        const box = card.getBoundingClientRect();
+        const x = (event.clientX - box.left) / box.width - 0.5;
+        const y = (event.clientY - box.top) / box.height - 0.5;
+        card.classList.add('is-tilting');
+        card.style.transform = `perspective(900px) rotateX(${-y * 12}deg) rotateY(${x * 14}deg) translateY(-12px) scale(1.03)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('is-tilting');
+        card.style.transform = '';
+      });
+    });
+  }
+  // A ripple spreads from where a button is pressed.
+  document.addEventListener('pointerdown', event => {
+    const button = event.target.closest('.button');
+    if (!button) return;
+    const box = button.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    ripple.style.left = `${event.clientX - box.left}px`;
+    ripple.style.top = `${event.clientY - box.top}px`;
+    button.append(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
   });
+  // Reading progress along the top edge.
+  const progress = document.createElement('div');
+  progress.className = 'scroll-progress';
+  progress.setAttribute('aria-hidden', 'true');
+  document.body.append(progress);
+  let ticking = false;
+  const update = () => {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = `scaleX(${scrollable > 0 ? window.scrollY / scrollable : 0})`;
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) requestAnimationFrame(update);
+    ticking = true;
+  }, {passive: true});
+  update();
 }
 
 // Delivery address: each choice fills the next list (province -> district/khan -> commune/sangkat).
