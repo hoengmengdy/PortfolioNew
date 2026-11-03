@@ -62,6 +62,7 @@
         {% if contact_email %}<a href="mailto:{{ contact_email }}">{{ contact_email }}</a>{% endif %}
         {% if contact_phone %}<a href="tel:{{ contact_phone_link }}"><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ contact_phone }}</a>{% endif %}
         {% if config.FACEBOOK_URL %}<a href="{{ config.FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Facebook</a>{% endif %}
+        {% if config.TELEGRAM_URL %}<a href="{{ config.TELEGRAM_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram" aria-hidden="true"></i> Telegram</a>{% endif %}
         {% if config.CONTACT_ADDRESS %}<p class="footer-detail"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ config.CONTACT_ADDRESS }}</p>{% endif %}
         {% if config.BUSINESS_HOURS %}<p class="footer-detail"><i class="fa-regular fa-clock" aria-hidden="true"></i> {{ config.BUSINESS_HOURS }}</p>{% endif %}
         {% if config.INSTAGRAM_URL %}<a href="{{ config.INSTAGRAM_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a>{% endif %}

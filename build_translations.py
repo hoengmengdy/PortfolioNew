@@ -155,6 +155,7 @@ contact_aside_description|Send your message and our team can review it in our se
 use_form|Use the form to reach our team.|ប្រើទម្រង់ដើម្បីទាក់ទងក្រុមយើង។
 partnership_description|Tell us about your store, location, and the products you are interested in.|ប្រាប់យើងអំពីហាង ទីតាំង និងផលិតផលដែលអ្នកចាប់អារម្មណ៍។
 facebook_page|Our Facebook page|ទំព័រ Facebook របស់យើង
+telegram_chat|Chat on Telegram|ជជែកតាម Telegram
 privacy|Your details are stored securely for handling your inquiry. They are not displayed publicly.|ព័ត៌មានអ្នករក្សាទុកសម្រាប់ដោះស្រាយសំណួរ ហើយមិនបង្ហាញជាសាធារណៈទេ។
 send_message|Leave us a note|ទុកសារមួយដល់យើង
 required_note|Fields marked * are required.|ប្រអប់សម្គាល់ * ត្រូវបំពេញ។

@@ -31,7 +31,8 @@ class Config:
     CONTACT_PHONE = os.getenv('CONTACT_PHONE', '069 777 150')
     CONTACT_ADDRESS = os.getenv('CONTACT_ADDRESS', '')
     BUSINESS_HOURS = os.getenv('BUSINESS_HOURS', '')
-    FACEBOOK_URL = os.getenv('FACEBOOK_URL', 'https://www.facebook.com/lsvindustry') if os.getenv('FACEBOOK_URL', 'https://').startswith('https://') else ''
+    FACEBOOK_URL = os.getenv('FACEBOOK_URL', 'https://www.facebook.com/myempressbeauty') if os.getenv('FACEBOOK_URL', 'https://').startswith('https://') else ''
+    TELEGRAM_URL = os.getenv('TELEGRAM_URL', 'https://t.me/lsvindustrykh') if os.getenv('TELEGRAM_URL', 'https://').startswith('https://') else ''
     INSTAGRAM_URL = os.getenv('INSTAGRAM_URL', '') if os.getenv('INSTAGRAM_URL', '').startswith('https://') else ''
     # Free option: a bot from @BotFather sends sign-in codes. Takes priority over the Gateway when set.
     TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
