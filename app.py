@@ -84,7 +84,9 @@ def parse_money(value):
 
 def db():
     if 'db' not in g:
-        g.db = database.connect(current_app.config)
+        started = time.perf_counter()
+        g.db = database.connect(current_app.config, reuse=True)
+        g.db_ms = (time.perf_counter() - started) * 1000
     return g.db
 
 
@@ -124,6 +126,10 @@ def create_app(test_config=None):
 
     @app.before_request
     def restore_language():
+        g.started = time.perf_counter()
+        # Static files must not touch the session: a Set-Cookie header would stop the CDN from caching them.
+        if request.endpoint == 'static':
+            return
         language = request.cookies.get('language')
         if session.get('language') not in translations:
             session['language'] = language if language in translations else 'en'
@@ -164,7 +170,8 @@ def create_app(test_config=None):
     def close_db(error=None):
         connection = g.pop('db', None)
         if connection:
-            connection.close()
+            # Postgres connections are kept for the next request on this thread; SQLite files are cheap to reopen.
+            connection.release() if database.is_postgres(connection) else connection.close()
 
     with app.app_context():
         database.create_schema(db())
@@ -194,8 +201,17 @@ def create_app(test_config=None):
         # The PayWay checkout form is posted from our page, so its origin must be an allowed form target.
         form_action = "'self' " + app.config['PAYWAY_BASE_URL'].rstrip('/') if payway.enabled(app.config) else "'self'"
         response.headers['Content-Security-Policy'] = f"default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; base-uri 'self'; form-action {form_action}; frame-ancestors 'none'; object-src 'none'"
-        if response.mimetype == 'text/html' or request.path.startswith(('/admin', '/set-language', '/api')):
+        if request.endpoint == 'static':
+            # Versioned files (?v=) never change; others may be cached for a day by browsers and a week by the CDN.
+            response.headers['Cache-Control'] = ('public, max-age=31536000, immutable' if request.args.get('v')
+                                                 else 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400')
+        elif response.mimetype == 'text/html' or request.path.startswith(('/admin', '/set-language', '/api')):
             response.headers['Cache-Control'] = 'no-store'
+        if 'started' in g:
+            timing = f"app;dur={(time.perf_counter() - g.started) * 1000:.0f}"
+            if 'db_ms' in g:
+                timing += f", db-connect;dur={g.db_ms:.0f}"
+            response.headers['Server-Timing'] = timing
         if request.is_secure:
             response.headers['Strict-Transport-Security'] = 'max-age=31536000'
         return response

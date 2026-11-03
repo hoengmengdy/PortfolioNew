@@ -5,6 +5,8 @@ and transaction start differ, and those live here.
 """
 import re
 import sqlite3
+import threading
+import time
 
 try:
     import psycopg
@@ -112,7 +114,30 @@ class PostgresConnection:
             names = [column.name for column in cursor.description] if cursor.description else []
             return lambda values: Row(values, names)
 
-        self._connection = psycopg.connect(url, row_factory=row_factory, connect_timeout=10)
+        # Automatic server-side prepared statements are disabled: they do not survive Neon's connection pooler reliably.
+        self._connection = psycopg.connect(url, row_factory=row_factory, connect_timeout=10, prepare_threshold=None)
+        self.last_used = time.monotonic()
+
+    def usable(self):
+        """True when this connection can serve another request; checks the server after a quiet minute."""
+        if self._connection.closed:
+            return False
+        if time.monotonic() - self.last_used > 60:
+            try:
+                self._connection.execute('SELECT 1')
+                self._connection.rollback()
+            except psycopg.Error:
+                self.close()
+                return False
+        return True
+
+    def release(self):
+        """End the request: discard any unfinished transaction but keep the connection open for the next one."""
+        try:
+            self._connection.rollback()
+        except psycopg.Error:
+            self.close()
+        self.last_used = time.monotonic()
 
     @staticmethod
     def _translate(sql):
@@ -147,10 +172,23 @@ class PostgresConnection:
         self._connection.close()
 
 
-def connect(config):
-    """Open a connection: Postgres when DATABASE_URL is set, otherwise the local SQLite file."""
+_reusable = threading.local()
+
+
+def connect(config, reuse=False):
+    """Open a connection: Postgres when DATABASE_URL is set, otherwise the local SQLite file.
+
+    With reuse=True a Postgres connection is kept per thread between requests, saving the TLS and login round trips
+    (the slowest part of a request on serverless hosts). Release it with release() instead of close().
+    """
     if config.get('DATABASE_URL'):
-        return PostgresConnection(config['DATABASE_URL'])
+        if not reuse:
+            return PostgresConnection(config['DATABASE_URL'])
+        cached = getattr(_reusable, 'connections', {}).get(config['DATABASE_URL'])
+        if cached and cached.usable():
+            return cached
+        _reusable.__dict__.setdefault('connections', {})[config['DATABASE_URL']] = connection = PostgresConnection(config['DATABASE_URL'])
+        return connection
     connection = sqlite3.connect(config['DATABASE'], timeout=10)
     connection.row_factory = sqlite3.Row
     connection.execute('PRAGMA foreign_keys=ON')
@@ -163,6 +201,9 @@ def is_postgres(connection):
 
 def create_schema(connection):
     if is_postgres(connection):
+        # Skip the DDL on every cold start once the newest table exists (update this name when adding tables).
+        if connection.execute("SELECT to_regclass('payway_transactions')").fetchone()[0]:
+            return
         # Concurrent cold starts on Vercel may run this at the same time; serialise them with an advisory lock.
         connection.execute('SELECT pg_advisory_xact_lock(4242)')
         connection.executescript(POSTGRES_SCHEMA)

@@ -38,3 +38,15 @@ def test_proxy_headers_give_https_links(tmp_path):
     headers = {'X-Forwarded-Proto': 'https', 'X-Forwarded-Host': 'empresscambodia.vercel.app'}
     page = client.get('/', headers=headers).text
     assert 'https://empresscambodia.vercel.app/static/images/soap-hero-small.webp' in page
+
+
+def test_static_files_are_cacheable_and_cookie_free(client):
+    versioned = client.get('/static/css/style.css?v=17')
+    assert versioned.headers['Cache-Control'] == 'public, max-age=31536000, immutable'
+    image = client.get('/static/images/hero.webp')
+    assert 's-maxage=604800' in image.headers['Cache-Control']
+    # A Set-Cookie header would stop Vercel's CDN from caching the file.
+    assert 'Set-Cookie' not in versioned.headers and 'Set-Cookie' not in image.headers
+    page = client.get('/shop')
+    assert page.headers['Cache-Control'] == 'no-store'
+    assert 'app;dur=' in page.headers['Server-Timing'] and 'db-connect;dur=' in page.headers['Server-Timing']
