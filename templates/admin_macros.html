@@ -1,0 +1,71 @@
+{% macro order_card(order, items, back) %}
+<article class="order-card status-line-{{ order.status }}">
+  <header class="order-card-head">
+    <div>
+      <strong>#{{ order.id }} · {{ order.name }}</strong>
+      <div class="badges">
+        <span class="status-badge status-{{ order.status }}">{{ t('order_status_' + order.status) }}</span>
+        <span class="status-badge status-{{ order.payment_status }}"><i class="fa-solid fa-wallet" aria-hidden="true"></i> {{ t('payment_status_' + order.payment_status) }}</span>
+      </div>
+    </div>
+    <strong class="order-total">{{ order.total_cents|money }}</strong>
+  </header>
+  <p class="order-meta"><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ order.phone }} · {{ t('pay_' + order.payment_method) }} · <time datetime="{{ order.created_at }}">{{ order.created_at[:10] }}</time></p>
+  {% if items %}<p class="order-items-line">{% for item in items %}{{ item.name }} × {{ item.quantity }}{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+  <div class="order-actions">
+    <form method="post" action="{{ url_for('update_order', order_id=order.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="back" value="{{ back }}">
+      {% if order.status == 'pending' %}<button class="button button-small" name="action" value="confirm"><i class="fa-solid fa-check" aria-hidden="true"></i> {{ t('action_confirm') }}</button>
+      {% elif order.status == 'confirmed' %}<button class="button button-small" name="action" value="ship"><i class="fa-solid fa-truck" aria-hidden="true"></i> {{ t('action_ship') }}</button>
+      {% elif order.status == 'shipped' %}<button class="button button-small" name="action" value="complete"><i class="fa-solid fa-flag-checkered" aria-hidden="true"></i> {{ t('action_complete') }}</button>{% endif %}
+      {% if order.status != 'cancelled' and order.payment_method != 'cod' and order.payment_status in ['unpaid', 'submitted'] %}<button class="button button-small button-success" name="action" value="paid"><i class="fa-solid fa-sack-dollar" aria-hidden="true"></i> {{ t('action_paid') }}</button>{% endif %}
+      {% if order.status == 'cancelled' %}<button class="button button-small button-outline" name="action" value="reopen"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> {{ t('action_reopen') }}</button>{% endif %}
+    </form>
+    <a class="button button-small button-outline" href="tel:{{ order.phone }}"><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ t('call_customer') }}</a>
+    {% if order.status in ['pending', 'confirmed', 'shipped'] %}
+    <form method="post" action="{{ url_for('update_order', order_id=order.id) }}" data-confirm="{{ t('confirm_cancel_order') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="back" value="{{ back }}">
+      <button class="button button-small button-danger" name="action" value="cancel"><i class="fa-solid fa-xmark" aria-hidden="true"></i> {{ t('action_cancel') }}</button>
+    </form>
+    {% endif %}
+  </div>
+  <details class="order-more">
+    <summary>{{ t('order_details') }} <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+    <dl>
+      <dt>{{ t('address') }}</dt><dd>{{ order.address }}, {{ order.city }}</dd>
+      {% if order.email %}<dt>{{ t('email') }}</dt><dd><a href="mailto:{{ order.email }}">{{ order.email }}</a></dd>{% endif %}
+      {% if order.payment_reference %}<dt>{{ t('payment_reference') }}</dt><dd>{{ order.payment_reference }}</dd>{% endif %}
+      <dt>{{ t('total') }}</dt><dd>{{ order.subtotal_cents|money }} + {{ t('delivery') }} {{ order.delivery_cents|money }} = <strong>{{ order.total_cents|money }}</strong></dd>
+      <dt>{{ t('received') }}</dt><dd>{{ order.created_at }} (UTC)</dd>
+    </dl>
+    {% if order.note %}<p class="message-body">{{ order.note }}</p>{% endif %}
+    <form class="status-form" method="post" action="{{ url_for('update_order', order_id=order.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="back" value="{{ back }}">
+      <label>{{ t('status') }}<select name="status">{% for option in order_statuses %}<option value="{{ option }}" {% if order.status == option %}selected{% endif %}>{{ t('order_status_' + option) }}</option>{% endfor %}</select></label>
+      <label>{{ t('payment_status') }}<select name="payment_status">{% for option in payment_statuses %}<option value="{{ option }}" {% if order.payment_status == option %}selected{% endif %}>{{ t('payment_status_' + option) }}</option>{% endfor %}</select></label>
+      <button class="button button-small button-outline" type="submit">{{ t('save_changes') }}</button>
+    </form>
+    <a class="text-link" href="{{ url_for('order', token=order.token) }}" target="_blank" rel="noopener"><i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i> {{ t('customer_view') }}</a>
+  </details>
+</article>
+{% endmacro %}
+
+{% macro message_row(message, back) %}
+<details class="message-row">
+  <summary><span class="status-badge status-{{ message.status }}">{{ t(message.status) }}</span><span><strong>{{ message.name }}</strong><small>{{ message.subject }}</small></span><time datetime="{{ message.created_at }}">{{ message.created_at[:10] }}</time><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+  <div class="message-content">
+    <dl><dt>{{ t('email') }}</dt><dd><a href="mailto:{{ message.email }}">{{ message.email }}</a></dd>{% if message.phone %}<dt>{{ t('phone') }}</dt><dd><a href="tel:{{ message.phone }}">{{ message.phone }}</a></dd>{% endif %}<dt>{{ t('language') }}</dt><dd>{{ languages.get(message.language, message.language) }}</dd><dt>{{ t('received') }}</dt><dd>{{ message.created_at }} (UTC)</dd></dl>
+    <p class="message-body">{{ message.message }}</p>
+    <div class="order-actions">
+      <a class="button button-small" href="mailto:{{ message.email }}"><i class="fa-solid fa-reply" aria-hidden="true"></i> {{ t('reply') }}</a>
+      {% if message.phone %}<a class="button button-small button-outline" href="tel:{{ message.phone }}"><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ t('call_customer') }}</a>{% endif %}
+      <form method="post" action="{{ url_for('message_status', message_id=message.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="back" value="{{ back }}">
+        {% if message.status != 'read' %}<button class="button button-small button-outline" name="status" value="read"><i class="fa-regular fa-envelope-open" aria-hidden="true"></i> {{ t('mark_read') }}</button>{% endif %}
+        {% if message.status != 'archived' %}<button class="button button-small button-outline" name="status" value="archived"><i class="fa-solid fa-box-archive" aria-hidden="true"></i> {{ t('archive') }}</button>{% endif %}
+        {% if message.status != 'new' %}<button class="button button-small button-outline" name="status" value="new"><i class="fa-regular fa-envelope" aria-hidden="true"></i> {{ t('mark_new') }}</button>{% endif %}
+      </form>
+    </div>
+  </div>
+</details>
+{% endmacro %}

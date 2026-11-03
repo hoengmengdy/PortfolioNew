@@ -6,3 +6,6 @@ __pycache__/
 database.db*
 *.log
 .admin-credentials.txt
+
+.vercel
+.env*

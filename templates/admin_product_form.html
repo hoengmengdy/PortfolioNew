@@ -1,0 +1,15 @@
+{% set pid = product.id if product else 'new' %}
+<form class="retailer-edit-form" method="post" action="{{ url_for('save_product') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  {% if product %}<input type="hidden" name="id" value="{{ product.id }}">{% endif %}
+  <div class="form-grid">
+    {% for field,label,maxlen in [('name','product_name_en',120),('name_km','product_name_km',120),('description','product_description_en',500),('description_km','product_description_km',500)] %}
+    <div class="field"><label for="product-{{ pid }}-{{ field }}">{{ t(label) }}{% if field == 'name' %} *{% endif %}</label><input id="product-{{ pid }}-{{ field }}" name="{{ field }}" value="{{ product[field] if product else '' }}" maxlength="{{ maxlen }}" {% if field == 'name' %}required minlength="2"{% endif %}></div>
+    {% endfor %}
+    <div class="field"><label for="product-{{ pid }}-price">{{ t('price') }} ({{ config.CURRENCY_SYMBOL }}) *</label><input id="product-{{ pid }}-price" name="price" type="number" min="0" max="100000" step="0.01" inputmode="decimal" value="{{ '%.2f'|format(product.price_cents / 100) if product else '' }}" required></div>
+    <div class="field"><label for="product-{{ pid }}-stock">{{ t('stock') }} *</label><input id="product-{{ pid }}-stock" name="stock" type="number" min="0" max="100000" step="1" inputmode="numeric" value="{{ product.stock if product else 0 }}" required></div>
+    <div class="field"><label for="product-{{ pid }}-image">{{ t('image') }}</label><select id="product-{{ pid }}-image" name="image">{% for image in product_images %}<option value="{{ image }}" {% if product and product.image == image %}selected{% endif %}>{{ image }}</option>{% endfor %}</select></div>
+    <div class="field checkbox-field"><label><input type="checkbox" name="active" value="1" {% if not product or product.active %}checked{% endif %}> {{ t('visible_in_shop') }}</label></div>
+  </div>
+  <button class="button button-small" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> {{ t('save_product') }}</button>
+</form>

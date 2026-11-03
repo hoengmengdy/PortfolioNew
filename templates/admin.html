@@ -1,6 +1,96 @@
 {% extends 'base.html' %}
+{% import 'admin_macros.html' as m with context %}
 {% block content %}
-<section class="admin-section section"><div class="section-heading"><div><p class="eyebrow">Empress Cambodia / {{ t('admin_title') }}</p><h1>{{ t('dashboard') }}</h1></div><form method="post" action="{{ url_for('admin_logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-outline" type="submit">{{ t('sign_out') }} ↗</button></form></div><div class="admin-shortcuts"><a href="#inbox"><i class="fa-regular fa-envelope" aria-hidden="true"></i>{{ t('inbox') }}</a><a href="#orders"><i class="fa-solid fa-receipt" aria-hidden="true"></i>{{ t('orders') }}</a><a href="#product-admin"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>{{ t('manage_products') }}</a><a href="#retailer-admin"><i class="fa-solid fa-store" aria-hidden="true"></i>{{ t('manage_retailers') }}</a></div><div class="stats-grid">{% for key,icon in [('new','envelope'),('read','envelope-open'),('archived','box-archive')] %}<a href="{{ url_for('admin', status=key) }}"><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i><strong>{{ stats.get(key, 0) }}</strong><span>{{ t(key) }}</span></a>{% endfor %}</div><div id="inbox" class="section-heading inbox-heading"><h2>{{ t('inbox') }}</h2><div class="filter-tabs">{% for key in ['', 'new', 'read', 'archived'] %}<a href="{{ url_for('admin', status=key) }}" {% if status == key %}aria-current="page"{% endif %}>{{ t(key or 'all') }}</a>{% endfor %}</div></div><p class="fine-print">{{ t('inbox_limit') }}</p><div class="messages">{% for message in messages %}<details class="message-row"><summary><span class="status-badge status-{{ message.status }}">{{ t(message.status) }}</span><span><strong>{{ message.name }}</strong><small>{{ message.subject }}</small></span><time datetime="{{ message.created_at }}">{{ message.created_at[:10] }}</time><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="message-content"><dl><dt>{{ t('email') }}</dt><dd><a href="mailto:{{ message.email }}">{{ message.email }}</a></dd>{% if message.phone %}<dt>{{ t('phone') }}</dt><dd>{{ message.phone }}</dd>{% endif %}<dt>{{ t('language') }}</dt><dd>{{ languages.get(message.language, message.language) }}</dd><dt>{{ t('received') }}</dt><dd>{{ message.created_at }} (UTC)</dd></dl><p class="message-body">{{ message.message }}</p><div class="message-actions"><a class="text-link" href="mailto:{{ message.email }}">{{ t('reply') }} ↗</a><form method="post" action="{{ url_for('message_status', message_id=message.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label class="sr-only" for="status-{{ message.id }}">{{ t('status') }}</label><select id="status-{{ message.id }}" name="status">{% for option in ['new','read','archived'] %}<option value="{{ option }}" {% if message.status == option %}selected{% endif %}>{{ t(option) }}</option>{% endfor %}</select><button class="button button-small" type="submit">{{ t('update') }}</button></form></div></div></details>{% else %}<p class="empty-state">{{ t('no_messages') }}</p>{% endfor %}</div>
-{% include 'admin_shop.html' %}
-<section id="retailer-admin" class="retailer-admin"><div class="section-heading"><h2>{{ t('manage_retailers') }}</h2><span>{{ stores|length }} {{ t('locations') }}</span></div><details class="retailer-editor"><summary>{{ t('add_retailer') }} +</summary>{% set store = none %}{% include 'retailer_form.html' %}</details>{% for store in stores %}<details class="retailer-editor"><summary>{{ store.name }} <small>{{ store.city }} · {{ store.country }}</small><span aria-hidden="true">+</span></summary>{% include 'retailer_form.html' %}<form class="delete-form" method="post" action="{{ url_for('delete_retailer', retailer_id=store.id) }}" data-confirm="{{ t('confirm_delete') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-link danger" type="submit">{{ t('delete_retailer') }}</button></form></details>{% endfor %}</section></section>
+<section class="admin-section section">
+  <header class="admin-head">
+    <div><p class="eyebrow">Empress Cambodia · {{ t('admin_title') }}</p><h1>{{ t('admin_tab_' + view) }}</h1></div>
+    <div class="admin-head-actions">
+      <a class="button button-small button-outline" href="{{ url_for('shop') }}" target="_blank" rel="noopener"><i class="fa-solid fa-store" aria-hidden="true"></i> {{ t('view_shop') }}</a>
+      <form method="post" action="{{ url_for('admin_logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-small button-outline" type="submit"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> {{ t('sign_out') }}</button></form>
+    </div>
+  </header>
+  <nav class="admin-tabs" aria-label="{{ t('admin_title') }}">
+    {% for key, icon, badge in [('overview', 'gauge', 0), ('orders', 'receipt', counts.orders + counts.payments), ('products', 'bag-shopping', counts.low_stock), ('messages', 'envelope', counts.messages), ('retailers', 'store', 0)] %}
+    <a href="{{ url_for('admin', view=key) }}" {% if view == key %}aria-current="page"{% endif %}><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i><span>{{ t('admin_tab_' + key) }}</span>{% if badge %}<b class="tab-badge">{{ badge }}</b>{% endif %}</a>
+    {% endfor %}
+  </nav>
+
+  {% if view == 'overview' %}
+  <div class="stats-grid stats-grid-4">
+    <a href="{{ url_for('admin', view='orders', status='pending') }}"><i class="fa-solid fa-receipt" aria-hidden="true"></i><strong>{{ counts.orders }}</strong><span>{{ t('stat_orders_to_handle') }}</span></a>
+    <a href="{{ url_for('admin', view='orders', status='payment') }}"><i class="fa-solid fa-wallet" aria-hidden="true"></i><strong>{{ counts.payments }}</strong><span>{{ t('stat_payments_to_check') }}</span></a>
+    <a href="{{ url_for('admin', view='messages', status='new') }}"><i class="fa-solid fa-envelope" aria-hidden="true"></i><strong>{{ counts.messages }}</strong><span>{{ t('stat_new_messages') }}</span></a>
+    <a href="{{ url_for('admin', view='orders', status='completed') }}"><i class="fa-solid fa-sack-dollar" aria-hidden="true"></i><strong>{{ revenue|money }}</strong><span>{{ t('stat_revenue') }}</span></a>
+  </div>
+  {% if low_products %}
+  <div class="notice warning-notice"><p><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> {{ t('low_stock_warning') }} {% for product in low_products %}<a href="{{ url_for('admin', view='products') }}#product-{{ product.id }}"><strong>{{ product.name }}</strong> ({{ product.stock }})</a>{% if not loop.last %}, {% endif %}{% endfor %}</p></div>
+  {% endif %}
+  <div class="section-heading admin-subhead"><h2>{{ t('orders_needing_action') }}</h2><a class="text-link" href="{{ url_for('admin', view='orders') }}">{{ t('view_all') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
+  <div class="order-list">
+    {% for order in orders %}{{ m.order_card(order, [], request.full_path) }}{% else %}<p class="empty-state"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> {{ t('nothing_to_do') }}</p>{% endfor %}
+  </div>
+  <div class="section-heading admin-subhead"><h2>{{ t('stat_new_messages') }}</h2><a class="text-link" href="{{ url_for('admin', view='messages') }}">{{ t('view_all') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
+  <div class="messages">
+    {% for message in messages %}{{ m.message_row(message, request.full_path) }}{% else %}<p class="empty-state">{{ t('no_messages') }}</p>{% endfor %}
+  </div>
+
+  {% elif view == 'orders' %}
+  <div class="filter-tabs admin-filters">
+    {% for key in ['', 'pending', 'payment', 'confirmed', 'shipped', 'completed', 'cancelled'] %}
+    <a href="{{ url_for('admin', view='orders', status=key or None) }}" {% if status == key %}aria-current="page"{% endif %}>{{ t('all') if not key else (t('stat_payments_to_check') if key == 'payment' else t('order_status_' + key)) }}</a>
+    {% endfor %}
+  </div>
+  <div class="order-list">
+    {% for order in orders %}{{ m.order_card(order, order_items.get(order.id, []), request.full_path) }}{% else %}<p class="empty-state">{{ t('no_orders') }}</p>{% endfor %}
+  </div>
+
+  {% elif view == 'products' %}
+  <div class="admin-toolbar">
+    <p class="fine-print">{{ t('product_admin_note') }}</p>
+    <a class="button button-small" href="#product-new"><i class="fa-solid fa-plus" aria-hidden="true"></i> {{ t('add_product') }}</a>
+  </div>
+  <div class="admin-product-grid">
+    {% for product in products %}
+    <article class="admin-product {% if not product.active %}is-hidden{% endif %}" id="product-{{ product.id }}">
+      <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="" width="320" height="200" loading="lazy">
+      <div class="admin-product-body">
+        <h3>{{ product.name }}</h3>
+        <p class="price">{{ product.price_cents|money }}</p>
+        <div class="badges">
+          {% if product.stock == 0 %}<span class="status-badge status-cancelled">{{ t('sold_out') }}</span>
+          {% elif product.stock <= low_stock %}<span class="status-badge status-pending"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> {{ t('stock') }} {{ product.stock }}</span>
+          {% else %}<span class="status-badge status-paid">{{ t('stock') }} {{ product.stock }}</span>{% endif %}
+          {% if not product.active %}<span class="status-badge">{{ t('hidden') }}</span>{% endif %}
+        </div>
+      </div>
+      <details class="product-edit">
+        <summary class="button button-small button-outline"><i class="fa-solid fa-pen" aria-hidden="true"></i> {{ t('edit') }}</summary>
+        {% with product=product %}{% include 'admin_product_form.html' %}{% endwith %}
+      </details>
+    </article>
+    {% endfor %}
+  </div>
+  <section class="admin-panel" id="product-new">
+    <h2><i class="fa-solid fa-plus" aria-hidden="true"></i> {{ t('add_product') }}</h2>
+    {% with product=none %}{% include 'admin_product_form.html' %}{% endwith %}
+  </section>
+
+  {% elif view == 'messages' %}
+  <div class="stats-grid">{% for key,icon in [('new','envelope'),('read','envelope-open'),('archived','box-archive')] %}<a href="{{ url_for('admin', view='messages', status=key) }}"><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i><strong>{{ stats.get(key, 0) }}</strong><span>{{ t(key) }}</span></a>{% endfor %}</div>
+  <div class="filter-tabs admin-filters">{% for key in ['', 'new', 'read', 'archived'] %}<a href="{{ url_for('admin', view='messages', status=key or None) }}" {% if status == key %}aria-current="page"{% endif %}>{{ t(key or 'all') }}</a>{% endfor %}</div>
+  <p class="fine-print">{{ t('inbox_limit') }}</p>
+  <div class="messages">
+    {% for message in messages %}{{ m.message_row(message, request.full_path) }}{% else %}<p class="empty-state">{{ t('no_messages') }}</p>{% endfor %}
+  </div>
+
+  {% else %}
+  <div class="admin-toolbar"><p class="fine-print">{{ t('retailers_admin_note') }} {{ stores|length }}</p><a class="button button-small" href="#retailer-new"><i class="fa-solid fa-plus" aria-hidden="true"></i> {{ t('add_retailer') }}</a></div>
+  <div class="retailer-admin">
+    {% for store in stores %}
+    <details class="retailer-editor"><summary>{{ store.name }} <small>{{ store.city }} · {{ store.country }}</small><span aria-hidden="true"><i class="fa-solid fa-pen"></i></span></summary>{% include 'retailer_form.html' %}<form class="delete-form" method="post" action="{{ url_for('delete_retailer', retailer_id=store.id) }}" data-confirm="{{ t('confirm_delete') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-small button-danger" type="submit"><i class="fa-solid fa-trash" aria-hidden="true"></i> {{ t('delete_retailer') }}</button></form></details>
+    {% else %}<p class="empty-state">{{ t('no_retailers') }}</p>{% endfor %}
+    <section class="admin-panel" id="retailer-new"><h2><i class="fa-solid fa-plus" aria-hidden="true"></i> {{ t('add_retailer') }}</h2>{% set store = none %}{% include 'retailer_form.html' %}</section>
+  </div>
+  {% endif %}
+</section>
 {% endblock %}

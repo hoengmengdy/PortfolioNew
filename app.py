@@ -31,6 +31,10 @@ PHONE_RE = r'[+\d ()\-.]{5,30}'
 ORDER_STATUSES = ('pending', 'confirmed', 'shipped', 'completed', 'cancelled')
 PAYMENT_STATUSES = ('unpaid', 'submitted', 'paid', 'refunded')
 MAX_QUANTITY = 20
+LOW_STOCK = 5
+# One-tap order buttons in the admin: new order status and/or payment status.
+ORDER_ACTIONS = {'confirm': ('confirmed', None), 'ship': ('shipped', None), 'complete': ('completed', None),
+                 'paid': (None, 'paid'), 'cancel': ('cancelled', None), 'reopen': ('pending', None)}
 TELEGRAM_GATEWAY_URL = 'https://gatewayapi.telegram.org/sendVerificationMessage'
 
 
@@ -614,44 +618,89 @@ def create_app(test_config=None):
         session['language'] = language
         return redirect(url_for('index'))
 
-    @app.get('/admin')
+    def admin_counts():
+        """Numbers shown on the admin tabs: what needs attention now."""
+        one = lambda sql, *args: db().execute(sql, args).fetchone()[0]
+        return {'orders': one("SELECT count(*) FROM orders WHERE status='pending'"),
+                'payments': one("SELECT count(*) FROM orders WHERE payment_status='submitted' AND status!='cancelled'"),
+                'messages': one("SELECT count(*) FROM messages WHERE status='new'"),
+                'low_stock': one('SELECT count(*) FROM products WHERE active=1 AND stock<=?', LOW_STOCK)}
+
+    def items_by_order(orders):
+        grouped = {}
+        if orders:
+            ids = [order['id'] for order in orders]
+            for item in db().execute(f"SELECT * FROM order_items WHERE order_id IN ({','.join('?' * len(ids))}) ORDER BY id", ids):
+                grouped.setdefault(item['order_id'], []).append(item)
+        return grouped
+
+    @app.get('/admin', defaults={'view': 'overview'})
+    @app.get('/admin/<any(orders, products, messages, retailers):view>')
     @admin_required
-    def admin():
-        status = request.args.get('status', '')
-        if status not in ('', 'new', 'read', 'archived'):
-            abort(400)
-        messages = db().execute("SELECT * FROM messages WHERE (?='' OR status=?) ORDER BY id DESC LIMIT 200", (status, status)).fetchall()
-        stats = dict(db().execute('SELECT status,count(*) FROM messages GROUP BY status').fetchall())
-        stores = db().execute('SELECT * FROM retailers ORDER BY id DESC').fetchall()
-        orders = db().execute('SELECT * FROM orders ORDER BY id DESC LIMIT 100').fetchall()
-        order_items = {}
-        for item in db().execute('SELECT * FROM order_items WHERE order_id IN (SELECT id FROM orders ORDER BY id DESC LIMIT 100) ORDER BY id'):
-            order_items.setdefault(item['order_id'], []).append(item)
-        products = db().execute('SELECT * FROM products ORDER BY id').fetchall()
-        return render_template('admin.html', page='admin', messages=messages, stats=stats, stores=stores, status=status, orders=orders,
-                               order_items=order_items, products=products, product_images=product_images,
-                               order_statuses=ORDER_STATUSES, payment_statuses=PAYMENT_STATUSES)
+    def admin(view):
+        data = dict(view=view, counts=admin_counts(), order_statuses=ORDER_STATUSES, payment_statuses=PAYMENT_STATUSES, low_stock=LOW_STOCK)
+        if view == 'overview':
+            data['revenue'] = db().execute("SELECT coalesce(sum(total_cents),0) FROM orders WHERE payment_status='paid' AND status!='cancelled'").fetchone()[0]
+            data['orders'] = db().execute("SELECT * FROM orders WHERE status IN ('pending','confirmed','shipped') OR payment_status='submitted' ORDER BY id DESC LIMIT 5").fetchall()
+            data['messages'] = db().execute("SELECT * FROM messages WHERE status='new' ORDER BY id DESC LIMIT 5").fetchall()
+            data['low_products'] = db().execute('SELECT * FROM products WHERE active=1 AND stock<=? ORDER BY stock, id', (LOW_STOCK,)).fetchall()
+        elif view == 'orders':
+            status = request.args.get('status', '')
+            if status not in ('', 'payment', *ORDER_STATUSES):
+                abort(400)
+            if status == 'payment':
+                where, args = "payment_status='submitted' AND status!='cancelled'", ()
+            else:
+                where, args = "(?='' OR status=?)", (status, status)
+            data['status'] = status
+            data['orders'] = db().execute(f'SELECT * FROM orders WHERE {where} ORDER BY id DESC LIMIT 200', args).fetchall()
+            data['order_items'] = items_by_order(data['orders'])
+        elif view == 'products':
+            data['products'] = db().execute('SELECT * FROM products ORDER BY active DESC, id').fetchall()
+            data['product_images'] = product_images
+        elif view == 'messages':
+            status = request.args.get('status', '')
+            if status not in ('', 'new', 'read', 'archived'):
+                abort(400)
+            data['status'] = status
+            data['messages'] = db().execute("SELECT * FROM messages WHERE (?='' OR status=?) ORDER BY id DESC LIMIT 200", (status, status)).fetchall()
+            data['stats'] = dict(db().execute('SELECT status,count(*) FROM messages GROUP BY status').fetchall())
+        else:
+            data['stores'] = db().execute('SELECT * FROM retailers ORDER BY id DESC').fetchall()
+        return render_template('admin.html', page='admin', **data)
 
     @app.post('/admin/orders/<int:order_id>')
     @admin_required
     def update_order(order_id):
-        status, payment_status = request.form.get('status'), request.form.get('payment_status')
-        if status not in ORDER_STATUSES or payment_status not in PAYMENT_STATUSES:
-            abort(400)
         connection = db()
         connection.execute('BEGIN IMMEDIATE')
-        current = connection.execute('SELECT status FROM orders WHERE id=?', (order_id,)).fetchone()
+        current = connection.execute('SELECT status,payment_status,payment_method FROM orders WHERE id=?', (order_id,)).fetchone()
         if not current:
             connection.rollback()
             abort(404)
+        action = request.form.get('action')
+        if action:
+            if action not in ORDER_ACTIONS:
+                connection.rollback()
+                abort(400)
+            new_status, new_payment = ORDER_ACTIONS[action]
+            status, payment_status = new_status or current['status'], new_payment or current['payment_status']
+            # Completing a cash-on-delivery order means the cash was collected.
+            if action == 'complete' and current['payment_method'] == 'cod' and payment_status == 'unpaid':
+                payment_status = 'paid'
+        else:
+            status, payment_status = request.form.get('status'), request.form.get('payment_status')
+        if status not in ORDER_STATUSES or payment_status not in PAYMENT_STATUSES:
+            connection.rollback()
+            abort(400)
         # Return items to stock when an order is cancelled, and take them again if it is reopened.
         if (current['status'] == 'cancelled') != (status == 'cancelled'):
             sign = 1 if status == 'cancelled' else -1
             connection.execute('UPDATE products SET stock=(CASE WHEN stock+?*(SELECT coalesce(sum(quantity),0) FROM order_items WHERE order_id=? AND product_id=products.id) < 0 THEN 0 ELSE stock+?*(SELECT coalesce(sum(quantity),0) FROM order_items WHERE order_id=? AND product_id=products.id) END) WHERE id IN (SELECT product_id FROM order_items WHERE order_id=?)', (sign, order_id, sign, order_id, order_id))
         connection.execute('UPDATE orders SET status=?, payment_status=? WHERE id=?', (status, payment_status, order_id))
         connection.commit()
-        flash(t('saved'), 'success')
-        return redirect(url_for('admin') + '#orders')
+        flash(t('order_updated').replace('{id}', str(order_id)), 'success')
+        return redirect(safe_target(request.form.get('back'), url_for('admin', view='orders')))
 
     @app.post('/admin/products')
     @admin_required
@@ -662,7 +711,7 @@ def create_app(test_config=None):
         if not 2 <= len(fields['name']) <= 120 or len(fields['name_km']) > 120 or len(fields['description']) > 500 or len(fields['description_km']) > 500 \
                 or fields['image'] not in product_images or price is None or stock is None or not 0 <= stock <= 100000:
             flash(t('error_product'), 'error')
-            return redirect(url_for('admin') + '#product-admin')
+            return redirect(url_for('admin', view='products'))
         values = (*fields.values(), price, stock, 1 if request.form.get('active') else 0)
         product_id = request.form.get('id', type=int)
         if request.form.get('id') and product_id is None:
@@ -674,7 +723,7 @@ def create_app(test_config=None):
             db().execute('INSERT INTO products(name,name_km,description,description_km,image,price_cents,stock,active) VALUES(?,?,?,?,?,?,?,?)', values)
         db().commit()
         flash(t('saved'), 'success')
-        return redirect(url_for('admin') + '#product-admin')
+        return redirect(url_for('admin', view='products'))
 
     @app.post('/admin/messages/<int:message_id>/status')
     @admin_required
@@ -685,7 +734,7 @@ def create_app(test_config=None):
         if not db().execute('UPDATE messages SET status=? WHERE id=?', (status, message_id)).rowcount:
             abort(404)
         db().commit()
-        return redirect(url_for('admin'))
+        return redirect(safe_target(request.form.get('back'), url_for('admin', view='messages')))
 
     @app.post('/admin/retailers')
     @admin_required
@@ -704,14 +753,14 @@ def create_app(test_config=None):
                 db().execute('INSERT INTO retailers(name,country,city,address,phone,email) VALUES(?,?,?,?,?,?)', tuple(fields.values()))
             db().commit()
             flash(t('saved'), 'success')
-        return redirect(url_for('admin') + '#retailer-admin')
+        return redirect(url_for('admin', view='retailers'))
 
     @app.post('/admin/retailers/<int:retailer_id>/delete')
     @admin_required
     def delete_retailer(retailer_id):
         db().execute('DELETE FROM retailers WHERE id=?', (retailer_id,))
         db().commit()
-        return redirect(url_for('admin') + '#retailer-admin')
+        return redirect(url_for('admin', view='retailers'))
 
     @app.template_filter('money')
     def money(cents):

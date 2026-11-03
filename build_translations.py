@@ -334,6 +334,36 @@ payway_redirect_intro|You will pay securely on the ABA PayWay page. Amount:|អ�
 payway_paid|Payment received with ABA PayWay. Thank you!|បានទទួលការបង់ប្រាក់តាម ABA PayWay។ សូមអរគុណ!
 payway_unpaid|This order is not paid yet. If you already paid, refresh this page in a moment.|ការកុម្ម៉ង់នេះមិនទាន់បានបង់ប្រាក់ទេ។ ប្រសិនបើអ្នកបានបង់រួចហើយ សូមផ្ទុកទំព័រនេះឡើងវិញបន្តិចទៀត។
 back_to_order|Back to my order|ត្រឡប់ទៅការកុម្ម៉ង់របស់ខ្ញុំ
+admin_tab_overview|Overview|ទិដ្ឋភាពទូទៅ
+admin_tab_orders|Orders|ការកុម្ម៉ង់
+admin_tab_products|Products|ផលិតផល
+admin_tab_messages|Messages|សារ
+admin_tab_retailers|Retailers|ហាងលក់
+view_shop|View shop|មើលហាង
+stat_orders_to_handle|Orders to handle|ការកុម្ម៉ង់ត្រូវដោះស្រាយ
+stat_payments_to_check|Payments to check|ការបង់ប្រាក់ត្រូវពិនិត្យ
+stat_new_messages|New messages|សារថ្មី
+stat_revenue|Paid revenue|ចំណូលបានបង់
+low_stock_warning|Low stock:|ស្តុកជិតអស់៖
+orders_needing_action|Orders needing action|ការកុម្ម៉ង់ដែលត្រូវធ្វើ
+view_all|View all|មើលទាំងអស់
+nothing_to_do|Nothing to do right now.|មិនមានអ្វីត្រូវធ្វើទេពេលនេះ។
+action_confirm|Confirm order|បញ្ជាក់ការកុម្ម៉ង់
+action_ship|Mark shipped|កំពុងដឹកជញ្ជូន
+action_complete|Mark delivered|បានដឹកជញ្ជូនរួច
+action_paid|Mark paid|បានបង់ប្រាក់
+action_reopen|Reopen|បើកម្តងទៀត
+action_cancel|Cancel order|លុបចោលការកុម្ម៉ង់
+call_customer|Call|ហៅទូរស័ព្ទ
+confirm_cancel_order|Cancel this order? The items go back into stock.|លុបចោលការកុម្ម៉ង់នេះមែនទេ? ផលិតផលនឹងត្រឡប់ចូលស្តុកវិញ។
+order_details|Details and corrections|ព័ត៌មានលម្អិត និងការកែតម្រូវ
+save_changes|Save changes|រក្សាទុកការផ្លាស់ប្តូរ
+mark_read|Mark read|សម្គាល់ថាបានអាន
+archive|Archive|រក្សាទុកក្នុងបណ្ណសារ
+mark_new|Mark unread|សម្គាល់ថាមិនទាន់អាន
+edit|Edit|កែប្រែ
+retailers_admin_note|Locations listed on the "Find a retailer" page:|ទីតាំងដែលបង្ហាញនៅទំព័រ "ស្វែងរកហាង"៖
+order_updated|Order #{id} updated.|បានធ្វើបច្ចុប្បន្នភាពការកុម្ម៉ង់ #{id}។
 '''
 
 if __name__ == '__main__':
