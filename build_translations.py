@@ -171,7 +171,7 @@ error_message|Please write a message between 10 and 5,000 characters.|សូម�
 error_email|Please enter a valid email address.|សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលត្រឹមត្រូវ។
 error_phone|Please enter a valid phone number, up to 30 characters.|សូមបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវ មិនលើស 30 តួអក្សរ។
 error_form|Please review the fields below and try again.|សូមពិនិត្យប្រអប់ខាងក្រោម ហើយព្យាយាមម្តងទៀត។
-error_save|We could not save your message. Please try again shortly.|យើងមិនអាចរក្សាទុកសារបានទេ សូមសាកម្តងទៀតបន្តិចទៀត។
+error_save|We could not save your request. Please try again shortly.|យើងមិនអាចរក្សាទុកសំណើរបស់អ្នកបានទេ សូមសាកម្តងទៀតបន្តិចទៀត។
 error_csrf|Your form session expired. Reload the page and try again.|វគ្គទម្រង់ផុតកំណត់ហើយ សូមផ្ទុកទំព័រឡើងវិញ។
 error_400|This request could not be processed. Reload the page and try again.|មិនអាចដំណើរការសំណើ សូមផ្ទុកទំព័រឡើងវិញ។
 error_404|This page could not be found. Explore the links above to find your way.|រកមិនឃើញទំព័រនេះ សូមប្រើតំណខាងលើ។
@@ -206,12 +206,134 @@ save_retailer|Save retailer|រក្សាទុកហាង
 delete_retailer|Delete retailer|លុបហាង
 confirm_delete|Delete this retailer from the public directory? This cannot be undone.|លុបហាងនេះពីបញ្ជីសាធារណៈ? មិនអាចត្រឡប់វិញបានទេ។
 error_retailer|Please complete the required fields and provide valid contact information.|សូមបំពេញប្រអប់ចាំបាច់ និងព័ត៌មានទំនាក់ទំនងត្រឹមត្រូវ។
-saved|Retailer saved successfully.|រក្សាទុកហាងបានជោគជ័យ។
+saved|Changes saved successfully.|បានរក្សាទុកការផ្លាស់ប្តូរដោយជោគជ័យ។
 alt_hero|Amber glass skincare bottle on a pedestal in natural sunlight.|ដបកញ្ចក់ពណ៌អាំប៊ែរលើជើងទម្រក្រោមពន្លឺធម្មជាតិ។
 alt_forest|Sunlight filtering through a lush green forest.|ពន្លឺព្រះអាទិត្យឆ្លងកាត់ព្រៃបៃតង។
 alt_serum|An amber bottle in warm botanical shadows; illustrative skincare photography.|ដបពណ៌អាំប៊ែរក្រោមស្រមោលរុក្ខជាតិ រូបថតគំរូ។
 alt_cleanser|A still life of skincare products; illustrative collection photography.|រូបថតផលិតផលថែស្បែកសម្រាប់បណ្តុំគំរូ។
 alt_cream|Skincare packaging and soft textures; illustrative product photography.|ការវេចខ្ចប់ និងផ្ទៃទន់ រូបថតផលិតផលគំរូ។
+shop_title|Shop|ហាងទំនិញ
+shop_intro|Choose your favourites and order online. Pay on delivery or by bank transfer.|ជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត ហើយកុម្ម៉ង់តាមអនឡាញ។ បង់ប្រាក់ពេលទទួលទំនិញ ឬតាមការផ្ទេរប្រាក់តាមធនាគារ។
+shop_now|Shop now|ទិញឥឡូវនេះ
+quantity|Quantity|ចំនួន
+add_to_cart|Add to cart|ដាក់ចូលកន្ត្រក
+sold_out|Sold out|អស់ពីស្តុក
+no_products|No products are available right now.|មិនទាន់មានផលិតផលលក់នៅពេលនេះទេ។
+cart_title|Cart|កន្ត្រកទំនិញ
+remove|Remove|ដកចេញ
+continue_shopping|Continue shopping|បន្តទិញទំនិញ
+cart_empty|Your cart is empty.|កន្ត្រករបស់អ្នកនៅទទេ។
+order_summary|Order summary|សេចក្តីសង្ខេបការកុម្ម៉ង់
+subtotal|Subtotal|សរុបរង
+delivery|Delivery|ថ្លៃដឹកជញ្ជូន
+total|Total|សរុប
+checkout_title|Checkout|បង់ប្រាក់
+checkout_intro|Tell us where to deliver and how you would like to pay.|ប្រាប់យើងពីទីកន្លែងដឹកជញ្ជូន និងវិធីដែលអ្នកចង់បង់ប្រាក់។
+delivery_details|Delivery details|ព័ត៌មានដឹកជញ្ជូន
+order_note|Order note|កំណត់ចំណាំការកុម្ម៉ង់
+payment_method|Payment method|វិធីបង់ប្រាក់
+pay_cod|Cash on delivery|បង់ប្រាក់ពេលទទួលទំនិញ
+pay_cod_description|Pay in cash when your order arrives.|បង់ជាសាច់ប្រាក់នៅពេលទំនិញមកដល់។
+pay_bank|Bank transfer / KHQR|ផ្ទេរប្រាក់តាមធនាគារ / KHQR
+pay_bank_description|Transfer from your banking app, then send us the transaction reference.|ផ្ទេរប្រាក់ពីកម្មវិធីធនាគាររបស់អ្នក រួចផ្ញើលេខយោងប្រតិបត្តិការមកយើង។
+place_order|Place order|ដាក់ការកុម្ម៉ង់
+order_title|Your order|ការកុម្ម៉ង់របស់អ្នក
+order_number|Order|ការកុម្ម៉ង់
+order_thanks|Thank you for your order|សូមអរគុណសម្រាប់ការកុម្ម៉ង់
+order_intro|We have received your order and will call you to confirm delivery.|យើងបានទទួលការកុម្ម៉ង់របស់អ្នក ហើយនឹងទូរស័ព្ទទៅបញ្ជាក់ការដឹកជញ្ជូន។
+payment_title|Payment|ការបង់ប្រាក់
+payment_status|Payment status|ស្ថានភាពបង់ប្រាក់
+payment_reference|Transaction reference|លេខយោងប្រតិបត្តិការ
+order_status_pending|Pending|កំពុងរង់ចាំ
+order_status_confirmed|Confirmed|បានបញ្ជាក់
+order_status_shipped|Out for delivery|កំពុងដឹកជញ្ជូន
+order_status_completed|Completed|បានបញ្ចប់
+order_status_cancelled|Cancelled|បានលុបចោល
+payment_status_unpaid|Unpaid|មិនទាន់បង់
+payment_status_submitted|Awaiting confirmation|កំពុងរង់ចាំការបញ្ជាក់
+payment_status_paid|Paid|បានបង់
+payment_status_refunded|Refunded|បានសងប្រាក់វិញ
+pay_cod_instructions|Please have the total amount ready in cash when your order is delivered.|សូមត្រៀមសាច់ប្រាក់ចំនួនសរុប នៅពេលទំនិញត្រូវបានដឹកមកដល់។
+pay_bank_instructions|Transfer the total to the account below, add the memo, then enter your transaction reference.|សូមផ្ទេរប្រាក់សរុបទៅគណនីខាងក្រោម ដាក់កំណត់ចំណាំ រួចបញ្ចូលលេខយោងប្រតិបត្តិការ។
+bank_name|Bank|ធនាគារ
+account_name|Account name|ឈ្មោះគណនី
+account_number|Account number|លេខគណនី
+amount|Amount|ចំនួនទឹកប្រាក់
+transfer_memo|Memo|កំណត់ចំណាំ
+confirm_payment|I have paid|ខ្ញុំបានបង់ប្រាក់រួចហើយ
+order_link_note|Bookmark this page to check your order status later.|សូមរក្សាទុកទំព័រនេះ ដើម្បីពិនិត្យស្ថានភាពការកុម្ម៉ង់នៅពេលក្រោយ។
+orders|Orders|ការកុម្ម៉ង់
+manage_products|Products|ផលិតផល
+customer_view|Customer page|ទំព័រអតិថិជន
+no_orders|No orders yet.|មិនទាន់មានការកុម្ម៉ង់នៅឡើយទេ។
+product_admin_note|Starter prices are examples. Set your real prices and stock before taking orders.|តម្លៃដំបូងគ្រាន់តែជាឧទាហរណ៍។ សូមកំណត់តម្លៃ និងស្តុកពិតប្រាកដ មុនពេលទទួលការកុម្ម៉ង់។
+stock|Stock|ស្តុក
+hidden|Hidden|លាក់
+add_product|Add product|បន្ថែមផលិតផល
+product_name_en|Name (English)|ឈ្មោះ (អង់គ្លេស)
+product_name_km|Name (Khmer)|ឈ្មោះ (ខ្មែរ)
+product_description_en|Description (English)|ការពិពណ៌នា (អង់គ្លេស)
+product_description_km|Description (Khmer)|ការពិពណ៌នា (ខ្មែរ)
+price|Price|តម្លៃ
+image|Image|រូបភាព
+visible_in_shop|Visible in shop|បង្ហាញក្នុងហាង
+save_product|Save product|រក្សាទុកផលិតផល
+out_of_stock|No more stock is available for this item.|ផលិតផលនេះមិនមានស្តុកបន្ថែមទៀតទេ។
+added_to_cart|Added to your cart.|បានដាក់ចូលកន្ត្រករបស់អ្នក។
+stock_limited|The quantity was reduced to the stock available.|ចំនួនត្រូវបានកាត់បន្ថយតាមស្តុកដែលមាន។
+stock_changed|Some items no longer have enough stock. Please review your cart.|ផលិតផលខ្លះមិនមានស្តុកគ្រប់គ្រាន់ទៀតទេ។ សូមពិនិត្យកន្ត្រករបស់អ្នក។
+order_placed|Your order has been placed.|ការកុម្ម៉ង់របស់អ្នកត្រូវបានដាក់ដោយជោគជ័យ។
+payment_submitted|Thank you. We will confirm your payment shortly.|សូមអរគុណ។ យើងនឹងបញ្ជាក់ការបង់ប្រាក់របស់អ្នកក្នុងពេលឆាប់ៗ។
+error_address|Please enter a delivery address between 5 and 300 characters.|សូមបញ្ចូលអាសយដ្ឋានដឹកជញ្ជូនពី 5 ដល់ 300 តួអក្សរ។
+error_city|Please enter a city between 2 and 100 characters.|សូមបញ្ចូលទីក្រុងពី 2 ដល់ 100 តួអក្សរ។
+error_note|Please keep the note under 500 characters.|សូមសរសេរកំណត់ចំណាំមិនលើស 500 តួអក្សរ។
+error_payment_method|Please choose a payment method.|សូមជ្រើសរើសវិធីបង់ប្រាក់។
+error_reference|Please enter the transaction reference (3–100 characters).|សូមបញ្ចូលលេខយោងប្រតិបត្តិការ (3–100 តួអក្សរ)។
+error_product|Please check the product name, price, stock, and image.|សូមពិនិត្យឈ្មោះ តម្លៃ ស្តុក និងរូបភាពផលិតផល។
+steps_eyebrow|YOUR DAILY ROUTINE|ទម្លាប់ប្រចាំថ្ងៃរបស់អ្នក
+steps_heading|Three simple steps|ជំហានសាមញ្ញបី
+step_1|Choose your favourite|ជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត
+step_1_description|Browse the collection and pick what suits your routine.|មើលបណ្តុំផលិតផល ហើយជ្រើសរើសអ្វីដែលសមនឹងទម្លាប់របស់អ្នក។
+step_2|Take a quiet moment|ចំណាយពេលស្ងប់ស្ងាត់បន្តិច
+step_2_description|Make your morning or evening care a small pause just for you.|ធ្វើឱ្យការថែទាំពេលព្រឹក ឬពេលល្ងាច ក្លាយជាពេលសម្រាកតូចមួយសម្រាប់អ្នក។
+step_3|Care, the simple way|ថែទាំតាមរបៀបសាមញ្ញ
+step_3_description|Order online and pay on delivery or by bank transfer.|កុម្ម៉ង់តាមអនឡាញ ហើយបង់ប្រាក់ពេលទទួលទំនិញ ឬតាមការផ្ទេរប្រាក់តាមធនាគារ។
+account_title|My account|គណនីរបស់ខ្ញុំ
+account_login_title|Sign in|ចូលគណនី
+login_intro|Enter your phone number. We will send a sign-in code to your Telegram.|បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក។ យើងនឹងផ្ញើលេខកូដចូលគណនីទៅ Telegram របស់អ្នក។
+phone_number|Phone number|លេខទូរស័ព្ទ
+send_code|Send code via Telegram|ផ្ញើលេខកូដតាម Telegram
+telegram_note|You need Telegram on this phone number. Codes expire after 5 minutes.|លេខទូរស័ព្ទនេះត្រូវតែមាន Telegram។ លេខកូដផុតកំណត់ក្រោយ 5 នាទី។
+enter_code|Enter your code|បញ្ចូលលេខកូដ
+code_sent|We sent a code to your Telegram at|យើងបានផ្ញើលេខកូដទៅ Telegram របស់អ្នកតាមលេខ
+login_code|Sign-in code|លេខកូដចូលគណនី
+verify|Verify and continue|ផ្ទៀងផ្ទាត់ ហើយបន្ត
+change_number|Use a different number or resend the code|ប្រើលេខផ្សេង ឬផ្ញើលេខកូដម្តងទៀត
+phone_verified|Verified with Telegram|បានផ្ទៀងផ្ទាត់តាម Telegram
+logged_in|You are signed in.|អ្នកបានចូលគណនីដោយជោគជ័យ។
+my_orders|My orders|ការកុម្ម៉ង់របស់ខ្ញុំ
+no_customer_orders|You have no orders yet.|អ្នកមិនទាន់មានការកុម្ម៉ង់នៅឡើយទេ។
+error_phone_login|Please enter a valid phone number, for example 012 345 678.|សូមបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវ ឧទាហរណ៍ 012 345 678។
+error_code_wait|Please wait a minute before requesting another code.|សូមរង់ចាំមួយនាទី មុននឹងស្នើលេខកូដថ្មី។
+error_telegram|We could not send a Telegram code to this number. Check that it uses Telegram and try again.|យើងមិនអាចផ្ញើលេខកូដ Telegram ទៅលេខនេះបានទេ។ សូមពិនិត្យថាលេខនេះប្រើ Telegram ហើយព្យាយាមម្តងទៀត។
+error_code|That code is not correct. Please try again.|លេខកូដមិនត្រឹមត្រូវទេ។ សូមព្យាយាមម្តងទៀត។
+error_code_expired|This code has expired. Please request a new one.|លេខកូដនេះបានផុតកំណត់ហើយ។ សូមស្នើលេខកូដថ្មី។
+error_code_attempts|Too many wrong attempts. Please request a new code.|បញ្ចូលខុសច្រើនដងពេក។ សូមស្នើលេខកូដថ្មី។
+dev_code_notice|Test mode (no Telegram token set). Your code is:|ម៉ូដសាកល្បង (មិនទាន់កំណត់ Telegram token)។ លេខកូដរបស់អ្នកគឺ៖
+open_telegram|Open Telegram|បើក Telegram
+bot_intro|To get your code for|ដើម្បីទទួលលេខកូដសម្រាប់លេខ
+bot_step_open|Tap "Open Telegram" below.|ចុច "បើក Telegram" ខាងក្រោម។
+bot_step_start|Press START in our bot.|ចុច START នៅក្នុង bot របស់យើង។
+bot_step_share|Tap "Share my phone number". The bot sends your code, then type it here.|ចុច "ចែករំលែកលេខទូរស័ព្ទ"។ bot នឹងផ្ញើលេខកូដ រួចវាយបញ្ចូលវានៅទីនេះ។
+error_code_not_sent|Open Telegram first. Our bot will send you the code.|សូមបើក Telegram ជាមុនសិន។ bot របស់យើងនឹងផ្ញើលេខកូដជូនអ្នក។
+pay_payway|ABA PayWay (KHQR / card)|ABA PayWay (KHQR / កាត)
+pay_payway_description|Pay now with ABA PAY, KHQR from any Cambodian bank app, or Visa / Mastercard.|បង់ឥឡូវនេះតាម ABA PAY, KHQR ពីកម្មវិធីធនាគារណាមួយនៅកម្ពុជា ឬកាត Visa / Mastercard។
+pay_with_payway|Pay with ABA PayWay|បង់ប្រាក់តាម ABA PayWay
+payway_redirect_title|Going to ABA PayWay|កំពុងបញ្ជូនទៅ ABA PayWay
+payway_redirect_intro|You will pay securely on the ABA PayWay page. Amount:|អ្នកនឹងបង់ប្រាក់ដោយសុវត្ថិភាពនៅទំព័រ ABA PayWay។ ចំនួនទឹកប្រាក់៖
+payway_paid|Payment received with ABA PayWay. Thank you!|បានទទួលការបង់ប្រាក់តាម ABA PayWay។ សូមអរគុណ!
+payway_unpaid|This order is not paid yet. If you already paid, refresh this page in a moment.|ការកុម្ម៉ង់នេះមិនទាន់បានបង់ប្រាក់ទេ។ ប្រសិនបើអ្នកបានបង់រួចហើយ សូមផ្ទុកទំព័រនេះឡើងវិញបន្តិចទៀត។
+back_to_order|Back to my order|ត្រឡប់ទៅការកុម្ម៉ង់របស់ខ្ញុំ
 '''
 
 if __name__ == '__main__':

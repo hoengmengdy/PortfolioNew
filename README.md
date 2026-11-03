@@ -35,6 +35,44 @@ The password prompt is hidden, requires confirmation, and requires at least 12 c
 
 The inbox shows the latest 200 inquiries per filter. Archived records remain in the database. Dates are displayed in UTC. Protect and back up the database as private customer data; choose an appropriate retention policy. Handle privacy removal requests by deleting the requested record through a controlled database maintenance procedure.
 
+## Shop, cart, and payment
+
+Customers browse `/shop`, add items to a session cart (`/cart`), and check out at `/checkout` with their name, phone, delivery address, and payment method. Each order gets a private, unguessable link (`/orders/<token>`) showing its status and payment instructions.
+
+Payment methods:
+
+- **ABA PayWay** (ABA PAY, KHQR from any Cambodian bank app, Visa/Mastercard) appears first when `PAYWAY_MERCHANT_ID` and `PAYWAY_API_KEY` are set. After placing the order, the customer is sent to ABA's secure checkout page, and card details never touch this site. When they return to the order page, the site asks PayWay (Check Transaction API) whether the payment was approved for the full amount, and only then marks the order **Paid**. PayWay's server notice to `/payway/callback` triggers the same check. That notice only reaches a public HTTPS domain that is whitelisted in your PayWay profile. Start with sandbox keys from https://sandbox.payway.com.kh/register-sandbox/, then set `PAYWAY_BASE_URL=https://checkout.payway.com.kh` with your live keys from ABA (paywaysales@ababank.com).
+- **Cash on delivery** is always available.
+- **Bank transfer / KHQR** (ABA, ACLEDA, Wing, or any bank app) appears only when `PAYMENT_ACCOUNT_NUMBER` is set in `.env`. The order page shows the bank, account name, number, amount, and memo `EMP-<order id>`. The customer enters their transaction reference and the payment becomes *Awaiting confirmation*. After checking your bank app, mark it *Paid* in the admin dashboard.
+
+`DELIVERY_FEE` (for example `1.50`) is added to every order, and `CURRENCY_SYMBOL` controls price display. Stock is reserved when an order is placed. It cannot oversell, and it is returned when an admin cancels the order.
+
+The admin dashboard has **Orders** (change order and payment status, view items, address, and reference) and **Products** (name and description in English/Khmer, price, stock, image, and shop visibility). Three starter products with **example prices** are created on first start. Set your real prices and stock before taking orders.
+
+No card payments are processed and no customer data is sent to a payment provider. Online card or KHQR gateways such as ABA PayWay or Stripe need a merchant account and API keys. They can be added later as another payment method.
+
+## Customer accounts (sign in with Telegram)
+
+Customers must sign in before checkout. They enter their phone number (local numbers such as `012 345 678` are treated as Cambodian, `+855`). A 6-digit code is sent to their Telegram, by your own free bot or by the paid Telegram Gateway, and they type it in to sign in. There are no passwords. `/account` lists the customer's own orders.
+
+### Free setup: Telegram bot (recommended)
+
+1. In Telegram, open **@BotFather**, send `/newbot`, choose a name (for example "Empress Cambodia") and a username ending in `bot` (for example `EmpressShopBot`).
+2. Copy the token BotFather gives you into `.env`: `TELEGRAM_BOT_TOKEN=123456789:AA...`
+3. Start the site with `python index.py`. The log shows `Telegram bot @YourBot is running`.
+
+Sign-in flow: the customer enters their phone number and taps **Open Telegram**, presses **Start**, and then taps **Share my phone number**. Telegram provides their verified number. The bot sends the code only if that number matches the one typed on the website, so nobody can receive a code for someone else's number. Next time, the code arrives straight away without these steps.
+
+The bot uses long polling, so it works on a local computer without a public address. When the website is served by waitress, run the bot as a second process with `python -m flask --app app telegram-bot`. Only one copy of the bot may run at a time.
+
+### Paid alternative: Telegram Gateway
+
+Leave `TELEGRAM_BOT_TOKEN` empty and set `TELEGRAM_GATEWAY_TOKEN` from https://gateway.telegram.org. Codes then arrive from Telegram's official "Verification Codes" account with no bot step. This costs a small fee per code.
+
+For local testing without a token, set `TELEGRAM_DEV_MODE=true`. Codes are then written to the server log (`server-5050-error.log`) instead of being sent. Never enable dev mode on a public site.
+
+Codes expire after 5 minutes and allow 5 wrong attempts. Only a keyed hash of each code is stored. A number can request a new code once per minute and 5 times per hour, and each IP address can receive 5 codes per minute and 20 per hour. Only codes actually sent count, so typos and retries never lock anyone out. In test mode the code is also shown on the sign-in page.
+
 ## Pages and behavior
 
 | Route | Purpose |
@@ -42,6 +80,9 @@ The inbox shows the latest 200 inquiries per filter. Archived records remain in 
 | `/` | Full home page, collection inquiry links, features, image lightbox, partnerships |
 | `/about` | Story, mission, vision, quality, sustainability approach |
 | `/retailers?country=Rwanda&city=Kigali` | Server-rendered country/city filtering and Google Maps directions |
+| `/shop`, `/cart`, `/checkout` | Product catalogue, session cart, delivery and payment form |
+| `/account/login`, `/account` | Phone + Telegram code sign-in, customer order history |
+| `/orders/<token>` | Private order status page, bank-transfer reference submission |
 | `/contact` | Accessible contact form, field validation, errors, success notification |
 | `/api/contact` | POST form or JSON; validates and saves inquiry to SQLite |
 | `/set-language/<en\|km>` | Language preference, safe local redirect, one-year preference cookie |
@@ -68,6 +109,7 @@ Set `CONTACT_EMAIL` and `CONTACT_PHONE` in `.env` to your actual business contac
 ## Verification
 
 ```powershell
+.\.venv\Scripts\python -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python -m pytest -q
 .\.venv\Scripts\python -m pip check
 node --check static/js/main.js
@@ -75,6 +117,33 @@ node --check static/js/main.js
 ```
 
 Tests use temporary databases and cover all public pages in both languages, language persistence, safe redirects, contact validation and persistence, CSRF protection, stored HTML escaping, rate limits, admin access/logout/status updates, CLI account creation, country/city search, and retailer creation/edit/deletion. The application was also started and checked over real HTTP. Native browser automation was stopped by the environment because it could not determine the Chrome URL with enough confidence; desktop/mobile visual browser QA remains unverified.
+
+## Deploy on Vercel (empresscambodia.vercel.app)
+
+Vercel cannot save files, so the live site stores its data in Postgres. On your computer it keeps using `database.db` (SQLite). The same code handles both. When `DATABASE_URL` is set, Postgres is used.
+
+1. **Database:** in the Vercel project, open **Storage → Create Database → Neon (Postgres)** and connect it to this project. Vercel then sets `DATABASE_URL` automatically. Tables and starter products are created on the first visit.
+2. **Environment variables** (Project → Settings → Environment Variables, for Production):
+
+   | Name | Value |
+   | --- | --- |
+   | `SECRET_KEY` | a long random value (`python -c "import secrets; print(secrets.token_hex(32))"`) |
+   | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | the first admin account (password at least 12 characters), created on start-up |
+   | `TELEGRAM_BOT_TOKEN` | the same bot token as in `.env` |
+   | `PAYWAY_MERCHANT_ID`, `PAYWAY_API_KEY`, `PAYWAY_BASE_URL` | ABA PayWay keys (sandbox or live) |
+   | optional | `DELIVERY_FEE`, `CONTACT_EMAIL`, `CONTACT_PHONE`, `CONTACT_ADDRESS`, `BUSINESS_HOURS`, `INSTAGRAM_URL`, bank-transfer settings |
+
+3. **Deploy:** push to the GitHub repository connected to Vercel, or redeploy after changing variables.
+4. **Telegram bot:** Vercel cannot run the bot in the background, so connect it with a webhook (once, from this computer):
+
+   ```powershell
+   .\.venv\Scripts\python -m flask --app app telegram-webhook https://empresscambodia.vercel.app
+   ```
+
+   After this, the live site owns the bot, and `python index.py` locally no longer polls it. Use a second test bot locally, or run `telegram-webhook --delete` to take it back.
+5. **ABA PayWay:** add `https://empresscambodia.vercel.app` to the allowed domains in your PayWay profile so the payment notice reaches `/payway/callback`.
+
+On Vercel, cookies are sent over HTTPS only, and forwarded `https` addresses are trusted, so links and PayWay return URLs use the public domain. Rate limits are kept per server instance.
 
 ## Production deployment
 
@@ -111,5 +180,3 @@ ASSETS.md               Image sources and licenses
 ## UI refinements
 
 The public pages and admin dashboard share one light-blue design system in `static/css/style.css`: consistent navigation, readable Inter/Noto Sans Khmer typography, standard form controls, and compact mobile layouts. The home page removes repeated introductory sections. The admin dashboard includes direct links to inquiries and retailers. Content stays visible without scroll-triggered reveals.
-#   e m p r e s s  
- 

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="page-hero"><h1>{{ t('shop_title') }}</h1><p>{{ t('shop_intro') }}</p></section>
+<section class="section">
+  <div class="product-grid">
+    {% for product in products %}
+    <article class="product-card shop-card" id="product-{{ product.id }}">
+      <div class="product-image"><img src="{{ url_for('static', filename='images/' + product.image) }}" loading="lazy" alt="{{ localized(product, 'name') }}" width="800" height="1000"></div>
+      <div class="product-meta"><h3>{{ localized(product, 'name') }}</h3><strong class="price">{{ product.price_cents|money }}</strong></div>
+      <p>{{ localized(product, 'description') }}</p>
+      {% if product.stock > 0 %}
+      <form class="add-to-cart" method="post" action="{{ url_for('cart_add') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <label class="sr-only" for="quantity-{{ product.id }}">{{ t('quantity') }}</label>
+        <input id="quantity-{{ product.id }}" name="quantity" type="number" value="1" min="1" max="{{ [product.stock, 20]|min }}" inputmode="numeric">
+        <button class="button button-small" type="submit"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> {{ t('add_to_cart') }}</button>
+      </form>
+      {% else %}
+      <p class="stock-note">{{ t('sold_out') }}</p>
+      {% endif %}
+    </article>
+    {% else %}
+    <div class="empty-state"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><h3>{{ t('no_products') }}</h3><a class="button" href="{{ url_for('contact') }}">{{ t('ask_us') }} ↗</a></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

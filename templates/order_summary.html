@@ -1,0 +1,9 @@
+<aside class="form-card order-summary">
+  <h2>{{ t('order_summary') }}</h2>
+  <dl>
+    <dt>{{ t('subtotal') }}</dt><dd>{{ subtotal|money }}</dd>
+    <dt>{{ t('delivery') }}</dt><dd>{{ delivery|money }}</dd>
+    <dt class="total">{{ t('total') }}</dt><dd class="total">{{ (subtotal + delivery)|money }}</dd>
+  </dl>
+  {% if page == 'cart' %}<a class="button" href="{{ url_for('checkout') }}">{{ t('checkout_title') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>{% endif %}
+</aside>

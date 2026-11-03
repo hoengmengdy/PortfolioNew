@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="login-section">
+  <div class="form-card login-card payway-card">
+    <span class="round-icon"><i class="fa-solid fa-lock" aria-hidden="true"></i></span>
+    <h1>{{ t('payway_redirect_title') }}</h1>
+    <p>{{ t('payway_redirect_intro') }} <strong>{{ order.total_cents|money }}</strong></p>
+    <form method="post" action="{{ action }}" data-autosubmit>
+      {% for name, value in fields.items() %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+      <button class="button" type="submit">{{ t('pay_with_payway') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+    </form>
+    <p class="fine-print"><a class="text-link" href="{{ url_for('order', token=order.token) }}">{{ t('back_to_order') }}</a></p>
+  </div>
+</section>
+{% endblock %}

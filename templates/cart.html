@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="page-hero"><h1>{{ t('cart_title') }}</h1></section>
+<section class="section checkout-grid">
+  {% if items %}
+  <div class="cart-lines">
+    {% for item in items %}
+    <article class="cart-line">
+      <img src="{{ url_for('static', filename='images/' + item.product.image) }}" alt="" width="96" height="96">
+      <div class="cart-line-info"><h3>{{ localized(item.product, 'name') }}</h3><p>{{ item.product.price_cents|money }}</p></div>
+      <form method="post" action="{{ url_for('cart_update') }}" class="cart-quantity">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="product_id" value="{{ item.product.id }}">
+        <label class="sr-only" for="cart-quantity-{{ item.product.id }}">{{ t('quantity') }}</label>
+        <input id="cart-quantity-{{ item.product.id }}" name="quantity" type="number" value="{{ item.quantity }}" min="0" max="{{ [item.product.stock, 20]|min }}" inputmode="numeric">
+        <button class="button button-small button-outline" type="submit">{{ t('update') }}</button>
+        <button class="text-link danger" type="submit" name="remove" value="1">{{ t('remove') }}</button>
+      </form>
+      <strong class="price">{{ item.line_cents|money }}</strong>
+    </article>
+    {% endfor %}
+    <a class="text-link" href="{{ url_for('shop') }}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {{ t('continue_shopping') }}</a>
+  </div>
+  {% include 'order_summary.html' %}
+  {% else %}
+  <div class="empty-state"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><h3>{{ t('cart_empty') }}</h3><a class="button" href="{{ url_for('shop') }}">{{ t('shop_now') }} ↗</a></div>
+  {% endif %}
+</section>
+{% endblock %}

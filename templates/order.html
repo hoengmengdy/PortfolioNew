@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="page-hero"><p class="eyebrow">{{ t('order_number') }} #{{ order.id }}</p><h1>{{ t('order_thanks') }}</h1><p>{{ t('order_intro') }}</p></section>
+<section class="section checkout-grid">
+  <div class="form-card">
+    <h2>{{ t('payment_title') }}</h2>
+    <dl class="order-facts">
+      <dt>{{ t('status') }}</dt><dd><span class="status-badge status-{{ order.status }}">{{ t('order_status_' + order.status) }}</span></dd>
+      <dt>{{ t('payment_method') }}</dt><dd>{{ t('pay_' + order.payment_method) }}</dd>
+      <dt>{{ t('payment_status') }}</dt><dd><span class="status-badge status-{{ order.payment_status }}">{{ t('payment_status_' + order.payment_status) }}</span></dd>
+      {% if order.payment_reference %}<dt>{{ t('payment_reference') }}</dt><dd>{{ order.payment_reference }}</dd>{% endif %}
+    </dl>
+    {% if order.payment_method == 'payway' %}
+    {% if order.payment_status == 'paid' %}
+    <p class="notice">{{ t('payway_paid') }}</p>
+    {% elif order.status != 'cancelled' %}
+    <p>{{ t('payway_unpaid') }}</p>
+    <a class="button" href="{{ url_for('order_pay', token=order.token) }}"><i class="fa-solid fa-lock" aria-hidden="true"></i> {{ t('pay_with_payway') }} {{ order.total_cents|money }}</a>
+    {% endif %}
+    {% elif order.payment_method == 'cod' %}
+    <p>{{ t('pay_cod_instructions') }}</p>
+    {% elif order.payment_status in ['unpaid', 'submitted'] and order.status != 'cancelled' %}
+    <p>{{ t('pay_bank_instructions') }}</p>
+    <dl class="bank-details">
+      {% if config.PAYMENT_BANK_NAME %}<dt>{{ t('bank_name') }}</dt><dd>{{ config.PAYMENT_BANK_NAME }}</dd>{% endif %}
+      {% if config.PAYMENT_ACCOUNT_NAME %}<dt>{{ t('account_name') }}</dt><dd>{{ config.PAYMENT_ACCOUNT_NAME }}</dd>{% endif %}
+      <dt>{{ t('account_number') }}</dt><dd>{{ config.PAYMENT_ACCOUNT_NUMBER }}</dd>
+      <dt>{{ t('amount') }}</dt><dd><strong>{{ order.total_cents|money }}</strong></dd>
+      <dt>{{ t('transfer_memo') }}</dt><dd>EMP-{{ order.id }}</dd>
+    </dl>
+    <form method="post" action="{{ url_for('order_payment', token=order.token) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="field"><label for="reference">{{ t('payment_reference') }} *</label><input id="reference" name="reference" value="{{ order.payment_reference }}" required minlength="3" maxlength="100" {% if errors.get('reference') %}aria-invalid="true" aria-describedby="reference-error"{% endif %}>{% if errors.get('reference') %}<small class="field-error" id="reference-error">{{ errors.reference }}</small>{% endif %}</div>
+      <button class="button" type="submit">{{ t('confirm_payment') }} ↗</button>
+    </form>
+    {% endif %}
+    <p class="fine-print">{{ t('order_link_note') }}</p>
+  </div>
+  <div>
+    <ul class="summary-items">
+      {% for item in items %}<li><span>{{ item.name }} × {{ item.quantity }}</span><span>{{ (item.unit_cents * item.quantity)|money }}</span></li>{% endfor %}
+    </ul>
+    {% with subtotal=order.subtotal_cents, delivery=order.delivery_cents %}{% include 'order_summary.html' %}{% endwith %}
+    <div class="form-card order-address"><h2>{{ t('delivery_details') }}</h2><p>{{ order.name }}<br>{{ order.phone }}<br>{{ order.address }}<br>{{ order.city }}</p></div>
+  </div>
+</section>
+{% endblock %}

@@ -1,3 +1,8 @@
 -r requirements.txt
+pytest>=8,<10
+# Throwaway local Postgres for running the tests against Postgres (TEST_DATABASE_URL).
+pgserver>=0.1,<1
+# Asset preparation (prepare_assets.py) only.
+Pillow>=11,<13
 fonttools>=4.60,<5
 brotli>=1.2,<2

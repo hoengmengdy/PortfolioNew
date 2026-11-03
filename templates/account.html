@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="page-hero"><h1>{{ t('account_title') }}</h1><p><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ customer.phone }}</p></section>
+<section class="section account-section">
+  <div class="section-heading">
+    <h2>{{ t('my_orders') }}</h2>
+    <form method="post" action="{{ url_for('account_logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-outline button-small" type="submit">{{ t('sign_out') }}</button></form>
+  </div>
+  <div class="messages">
+    {% for order in orders %}
+    <a class="message-row account-order" href="{{ url_for('order', token=order.token) }}">
+      <span class="status-badge status-{{ order.status }}">{{ t('order_status_' + order.status) }}</span>
+      <span><strong>{{ t('order_number') }} #{{ order.id }} · {{ order.total_cents|money }}</strong><small>{{ t('pay_' + order.payment_method) }} · {{ t('payment_status_' + order.payment_status) }}</small></span>
+      <time datetime="{{ order.created_at }}">{{ order.created_at[:10] }}</time>
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </a>
+    {% else %}
+    <div class="empty-state"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><h3>{{ t('no_customer_orders') }}</h3><a class="button" href="{{ url_for('shop') }}">{{ t('shop_now') }} ↗</a></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

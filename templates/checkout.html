@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="page-hero"><h1>{{ t('checkout_title') }}</h1><p>{{ t('checkout_intro') }}</p></section>
+<section class="section checkout-grid">
+  <div class="form-card">
+    {% if errors %}<div class="notice error" role="alert"><p>{{ errors.get('form', t('error_form')) }}</p>{% if errors|length > 1 or 'form' not in errors %}<ul>{% for field,error in errors.items() if field != 'form' %}<li><a href="#{{ field }}">{{ error }}</a></li>{% endfor %}</ul>{% endif %}</div>{% endif %}
+    <form method="post" action="{{ url_for('place_order') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <h2>{{ t('delivery_details') }}</h2>
+      <p>{{ t('required_note') }}</p>
+      <div class="form-grid">
+        <div class="field"><label for="account-phone">{{ t('phone') }}</label><input id="account-phone" type="tel" value="{{ customer.phone }}" readonly aria-describedby="account-phone-note"><small class="field-note" id="account-phone-note"><i class="fa-brands fa-telegram" aria-hidden="true"></i> {{ t('phone_verified') }}</small></div>
+        {% for field,type,required,maxlen,autocomplete in [('name','text',true,100,'name'),('email','email',false,254,'email'),('city','text',true,100,'address-level2')] %}
+        <div class="field"><label for="{{ field }}">{{ t(field) }}{% if required %} *{% endif %}</label><input id="{{ field }}" name="{{ field }}" type="{{ type }}" value="{{ values.get(field, '') }}" maxlength="{{ maxlen }}" autocomplete="{{ autocomplete }}" {% if required %}required{% endif %} {% if errors.get(field) %}aria-invalid="true" aria-describedby="{{ field }}-error"{% endif %}>{% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}</div>
+        {% endfor %}
+      </div>
+      {% for field,maxlen,required in [('address',300,true),('note',500,false)] %}
+      <div class="field"><label for="{{ field }}">{{ t(field if field != 'note' else 'order_note') }}{% if required %} *{% endif %}</label><textarea id="{{ field }}" name="{{ field }}" rows="3" maxlength="{{ maxlen }}" {% if required %}required autocomplete="street-address"{% endif %} {% if errors.get(field) %}aria-invalid="true" aria-describedby="{{ field }}-error"{% endif %}>{{ values.get(field, '') }}</textarea>{% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}</div>
+      {% endfor %}
+      <fieldset class="payment-options" id="payment_method">
+        <legend>{{ t('payment_method') }} *</legend>
+        {% for method in methods %}
+        <label class="payment-option"><input type="radio" name="payment_method" value="{{ method }}" required {% if values.get('payment_method') == method %}checked{% endif %}><span><strong>{{ t('pay_' + method) }}</strong><small>{{ t('pay_' + method + '_description') }}</small></span></label>
+        {% endfor %}
+        {% if errors.get('payment_method') %}<small class="field-error">{{ errors.payment_method }}</small>{% endif %}
+      </fieldset>
+      <button type="submit" class="button">{{ t('place_order') }} <i class="fa-solid fa-lock" aria-hidden="true"></i></button>
+    </form>
+  </div>
+  <div>
+    <ul class="summary-items">
+      {% for item in items %}<li><span>{{ localized(item.product, 'name') }} × {{ item.quantity }}</span><span>{{ item.line_cents|money }}</span></li>{% endfor %}
+    </ul>
+    {% include 'order_summary.html' %}
+  </div>
+</section>
+{% endblock %}

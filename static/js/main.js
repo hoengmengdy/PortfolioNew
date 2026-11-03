@@ -70,6 +70,9 @@ dialog?.addEventListener('click', event => {
   if (event.target === dialog) dialog.close();
 });
 dialog?.addEventListener('close', () => lightboxTrigger?.focus());
+// Continue straight to the payment page; the visible button is the fallback without JavaScript.
+document.querySelector('form[data-autosubmit]')?.submit();
+
 document.querySelectorAll('[data-confirm]').forEach(form => form.addEventListener('submit', event => {
   if (!window.confirm(form.dataset.confirm)) event.preventDefault();
 }));

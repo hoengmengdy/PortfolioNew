@@ -1,0 +1,60 @@
+<section id="orders" class="retailer-admin">
+  <div class="section-heading"><h2>{{ t('orders') }}</h2><span>{{ orders|length }}</span></div>
+  <div class="messages">
+    {% for order in orders %}
+    <details class="message-row">
+      <summary><span class="status-badge status-{{ order.status }}">{{ t('order_status_' + order.status) }}</span><span><strong>#{{ order.id }} · {{ order.name }}</strong><small>{{ order.total_cents|money }} · {{ t('pay_' + order.payment_method) }} · {{ t('payment_status_' + order.payment_status) }}</small></span><time datetime="{{ order.created_at }}">{{ order.created_at[:10] }}</time><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+      <div class="message-content">
+        <dl>
+          <dt>{{ t('phone') }}</dt><dd><a href="tel:{{ order.phone }}">{{ order.phone }}</a></dd>
+          {% if order.email %}<dt>{{ t('email') }}</dt><dd><a href="mailto:{{ order.email }}">{{ order.email }}</a></dd>{% endif %}
+          <dt>{{ t('address') }}</dt><dd>{{ order.address }}, {{ order.city }}</dd>
+          {% if order.payment_reference %}<dt>{{ t('payment_reference') }}</dt><dd>{{ order.payment_reference }}</dd>{% endif %}
+          <dt>{{ t('received') }}</dt><dd>{{ order.created_at }} (UTC)</dd>
+        </dl>
+        <ul class="summary-items">
+          {% for item in order_items.get(order.id, []) %}<li><span>{{ item.name }} × {{ item.quantity }}</span><span>{{ (item.unit_cents * item.quantity)|money }}</span></li>{% endfor %}
+          <li><span>{{ t('delivery') }}</span><span>{{ order.delivery_cents|money }}</span></li>
+          <li class="total"><span>{{ t('total') }}</span><span>{{ order.total_cents|money }}</span></li>
+        </ul>
+        {% if order.note %}<p class="message-body">{{ order.note }}</p>{% endif %}
+        <div class="message-actions">
+          <a class="text-link" href="{{ url_for('order', token=order.token) }}" target="_blank" rel="noopener">{{ t('customer_view') }} ↗</a>
+          <form method="post" action="{{ url_for('update_order', order_id=order.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label class="sr-only" for="order-status-{{ order.id }}">{{ t('status') }}</label>
+            <select id="order-status-{{ order.id }}" name="status">{% for option in order_statuses %}<option value="{{ option }}" {% if order.status == option %}selected{% endif %}>{{ t('order_status_' + option) }}</option>{% endfor %}</select>
+            <label class="sr-only" for="payment-status-{{ order.id }}">{{ t('payment_status') }}</label>
+            <select id="payment-status-{{ order.id }}" name="payment_status">{% for option in payment_statuses %}<option value="{{ option }}" {% if order.payment_status == option %}selected{% endif %}>{{ t('payment_status_' + option) }}</option>{% endfor %}</select>
+            <button class="button button-small" type="submit">{{ t('update') }}</button>
+          </form>
+        </div>
+      </div>
+    </details>
+    {% else %}<p class="empty-state">{{ t('no_orders') }}</p>{% endfor %}
+  </div>
+</section>
+<section id="product-admin" class="retailer-admin">
+  <div class="section-heading"><h2>{{ t('manage_products') }}</h2><span>{{ products|length }}</span></div>
+  <p class="fine-print">{{ t('product_admin_note') }}</p>
+  {% for product in [none] + products %}
+  {% set pid = product.id if product else 'new' %}
+  <details class="retailer-editor">
+    <summary>{% if product %}{{ product.name }} <small>{{ product.price_cents|money }} · {{ t('stock') }} {{ product.stock }}{% if not product.active %} · {{ t('hidden') }}{% endif %}</small><span aria-hidden="true">+</span>{% else %}{{ t('add_product') }} +{% endif %}</summary>
+    <form class="retailer-edit-form" method="post" action="{{ url_for('save_product') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      {% if product %}<input type="hidden" name="id" value="{{ product.id }}">{% endif %}
+      <div class="form-grid">
+        {% for field,label,maxlen in [('name','product_name_en',120),('name_km','product_name_km',120),('description','product_description_en',500),('description_km','product_description_km',500)] %}
+        <div class="field"><label for="product-{{ pid }}-{{ field }}">{{ t(label) }}{% if field == 'name' %} *{% endif %}</label><input id="product-{{ pid }}-{{ field }}" name="{{ field }}" value="{{ product[field] if product else '' }}" maxlength="{{ maxlen }}" {% if field == 'name' %}required minlength="2"{% endif %}></div>
+        {% endfor %}
+        <div class="field"><label for="product-{{ pid }}-price">{{ t('price') }} ({{ config.CURRENCY_SYMBOL }}) *</label><input id="product-{{ pid }}-price" name="price" type="number" min="0" max="100000" step="0.01" value="{{ '%.2f'|format(product.price_cents / 100) if product else '' }}" required></div>
+        <div class="field"><label for="product-{{ pid }}-stock">{{ t('stock') }} *</label><input id="product-{{ pid }}-stock" name="stock" type="number" min="0" max="100000" step="1" value="{{ product.stock if product else 0 }}" required></div>
+        <div class="field"><label for="product-{{ pid }}-image">{{ t('image') }}</label><select id="product-{{ pid }}-image" name="image">{% for image in product_images %}<option value="{{ image }}" {% if product and product.image == image %}selected{% endif %}>{{ image }}</option>{% endfor %}</select></div>
+        <div class="field checkbox-field"><label><input type="checkbox" name="active" value="1" {% if not product or product.active %}checked{% endif %}> {{ t('visible_in_shop') }}</label></div>
+      </div>
+      <button class="button button-small" type="submit">{{ t('save_product') }} ↗</button>
+    </form>
+  </details>
+  {% endfor %}
+</section>

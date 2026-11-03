@@ -1,0 +1,13 @@
+# Only the website itself is deployed to Vercel.
+.venv/
+tests/
+__pycache__/
+*.log
+.env
+.secret_key
+.admin-credentials.txt
+database.db*
+static/fonts/*.ttf
+prepare_assets.py
+requirements-dev.txt
+requirements.lock.txt

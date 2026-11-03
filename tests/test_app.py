@@ -1,17 +1,43 @@
 import json
+import os
 import re
 import sqlite3
+from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
 from werkzeug.security import generate_password_hash
+
+import database
 from app import create_app
+
+# Set TEST_DATABASE_URL to run the whole suite against Postgres instead of a temporary SQLite file.
+TEST_DATABASE_URL = os.getenv('TEST_DATABASE_URL', '')
+
+
+@contextmanager
+def connect_db(app):
+    """A committed connection to the test database whose rows compare equal to plain tuples."""
+    connection = database.connect(app.config)
+    if isinstance(connection, sqlite3.Connection):
+        connection.row_factory = None
+    try:
+        yield connection
+        connection.commit()
+    finally:
+        connection.close()
 
 
 @pytest.fixture
 def app(tmp_path):
-    application = create_app({'TESTING': True, 'SECRET_KEY': 'test-secret', 'DATABASE': str(tmp_path / 'test.db'), 'RATELIMIT_ENABLED': False})
-    with sqlite3.connect(application.config['DATABASE']) as connection:
+    if TEST_DATABASE_URL:
+        import psycopg
+        with psycopg.connect(TEST_DATABASE_URL, autocommit=True) as connection:
+            connection.execute('DROP SCHEMA public CASCADE; CREATE SCHEMA public')
+    application = create_app({'TESTING': True, 'SECRET_KEY': 'test-secret', 'DATABASE': str(tmp_path / 'test.db'), 'DATABASE_URL': TEST_DATABASE_URL, 'RATELIMIT_ENABLED': False, 'DELIVERY_FEE_CENTS': 150, 'PAYMENT_BANK_NAME': 'Test Bank', 'PAYMENT_ACCOUNT_NUMBER': '000 111 222',
+                              # Never use real Telegram or PayWay credentials from a developer's .env in tests.
+                              'TELEGRAM_BOT_TOKEN': '', 'TELEGRAM_GATEWAY_TOKEN': '', 'TELEGRAM_DEV_MODE': False, 'PAYWAY_MERCHANT_ID': '', 'PAYWAY_API_KEY': '', 'ADMIN_USERNAME': '', 'ADMIN_PASSWORD': '', 'ON_VERCEL': False})
+    with connect_db(application) as connection:
         connection.execute('INSERT INTO admins(username,password_hash) VALUES(?,?)', ('owner', generate_password_hash('long-test-password')))
         connection.executemany('INSERT INTO retailers(name,country,city,address) VALUES(?,?,?,?)', [('Kigali Store', 'Rwanda', 'Kigali', 'Kicukiro'), ('Phnom Store', 'Cambodia', 'Phnom Penh', 'BKK1')])
     return application
@@ -35,7 +61,7 @@ def payload(client):
     return dict(csrf_token=token(client), name='Test Visitor', email='visitor@example.com', phone='+250 123 456 789', subject='Retail partnership', message='Please send more information about your collection.')
 
 
-@pytest.mark.parametrize('path', ['/', '/about', '/retailers', '/contact', '/admin/login'])
+@pytest.mark.parametrize('path', ['/', '/about', '/retailers', '/contact', '/shop', '/cart', '/admin/login'])
 @pytest.mark.parametrize('language', ['en', 'km'])
 def test_all_pages_and_languages(client, path, language):
     response = client.get(f'/set-language/{language}?next={path}', follow_redirects=True)
@@ -79,7 +105,7 @@ def test_contact_saved_and_admin_view_escapes_html(client, app):
     response = client.post('/api/contact', data=data, follow_redirects=True)
     assert response.status_code == 200
     assert 'Your message has been received' in response.text
-    with sqlite3.connect(app.config['DATABASE']) as connection:
+    with connect_db(app) as connection:
         row = connection.execute('SELECT name,email,message,status FROM messages').fetchone()
     assert row == ('Test Visitor', 'visitor@example.com', data['message'], 'new')
     assert login(client).status_code == 302
@@ -99,7 +125,7 @@ def test_json_api_validation_csrf_and_persistence(client, app):
     response = client.post('/api/contact', json=data, headers={'X-CSRFToken': csrf_token})
     assert response.status_code == 422
     assert set(response.json['errors']) == {'email', 'message'}
-    with sqlite3.connect(app.config['DATABASE']) as connection:
+    with connect_db(app) as connection:
         assert connection.execute('SELECT count(*) FROM messages').fetchone()[0] == 1
 
 
@@ -124,7 +150,7 @@ def test_admin_access_status_and_logout(client, app):
     login(client)
     assert client.get('/admin').status_code == 200
     assert client.post('/admin/messages/1/status', data={'csrf_token': token(client, '/admin'), 'status': 'read'}).status_code == 302
-    with sqlite3.connect(app.config['DATABASE']) as connection:
+    with connect_db(app) as connection:
         assert connection.execute('SELECT status FROM messages WHERE id=1').fetchone()[0] == 'read'
     assert client.post('/admin/messages/1/status', data={'csrf_token': token(client, '/admin'), 'status': 'invalid'}).status_code == 400
     assert client.post('/admin/logout', data={'csrf_token': token(client, '/admin')}).status_code == 302
@@ -140,7 +166,7 @@ def test_retailer_search_and_admin_crud(client, app):
     retailer = dict(csrf_token=token(client, '/admin'), name='New Store', country='Rwanda', city='Huye', address='Main street', phone='', email='store@example.com')
     assert client.post('/admin/retailers', data=retailer).status_code == 302
     assert 'New Store' in client.get('/retailers?city=Huye').text
-    with sqlite3.connect(app.config['DATABASE']) as connection:
+    with connect_db(app) as connection:
         retailer_id = connection.execute('SELECT id FROM retailers WHERE name=?', ('New Store',)).fetchone()[0]
     retailer.update(id=str(retailer_id), name='Updated Store')
     assert client.post('/admin/retailers', data=retailer).status_code == 302
@@ -177,5 +203,5 @@ def test_translation_catalogs_are_complete(client):
     # Catch encoding loss when regenerating Khmer text on Windows.
     assert all('???' not in value for value in catalogs[1].values())
     for template in (root / 'templates').glob('*.html'):
-        for key in re.findall(r"t\('([a-z_]+)'\)", template.read_text(encoding='utf-8')):
+        for key in re.findall(r"\bt\('([a-z_]+)'\)", template.read_text(encoding='utf-8')):
             assert key in catalogs[0], (template.name, key)
