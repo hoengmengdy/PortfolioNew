@@ -201,7 +201,7 @@ def create_app(test_config=None):
         # The PayWay checkout form is posted from our page, so its origin must be an allowed form target.
         form_action = "'self' " + app.config['PAYWAY_BASE_URL'].rstrip('/') if payway.enabled(app.config) else "'self'"
         response.headers['Content-Security-Policy'] = f"default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; base-uri 'self'; form-action {form_action}; frame-ancestors 'none'; object-src 'none'"
-        if request.endpoint == 'static':
+        if request.endpoint == 'static' and response.status_code in (200, 304):
             # Versioned files (?v=) never change; others may be cached for a day by browsers and a week by the CDN.
             response.headers['Cache-Control'] = ('public, max-age=31536000, immutable' if request.args.get('v')
                                                  else 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400')
