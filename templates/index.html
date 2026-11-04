@@ -1,19 +1,13 @@
 {% extends 'base.html' %}
 {% from 'ingredient_cards.html' import ingredient_cards with context %}
 {% block content %}
-<section class="hero" aria-labelledby="hero-heading">
+<section class="hero hero-text-only" aria-labelledby="hero-heading">
   <div class="hero-copy">
     <div class="hero-content">
       <p class="eyebrow hero-welcome">{{ t('welcome_hero') }}</p>
       <h1 id="hero-heading">{{ t('reference_hero_heading') }}</h1>
       <a class="button hero-contact" href="{{ url_for('contact') }}">{{ t('contact_us') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
-  </div>
-  <div class="hero-visual hero-visual-product">
-    <img src="{{ url_for('static', filename='images/empress-soap.webp') }}"
-         srcset="{{ url_for('static', filename='images/empress-soap-small.webp') }} 800w, {{ url_for('static', filename='images/empress-soap.webp') }} 1774w"
-         sizes="(max-width: 600px) 100vw, 48vw" alt="{{ t('alt_soap_hero') }}"
-         fetchpriority="high" width="1774" height="887">
   </div>
 </section>
 
