@@ -781,16 +781,8 @@ html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 .site-header .nav-submenu a:hover{background:var(--blue);color:var(--primary)}
 .nav-submenu a>i{font-size:12px;color:#4f8a43}
 @media(max-width:800px){.nav-chevron{display:none}.nav-submenu{position:static;min-width:0;padding:4px 0 0 16px;border:0;box-shadow:none;opacity:1;visibility:visible;transform:none}.nav-submenu::before{display:none}}
-/* Homepage hero without a picture: the welcome text spans the width, centred. */
-.hero.hero-text-only{grid-template-columns:1fr;min-height:0}
-.hero-text-only .hero-copy{padding:96px 32px}
-.hero-text-only .hero-content{max-width:760px;text-align:center}
-@media(max-width:600px){.hero-text-only .hero-copy{padding:56px 24px}}
 /* Hint under the product photo upload field. */
 .field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.6;color:var(--muted)}
 /* Optional sign-in hint for guests at checkout. */
 .guest-note{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:12px 14px;border-radius:10px;background:var(--blue);color:var(--ink);font-size:14px}
 .guest-note .text-link{min-height:0}
-/* Single picture where the homepage gallery used to be. */
-.feature-picture{border-top:1px solid var(--line)}
-.feature-picture>img{display:block;width:100%;max-width:720px;height:auto;margin:0 auto;border-radius:var(--radius)}

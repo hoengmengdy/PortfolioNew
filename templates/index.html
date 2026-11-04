@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% from 'ingredient_cards.html' import ingredient_cards with context %}
 {% block content %}
-<section class="hero hero-text-only" aria-labelledby="hero-heading">
+<section class="hero" aria-labelledby="hero-heading">
   <div class="hero-copy">
     <div class="hero-content">
       <p class="eyebrow hero-welcome">{{ t('welcome_hero') }}</p>
       <h1 id="hero-heading">{{ t('reference_hero_heading') }}</h1>
       <a class="button hero-contact" href="{{ url_for('contact') }}">{{ t('contact_us') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
+  </div>
+  <div class="hero-visual">
+    <img src="{{ url_for('static', filename='images/sky-hills.webp') }}" alt="{{ t('alt_sky_hills') }}" fetchpriority="high" width="1199" height="1182">
   </div>
 </section>
 
@@ -49,10 +52,6 @@
     {% endfor %}
     <a class="text-link" href="{{ url_for('about') }}">{{ t('meet_brand') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
   </div>
-</section>
-
-<section class="section feature-picture">
-  <img src="{{ url_for('static', filename='images/sky-hills.webp') }}" alt="{{ t('alt_sky_hills') }}" loading="lazy" width="1199" height="1182">
 </section>
 
 <div class="band band-peach">
