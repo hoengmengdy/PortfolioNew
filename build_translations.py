@@ -3,9 +3,10 @@ import json
 from pathlib import Path
 
 ROWS = '''
-welcome_hero|WELCOME TO Empress Cambodia Cosmetics|ស្វាគមន៍មកកាន់ Empress Cambodia Cosmetics
-reference_hero_heading|Simple care. Everyday comfort.|ការថែទាំសាមញ្ញ សម្រាប់រាល់ថ្ងៃ។
-reference_hero_description|Thoughtful skincare, a calmer routine, and a little time for yourself.|ការថែរក្សាស្បែកដោយយកចិត្តទុកដាក់ ទម្លាប់ដ៏សាមញ្ញ និងពេលវេលាបន្តិចសម្រាប់ខ្លួនអ្នក។
+welcome_hero|Simply good skincare|ការថែរក្សាស្បែកដ៏ល្អ ដោយសាមញ្ញ
+reference_hero_heading|Visakh Cosmetics|Visakh Cosmetics
+hero_tagline|Forever young|ក្មេងជានិច្ច
+reference_hero_description|Discover our innovative herbal infused cremes and lotions to rejuvenate your skin.|ស្វែងយល់ពីក្រែម និងឡេដ៏ច្នៃប្រឌិតរបស់យើង ដែលលាយជាមួយរុក្ខជាតិ ដើម្បីធ្វើឱ្យស្បែករបស់អ្នកស្រស់ថ្លាឡើងវិញ។
 contact_us|Contact us|ទាក់ទងយើង
 alt_sky_hills|Illustration of a blue sky with a white cloud over green hills.|រូបគំនូរមេឃពណ៌ខៀវ មានពពកពណ៌ស លើភ្នំតូចៗពណ៌បៃតង។
 alt_soap_hero|Empress Natural Beauty Soap box with rice and romdoul flowers.|ប្រអប់សាប៊ូ Empress Natural Beauty ជាមួយកួរស្រូវ និងផ្ការំដួល។
