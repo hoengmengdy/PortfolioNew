@@ -6,7 +6,6 @@
     <div class="hero-content">
       <p class="eyebrow hero-welcome">{{ t('welcome_hero') }}</p>
       <h1 id="hero-heading">{{ t('reference_hero_heading') }}</h1>
-      <p class="hero-description">{{ t('reference_hero_description') }}</p>
       <a class="button hero-contact" href="{{ url_for('contact') }}">{{ t('contact_us') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
   </div>
@@ -22,7 +21,7 @@
 
 <section class="collection section" id="collection" aria-labelledby="collection-heading">
   <div class="section-heading">
-    <div><p class="eyebrow">{{ t('collection_eyebrow') }}</p><h2 id="collection-heading">{{ t('collection_simple') }}</h2></div>
+    <div><h2 id="collection-heading">{{ t('collection_simple') }}</h2></div>
     <a class="text-link" href="{{ url_for('retailers') }}">{{ t('find_nearby') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
   </div>
   <div class="product-grid">
@@ -37,12 +36,11 @@
     </article>
     {% endfor %}
   </div>
-  <p class="fine-print">{{ t('collection_disclaimer') }}</p>
 </section>
 
 <section class="section herbs-section" id="active-ingredients" aria-labelledby="active-heading">
   <div class="section-heading">
-    <div><p class="eyebrow">{{ t('active_eyebrow') }}</p><h2 id="active-heading">{{ t('active_heading') }}</h2></div>
+    <div><h2 id="active-heading">{{ t('active_heading') }}</h2></div>
     <a class="text-link" href="{{ url_for('herbs') }}">{{ t('see_our_herbs') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
   </div>
   {{ ingredient_cards(['aloe_vera', 'centella_asiatica', 'turmeric', 'green_tea']) }}
@@ -51,7 +49,6 @@
 <section class="ritual-section section" aria-labelledby="care-heading">
   <div class="ritual-image"><img src="{{ url_for('static', filename='images/botanical.webp') }}" alt="{{ t('alt_forest') }}" loading="lazy" width="1200" height="800"></div>
   <div class="ritual-copy">
-    <p class="eyebrow">{{ t('our_philosophy') }}</p>
     <h2 id="care-heading">{{ t('care_intro') }}</h2>
     {% for key, icon in [('skincare','spa'),('wellness','leaf')] %}
     <div class="numbered-feature"><i class="fa-solid fa-{{ icon }} feature-icon" aria-hidden="true"></i><div><h3>{{ t(key) }}</h3><p>{{ t(key + '_description') }}</p></div></div>
@@ -74,7 +71,7 @@
 
 <div class="band band-peach">
 <section class="steps section" aria-labelledby="steps-heading">
-  <div class="section-heading centered"><p class="eyebrow">{{ t('steps_eyebrow') }}</p><h2 id="steps-heading">{{ t('steps_heading') }}</h2><p>{{ t('steps_intro') }}</p></div>
+  <div class="section-heading centered"><h2 id="steps-heading">{{ t('steps_heading') }}</h2><p>{{ t('steps_intro') }}</p></div>
   <ol class="steps-grid">
     {% for image in ['collection-original','soap-hero','botanical'] %}
     <li class="step-card">
@@ -89,7 +86,7 @@
 
 <div class="band band-tan">
 <section class="commitment section" aria-labelledby="commitment-heading">
-  <div><p class="eyebrow">{{ t('promise_eyebrow') }}</p><h2 id="commitment-heading">{{ t('commitment') }}</h2><p>{{ t('promise_description') }}</p><a class="text-link" href="{{ url_for('about') }}">{{ t('read_story') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
+  <div><h2 id="commitment-heading">{{ t('commitment') }}</h2><p>{{ t('promise_description') }}</p><a class="text-link" href="{{ url_for('about') }}">{{ t('read_story') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
   <div>{% for key in ['why','commitment'] %}<article class="numbered-feature"><span>0{{ loop.index }}</span><div><h3>{{ t('why_choose' if key == 'why' else 'commitment') }}</h3><p>{{ t(key + '_description') }}</p></div></article>{% endfor %}</div>
 </section>
 </div>
