@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <section class="page-hero"><h1>{{ t('about_title') }}</h1><p>{{ t('about_intro') }}</p></section>
-<section class="section story-grid" data-reveal><img class="story-photo" src="{{ url_for('static', filename='images/hero.webp') }}" alt="{{ t('alt_hero') }}" width="1600" height="2400"><div><p class="eyebrow">{{ t('our_story') }}</p><h2>{{ t('story_heading') }} <em>{{ t('story_emphasis') }}</em></h2><p>{{ t('story_p1') }}</p><p>{{ t('story_p2') }}</p><div class="story-signature">Empress Cambodia<span>{{ t('brand_tagline') }}</span></div></div></section>
+<section class="section story-grid" data-reveal><img class="story-photo" src="{{ url_for('static', filename='images/about-lab.webp') }}" alt="{{ t('alt_about_lab') }}" width="1200" height="1600"><div><p class="eyebrow">{{ t('our_story') }}</p><h2>{{ t('story_heading') }} <em>{{ t('story_emphasis') }}</em></h2><p>{{ t('story_p1') }}</p><p>{{ t('story_p2') }}</p><div class="story-signature">Empress Cambodia<span>{{ t('brand_tagline') }}</span></div></div></section>
 <section class="philosophy section" id="philosophy" data-reveal><p class="eyebrow">{{ t('our_philosophy') }}</p><h2>{{ t('philosophy_heading') }}</h2><div class="three-grid">{% for key,icon in [('mission','sun'),('vision','seedling'),('quality','droplet')] %}<article><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i><h3>{{ t(key) }}</h3><p>{{ t(key + '_description') }}</p></article>{% endfor %}</div></section>
-<section class="section sustainability" data-reveal><div><p class="eyebrow">{{ t('considered') }}</p><h2>{{ t('sustainability_heading') }} <em>{{ t('sustainability_emphasis') }}</em></h2><p>{{ t('sustainability_description') }}</p><a class="text-link" href="{{ url_for('contact') }}">{{ t('ask_question') }} ↗</a></div><img src="{{ url_for('static', filename='images/botanical.webp') }}" alt="{{ t('alt_forest') }}" loading="lazy" width="1200" height="800"></section>
+<section class="section sustainability" data-reveal><div><p class="eyebrow">{{ t('considered') }}</p><h2>{{ t('sustainability_heading') }} <em>{{ t('sustainability_emphasis') }}</em></h2><p>{{ t('sustainability_description') }}</p><a class="text-link" href="{{ url_for('contact') }}">{{ t('ask_question') }} ↗</a></div><img class="research-photo" src="{{ url_for('static', filename='images/about-research.webp') }}" alt="{{ t('alt_about_research') }}" loading="lazy" width="1600" height="1600"></section>
+<section class="section team-photos" aria-labelledby="team-heading" data-reveal>
+  <h2 id="team-heading">{{ t('team_photos_heading') }}</h2>
+  <div class="photo-grid">
+    {% for name,width,height in [('rice',1200,1600),('oil',1541,1600),('team',1600,1484),('event',1600,1066),('speech',1600,1067)] %}
+    <img src="{{ url_for('static', filename='images/about-' + name + '.webp') }}" alt="{{ t('alt_about_' + name) }}" loading="lazy" width="{{ width }}" height="{{ height }}">
+    {% endfor %}
+  </div>
+</section>
 {% include 'inquiry.html' %}
 {% endblock %}

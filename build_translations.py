@@ -8,6 +8,14 @@ reference_hero_heading|Visakh Cosmetics|Visakh Cosmetics
 hero_tagline|Forever young|ក្មេងជានិច្ច
 reference_hero_description|Discover our innovative herbal infused cremes and lotions to rejuvenate your skin.|ស្វែងយល់ពីក្រែម និងឡេដ៏ច្នៃប្រឌិតរបស់យើង ដែលលាយជាមួយរុក្ខជាតិ ដើម្បីធ្វើឱ្យស្បែករបស់អ្នកស្រស់ថ្លាឡើងវិញ។
 contact_us|Contact us|ទាក់ទងយើង
+team_photos_heading|Our team at work|ក្រុមការងាររបស់យើង
+alt_about_lab|A scientist in the LSV lab holding up a flask of blue liquid.|អ្នកវិទ្យាសាស្ត្រក្នុងមន្ទីរពិសោធន៍ LSV កាន់ដបកែវដែលមានទឹកពណ៌ខៀវ។
+alt_about_research|Our team smelling fresh pineapple and extract samples in the lab.|ក្រុមការងាររបស់យើងកំពុងហិតក្លិនម្នាស់ស្រស់ និងសំណាកសារធាតុចម្រាញ់ក្នុងមន្ទីរពិសោធន៍។
+alt_about_rice|A researcher holding rice grains and a notebook in the lab.|អ្នកស្រាវជ្រាវកាន់គ្រាប់អង្ករ និងសៀវភៅកត់ត្រាក្នុងមន្ទីរពិសោធន៍។
+alt_about_oil|Checking the colour of a natural oil sample in a small beaker.|ការពិនិត្យពណ៌សំណាកប្រេងធម្មជាតិក្នុងកែវតូចមួយ។
+alt_about_team|Two team members in the lab with a fruit and an oil extract.|សមាជិកក្រុមពីរនាក់ក្នុងមន្ទីរពិសោធន៍ ជាមួយផ្លែឈើ និងប្រេងចម្រាញ់។
+alt_about_event|Greeting guests at a product event in traditional Khmer dress.|ការស្វាគមន៍ភ្ញៀវនៅក្នុងកម្មវិធីផលិតផល ក្នុងសម្លៀកបំពាក់ប្រពៃណីខ្មែរ។
+alt_about_speech|Giving a speech at a community event.|ការថ្លែងសុន្ទរកថានៅក្នុងកម្មវិធីសហគមន៍។
 alt_sky_hills|Illustration of a blue sky with a white cloud over green hills.|រូបគំនូរមេឃពណ៌ខៀវ មានពពកពណ៌ស លើភ្នំតូចៗពណ៌បៃតង។
 alt_soap_hero|Empress Natural Beauty Soap box with rice and romdoul flowers.|ប្រអប់សាប៊ូ Empress Natural Beauty ជាមួយកួរស្រូវ និងផ្ការំដួល។
 product_details|Ask about this product|សួរអំពីផលិតផលនេះ
