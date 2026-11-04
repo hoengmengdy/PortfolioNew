@@ -5,7 +5,7 @@
   <div class="product-grid">
     {% for product in products %}
     <article class="product-card shop-card" id="product-{{ product.id }}">
-      <div class="product-image"><img src="{{ url_for('static', filename='images/' + product.image) }}" loading="lazy" alt="{{ localized(product, 'name') }}" width="800" height="1000"></div>
+      <div class="product-image"><img src="{{ product_image_url(product.image) }}" loading="lazy" alt="{{ localized(product, 'name') }}" width="800" height="1000"></div>
       <div class="product-meta"><h3>{{ localized(product, 'name') }}</h3><strong class="price">{{ product.price_cents|money }}</strong></div>
       <p>{{ localized(product, 'description') }}</p>
       {% if product.stock > 0 %}

@@ -317,6 +317,10 @@ error_note|Please keep the note under 500 characters.|សូមសរសេរ�
 error_payment_method|Please choose a payment method.|សូមជ្រើសរើសវិធីបង់ប្រាក់។
 error_reference|Please enter the transaction reference (3–100 characters).|សូមបញ្ចូលលេខយោងប្រតិបត្តិការ (3–100 តួអក្សរ)។
 error_product|Please check the product name, price, stock, and image.|សូមពិនិត្យឈ្មោះ តម្លៃ ស្តុក និងរូបភាពផលិតផល។
+error_photo|That picture could not be used. Choose a JPG, PNG or WebP file up to 4 MB.|មិនអាចប្រើរូបភាពនេះបានទេ។ សូមជ្រើសរើសឯកសារ JPG, PNG ឬ WebP មិនលើសពី 4 MB។
+upload_photo|Upload a new picture|បញ្ចូលរូបភាពថ្មី
+upload_photo_hint|JPG, PNG or WebP, up to {mb} MB. It replaces the picture chosen above.|JPG, PNG ឬ WebP មិនលើសពី {mb} MB។ វានឹងជំនួសរូបភាពដែលបានជ្រើសខាងលើ។
+current_photo|Current uploaded picture|រូបភាពដែលបានបញ្ចូលបច្ចុប្បន្ន
 steps_eyebrow|YOUR DAILY ROUTINE|ទម្លាប់ប្រចាំថ្ងៃរបស់អ្នក
 steps_heading|Three simple steps|ជំហានសាមញ្ញបី
 step_1|Choose your favourite|ជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត

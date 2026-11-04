@@ -1,5 +1,6 @@
 import functools
 import hmac
+import io
 import json
 import re
 import secrets
@@ -10,10 +11,11 @@ from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
 
 import click
-from flask import Flask, abort, current_app, flash, g, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, Response, abort, current_app, flash, g, jsonify, redirect, render_template, request, session, url_for
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect, CSRFError
+from PIL import Image, ImageOps
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -33,6 +35,10 @@ ORDER_STATUSES = ('pending', 'confirmed', 'shipped', 'completed', 'cancelled')
 PAYMENT_STATUSES = ('unpaid', 'submitted', 'paid', 'refunded')
 MAX_QUANTITY = 20
 LOW_STOCK = 5
+# Product photos uploaded in the admin are stored in the database (hosted file systems are read-only).
+PHOTO_PREFIX = 'uploads/'
+MAX_PHOTO_BYTES = 4 * 1024 * 1024  # Vercel rejects request bodies above 4.5 MB.
+PHOTO_SIZE = 1600
 # One-tap order buttons in the admin: new order status and/or payment status.
 ORDER_ACTIONS = {'confirm': ('confirmed', None), 'ship': ('shipped', None), 'complete': ('completed', None),
                  'paid': (None, 'paid'), 'cancel': ('cancelled', None), 'reopen': ('pending', None)}
@@ -83,6 +89,25 @@ def parse_money(value):
     return int(amount * 100)
 
 
+def webp_photo(upload):
+    """Return an uploaded JPEG, PNG or WebP as a resized WebP, or None when it is not a usable picture."""
+    data = upload.read(MAX_PHOTO_BYTES + 1)
+    if not data or len(data) > MAX_PHOTO_BYTES:
+        return None
+    try:
+        with Image.open(io.BytesIO(data)) as image:
+            if image.format not in ('JPEG', 'PNG', 'WEBP') or image.width * image.height > 40_000_000:
+                return None
+            image = ImageOps.exif_transpose(image)
+            image = image.convert('RGBA' if image.mode in ('RGBA', 'LA', 'P') else 'RGB')
+            image.thumbnail((PHOTO_SIZE, PHOTO_SIZE))
+            output = io.BytesIO()
+            image.save(output, 'WEBP', quality=84, method=4)
+            return output.getvalue()
+    except (OSError, ValueError, Image.DecompressionBombError):
+        return None
+
+
 def db():
     if 'db' not in g:
         started = time.perf_counter()
@@ -120,6 +145,13 @@ def create_app(test_config=None):
         # Vercel terminates HTTPS and forwards the original scheme and host, needed for correct external URLs.
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
     app.permanent_session_lifetime = timedelta(minutes=30)
+
+    @app.before_request
+    def allow_photo_upload():
+        # Registered before CSRF, which reads the form: only the product form may exceed the small default body limit.
+        if request.endpoint == 'save_product':
+            request.max_content_length = MAX_PHOTO_BYTES + 64 * 1024
+
     csrf.init_app(app)
     limiter.init_app(app)
     translations = {lang: json.loads((ROOT / 'translations' / f'{lang}.json').read_text(encoding='utf-8')) for lang in ('en', 'km')}
@@ -129,7 +161,7 @@ def create_app(test_config=None):
     def restore_language():
         g.started = time.perf_counter()
         # Static files must not touch the session: a Set-Cookie header would stop the CDN from caching them.
-        if request.endpoint == 'static':
+        if request.endpoint in ('static', 'product_photo'):
             return
         language = request.cookies.get('language')
         if session.get('language') not in translations:
@@ -137,6 +169,11 @@ def create_app(test_config=None):
 
     def t(key):
         return translations.get(session.get('language', 'en'), translations['en']).get(key, translations['en'].get(key, key))
+
+    def product_image_url(image):
+        if image.startswith(PHOTO_PREFIX):
+            return url_for('product_photo', photo_id=int(image[len(PHOTO_PREFIX):].removesuffix('.webp')))
+        return url_for('static', filename='images/' + image)
 
     def localized(row, field):
         return (session.get('language') == 'km' and row[field + '_km']) or row[field]
@@ -165,7 +202,7 @@ def create_app(test_config=None):
     @app.context_processor
     def context():
         cart_count = sum(session.get('cart', {}).values())
-        return dict(t=t, lang=session.get('language', 'en'), languages={'en': 'English', 'km': 'ខ្មែរ'}, contact_email=app.config['CONTACT_EMAIL'], contact_phone=app.config['CONTACT_PHONE'], contact_phone_link=normalize_phone(app.config['CONTACT_PHONE']) or app.config['CONTACT_PHONE'].replace(' ', ''), localized=localized, cart_count=cart_count, customer=current_customer())
+        return dict(t=t, lang=session.get('language', 'en'), languages={'en': 'English', 'km': 'ខ្មែរ'}, contact_email=app.config['CONTACT_EMAIL'], contact_phone=app.config['CONTACT_PHONE'], contact_phone_link=normalize_phone(app.config['CONTACT_PHONE']) or app.config['CONTACT_PHONE'].replace(' ', ''), localized=localized, product_image_url=product_image_url, cart_count=cart_count, customer=current_customer())
 
     @app.teardown_appcontext
     def close_db(error=None):
@@ -204,7 +241,10 @@ def create_app(test_config=None):
         # The contact page embeds a Google Maps frame.
         frame_src = 'https://www.google.com' if app.config['MAP_EMBED_URL'] else "'none'"
         response.headers['Content-Security-Policy'] = f"default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; frame-src {frame_src}; base-uri 'self'; form-action {form_action}; frame-ancestors 'none'; object-src 'none'"
-        if request.endpoint == 'static' and response.status_code in (200, 304):
+        if request.endpoint == 'product_photo' and response.status_code == 200:
+            # A photo id always points at the same bytes; a new upload gets a new id.
+            response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+        elif request.endpoint == 'static' and response.status_code in (200, 304):
             # Versioned files (?v=) never change; others may be cached for a day by browsers and a week by the CDN.
             response.headers['Cache-Control'] = ('public, max-age=31536000, immutable' if request.args.get('v')
                                                  else 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400')
@@ -218,6 +258,13 @@ def create_app(test_config=None):
         if request.is_secure:
             response.headers['Strict-Transport-Security'] = 'max-age=31536000'
         return response
+
+    @app.get('/uploads/<int:photo_id>.webp')
+    def product_photo(photo_id):
+        row = db().execute('SELECT data FROM product_photos WHERE id=?', (photo_id,)).fetchone()
+        if not row:
+            abort(404)
+        return Response(bytes(row['data']), mimetype='image/webp')
 
     @app.get('/')
     def index():
@@ -710,6 +757,7 @@ def create_app(test_config=None):
         elif view == 'products':
             data['products'] = db().execute('SELECT * FROM products ORDER BY active DESC, id').fetchall()
             data['product_images'] = product_images
+            data['photo_limit_mb'] = MAX_PHOTO_BYTES // (1024 * 1024)
         elif view == 'messages':
             status = request.args.get('status', '')
             if status not in ('', 'new', 'read', 'archived'):
@@ -760,19 +808,35 @@ def create_app(test_config=None):
         fields = {key: request.form.get(key, '').strip() for key in ('name', 'name_km', 'description', 'description_km', 'image')}
         price = parse_money(request.form.get('price', ''))
         stock = request.form.get('stock', type=int)
-        if not 2 <= len(fields['name']) <= 120 or len(fields['name_km']) > 120 or len(fields['description']) > 500 or len(fields['description_km']) > 500 \
-                or fields['image'] not in product_images or price is None or stock is None or not 0 <= stock <= 100000:
-            flash(t('error_product'), 'error')
-            return redirect(url_for('admin', view='products'))
-        values = (*fields.values(), price, stock, 1 if request.form.get('active') else 0)
         product_id = request.form.get('id', type=int)
         if request.form.get('id') and product_id is None:
             abort(400)
+        current = db().execute('SELECT image FROM products WHERE id=?', (product_id,)).fetchone() if product_id else None
+        # Besides the bundled pictures, a product may keep the photo it already has.
+        allowed_images = set(product_images) | ({current['image']} if current else set())
+        if not 2 <= len(fields['name']) <= 120 or len(fields['name_km']) > 120 or len(fields['description']) > 500 or len(fields['description_km']) > 500 \
+                or fields['image'] not in allowed_images or price is None or stock is None or not 0 <= stock <= 100000:
+            flash(t('error_product'), 'error')
+            return redirect(url_for('admin', view='products'))
+        upload = request.files.get('photo')
+        if upload and upload.filename:
+            photo = webp_photo(upload)
+            if photo is None:
+                flash(t('error_photo'), 'error')
+                return redirect(url_for('admin', view='products'))
+            photo_id = db().execute('INSERT INTO product_photos(data,created_at) VALUES(?,?)', (photo, int(time.time()))).lastrowid
+            fields['image'] = f'{PHOTO_PREFIX}{photo_id}.webp'
+        values = (*fields.values(), price, stock, 1 if request.form.get('active') else 0)
         if product_id:
             if not db().execute('UPDATE products SET name=?,name_km=?,description=?,description_km=?,image=?,price_cents=?,stock=?,active=? WHERE id=?', (*values, product_id)).rowcount:
                 abort(404)
         else:
             db().execute('INSERT INTO products(name,name_km,description,description_km,image,price_cents,stock,active) VALUES(?,?,?,?,?,?,?,?)', values)
+        # Drop uploaded photos that no product uses any more (for example after a picture was replaced).
+        used = {row[0] for row in db().execute('SELECT image FROM products').fetchall()}
+        for (photo_id,) in db().execute('SELECT id FROM product_photos').fetchall():
+            if f'{PHOTO_PREFIX}{photo_id}.webp' not in used:
+                db().execute('DELETE FROM product_photos WHERE id=?', (photo_id,))
         db().commit()
         flash(t('saved'), 'success')
         return redirect(url_for('admin', view='products'))

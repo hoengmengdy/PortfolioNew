@@ -784,3 +784,5 @@ html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 /* Homepage product pack: show the whole box instead of cropping it to fill the panel. */
 .hero-visual-product{background:#f4f8fb}
 .hero-visual-product>img{inset:clamp(20px,4vw,48px);width:calc(100% - 2*clamp(20px,4vw,48px));height:calc(100% - 2*clamp(20px,4vw,48px));object-fit:contain}
+/* Hint under the product photo upload field. */
+.field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.6;color:var(--muted)}

@@ -1,3 +1,4 @@
+import io
 import re
 
 import pytest
@@ -153,6 +154,47 @@ def test_admin_product_management(client, app):
     assert client.post('/cart/add', data={'csrf_token': admin_token, 'product_id': product_id}).status_code == 404
     assert client.post('/admin/products', data={**hidden, 'id': 'abc'}).status_code == 400
     assert client.post('/admin/retailers', data={'csrf_token': admin_token, 'id': 'abc', 'name': 'x', 'country': 'x', 'city': 'x', 'address': 'x'}).status_code == 400
+
+
+
+def picture(fmt='PNG', size=(2400, 1200)):
+    from PIL import Image
+    buffer = io.BytesIO()
+    Image.new('RGB', size, (200, 120, 90)).save(buffer, fmt)
+    buffer.seek(0)
+    return buffer
+
+
+def test_admin_uploads_product_photo(client, app):
+    login(client)
+    admin_token = token(client, '/admin')
+    product_id = query(app, 'SELECT id FROM products ORDER BY id LIMIT 1')[0][0]
+    form = dict(csrf_token=admin_token, id=str(product_id), name='Daily Glow', name_km='', description='', description_km='',
+                price='18', stock='25', image='hero.webp', active='1')
+    response = client.post('/admin/products', data={**form, 'photo': (picture(), 'pack.png')}, content_type='multipart/form-data')
+    assert response.status_code == 302
+    image = query(app, 'SELECT image FROM products WHERE id=?', product_id)[0][0]
+    assert re.fullmatch(r'uploads/\d+\.webp', image)
+    photo = client.get('/' + image)
+    assert photo.status_code == 200 and photo.mimetype == 'image/webp' and 'immutable' in photo.headers['Cache-Control']
+    assert 'Set-Cookie' not in app.test_client().get('/' + image).headers  # visitors' photo responses stay cacheable
+    from PIL import Image
+    assert max(Image.open(io.BytesIO(photo.data)).size) == app_module.PHOTO_SIZE
+    assert '/' + image in client.get('/shop').text
+    # Saving again without a new file keeps the uploaded photo.
+    assert client.post('/admin/products', data={**form, 'image': image}, content_type='multipart/form-data').status_code == 302
+    assert query(app, 'SELECT image FROM products WHERE id=?', product_id)[0][0] == image
+    # A replacement photo removes the old one; files that are not pictures are refused.
+    client.post('/admin/products', data={**form, 'image': image, 'photo': (picture('JPEG'), 'new.jpg')}, content_type='multipart/form-data')
+    assert client.get('/' + image).status_code == 404
+    assert query(app, 'SELECT count(*) FROM product_photos') == [(1,)]
+    client.post('/admin/products', data={**form, 'photo': (io.BytesIO(b'not a picture'), 'x.png')}, content_type='multipart/form-data')
+    assert query(app, 'SELECT count(*) FROM product_photos') == [(1,)]
+    # Another product cannot borrow an uploaded photo through the image field.
+    other = query(app, 'SELECT id FROM products ORDER BY id LIMIT 1 OFFSET 1')[0][0]
+    current = query(app, 'SELECT image FROM products WHERE id=?', product_id)[0][0]
+    client.post('/admin/products', data={**form, 'id': str(other), 'image': current}, content_type='multipart/form-data')
+    assert query(app, 'SELECT image FROM products WHERE id=?', other)[0][0] != current
 
 
 def test_default_address_and_khmer_address(client, app, telegram_codes):

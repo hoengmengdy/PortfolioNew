@@ -1,5 +1,5 @@
 {% set pid = product.id if product else 'new' %}
-<form class="retailer-edit-form" method="post" action="{{ url_for('save_product') }}">
+<form class="retailer-edit-form" method="post" action="{{ url_for('save_product') }}" enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   {% if product %}<input type="hidden" name="id" value="{{ product.id }}">{% endif %}
   <div class="form-grid">
@@ -8,7 +8,8 @@
     {% endfor %}
     <div class="field"><label for="product-{{ pid }}-price">{{ t('price') }} ({{ config.CURRENCY_SYMBOL }}) *</label><input id="product-{{ pid }}-price" name="price" type="number" min="0" max="100000" step="0.01" inputmode="decimal" value="{{ '%.2f'|format(product.price_cents / 100) if product else '' }}" required></div>
     <div class="field"><label for="product-{{ pid }}-stock">{{ t('stock') }} *</label><input id="product-{{ pid }}-stock" name="stock" type="number" min="0" max="100000" step="1" inputmode="numeric" value="{{ product.stock if product else 0 }}" required></div>
-    <div class="field"><label for="product-{{ pid }}-image">{{ t('image') }}</label><select id="product-{{ pid }}-image" name="image">{% for image in product_images %}<option value="{{ image }}" {% if product and product.image == image %}selected{% endif %}>{{ image }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="product-{{ pid }}-image">{{ t('image') }}</label><select id="product-{{ pid }}-image" name="image">{% if product and product.image not in product_images %}<option value="{{ product.image }}" selected>{{ t('current_photo') }}</option>{% endif %}{% for image in product_images %}<option value="{{ image }}" {% if product and product.image == image %}selected{% endif %}>{{ image }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="product-{{ pid }}-photo">{{ t('upload_photo') }}</label><input id="product-{{ pid }}-photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp"><small class="field-hint">{{ t('upload_photo_hint')|replace('{mb}', photo_limit_mb|string) }}</small></div>
     <div class="field checkbox-field"><label><input type="checkbox" name="active" value="1" {% if not product or product.active %}checked{% endif %}> {{ t('visible_in_shop') }}</label></div>
   </div>
   <button class="button button-small" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> {{ t('save_product') }}</button>

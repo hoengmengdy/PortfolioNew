@@ -6,7 +6,7 @@
   <div class="cart-lines">
     {% for item in items %}
     <article class="cart-line">
-      <img src="{{ url_for('static', filename='images/' + item.product.image) }}" alt="" width="96" height="96">
+      <img src="{{ product_image_url(item.product.image) }}" alt="" width="96" height="96">
       <div class="cart-line-info"><h3>{{ localized(item.product, 'name') }}</h3><p>{{ item.product.price_cents|money }}</p></div>
       <form method="post" action="{{ url_for('cart_update') }}" class="cart-quantity">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

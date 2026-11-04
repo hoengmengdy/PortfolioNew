@@ -15,7 +15,7 @@ except ImportError:  # SQLite-only installs do not need the Postgres driver.
     ERRORS = (sqlite3.Error,)
 
 # Tables whose primary key is an `id` column; inserts into them report the new id like sqlite3's lastrowid.
-ID_TABLES = {'messages', 'admins', 'retailers', 'products', 'orders', 'order_items', 'customers', 'login_codes'}
+ID_TABLES = {'messages', 'admins', 'retailers', 'products', 'orders', 'order_items', 'customers', 'login_codes', 'product_photos'}
 
 SQLITE_SCHEMA = '''
     PRAGMA journal_mode=WAL;
@@ -54,6 +54,7 @@ SQLITE_SCHEMA = '''
     CREATE TABLE IF NOT EXISTS customer_addresses (customer_id INTEGER NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
         first_name TEXT NOT NULL, last_name TEXT NOT NULL, phone TEXT NOT NULL, province TEXT NOT NULL, district TEXT NOT NULL,
         commune TEXT NOT NULL, street TEXT NOT NULL, PRIMARY KEY(customer_id));
+    CREATE TABLE IF NOT EXISTS product_photos (id INTEGER PRIMARY KEY AUTOINCREMENT, data BLOB NOT NULL, created_at INTEGER NOT NULL);
 '''
 # Columns added after the first release; older local databases get them on start-up.
 SQLITE_MIGRATIONS = [('orders', 'customer_id', 'INTEGER REFERENCES customers(id)'), ('login_codes', 'ip', "TEXT NOT NULL DEFAULT ''"),
@@ -62,6 +63,8 @@ SQLITE_MIGRATIONS = [('orders', 'customer_id', 'INTEGER REFERENCES customers(id)
 PG_NOW = '''(to_char(now() AT TIME ZONE 'utc', 'YYYY-MM-DD"T"HH24:MI:SS"Z"'))'''
 POSTGRES_SCHEMA = (SQLITE_SCHEMA
                    .replace('PRAGMA journal_mode=WAL;', '')
+                   # Postgres sequences never reuse ids, so photo URLs can be cached forever on both databases.
+                   .replace(' AUTOINCREMENT', '').replace('BLOB', 'BYTEA')
                    .replace('id INTEGER PRIMARY KEY', 'id BIGSERIAL PRIMARY KEY')
                    .replace("(strftime('%Y-%m-%dT%H:%M:%SZ','now'))", PG_NOW)
                    # Telegram chat ids and Unix times do not fit in 32 bits.
@@ -220,7 +223,7 @@ def is_postgres(connection):
 def create_schema(connection):
     if is_postgres(connection):
         # Skip the DDL on every cold start once the newest table exists (update this name when adding tables).
-        if connection.execute("SELECT to_regclass('customer_addresses')").fetchone()[0]:
+        if connection.execute("SELECT to_regclass('product_photos')").fetchone()[0]:
             return
         # Concurrent cold starts on Vercel may run this at the same time; serialise them with an advisory lock.
         connection.execute('SELECT pg_advisory_xact_lock(4242)')
