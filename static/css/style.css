@@ -52,9 +52,9 @@ ul{padding-left:22px}
 .brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:var(--blue);color:var(--primary);font-size:21px;font-weight:600;letter-spacing:-2px}
 .brand-mark>span{display:none}
 .site-header nav{display:flex;align-items:center;gap:6px}
-.site-header nav>a{font-size:13px;font-weight:500;min-height:44px;display:flex;align-items:center;padding:10px 14px;border-radius:8px;white-space:nowrap}
-.site-header nav>a:hover{background:#f2f7fb}
-.site-header nav>a[aria-current]{background:var(--blue);color:var(--primary);font-weight:600}
+.site-header nav a{font-size:13px;font-weight:500;min-height:44px;display:flex;align-items:center;padding:10px 14px;border-radius:8px;white-space:nowrap}
+.site-header nav a:hover{background:#f2f7fb}
+.site-header nav a[aria-current]{background:var(--blue);color:var(--primary);font-weight:600}
 .header-actions{display:flex;align-items:center}
 .menu-toggle{display:none}
 .language-selector{position:relative;font-size:13px}
@@ -472,7 +472,7 @@ html:lang(km) .hero-description{font-size:16px;line-height:1.9}
 @media(max-width:1000px){
   .site-header{padding:0 28px;gap:18px}
   .site-header nav{gap:0}
-  .site-header nav>a{padding:10px;font-size:12px}
+  .site-header nav a{padding:10px;font-size:12px}
   .brand{font-size:10px;gap:10px;letter-spacing:.8px}
   .hero-copy{padding:48px 36px}
   .hero h1{font-size:36px}
@@ -492,7 +492,7 @@ html:lang(km) .hero-description{font-size:16px;line-height:1.9}
   .site-header{height:74px;padding:0 24px;gap:12px}
   .site-header nav{display:none;position:absolute;top:74px;left:0;right:0;padding:14px 24px 20px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 12px 20px #203d5108}
   .site-header nav.is-open{display:flex;flex-direction:column;align-items:stretch;gap:4px}
-  .site-header nav>a{font-size:14px;padding:12px 16px}
+  .site-header nav a{font-size:14px;padding:12px 16px}
   .header-actions{margin-left:auto}
   .menu-toggle{display:inline-grid;order:3}
   .section{width:calc(100% - 48px);padding:56px 0}
@@ -766,3 +766,10 @@ select:disabled{background:#eef2f5;color:var(--muted);cursor:not-allowed}
 .benefit-list li{display:flex;align-items:baseline;gap:10px}
 .benefit-list i{font-size:11px;color:#4f8a43}
 @media(max-width:600px){.ingredient-grid{grid-template-columns:1fr;gap:18px}}
+/* "Our story" dropdown holding Our Herbs. */
+.nav-group{position:relative}
+.nav-group.is-active>a{background:var(--blue);color:var(--primary);font-weight:600}
+.nav-chevron{font-size:9px;margin-left:6px}
+.nav-submenu{display:none;position:absolute;top:100%;left:0;min-width:180px;padding:6px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px #203d5114;z-index:40}
+.nav-group:hover .nav-submenu,.nav-group:focus-within .nav-submenu{display:block}
+@media(max-width:800px){.nav-chevron{display:none}.nav-submenu{display:block;position:static;min-width:0;padding:4px 0 0 16px;border:0;box-shadow:none}}
