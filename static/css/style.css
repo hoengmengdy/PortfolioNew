@@ -756,7 +756,7 @@ select:disabled{background:#eef2f5;color:var(--muted);cursor:not-allowed}
 .ingredient-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
 .ingredient-card{display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .3s,box-shadow .3s}
 .ingredient-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px #17293a1f}
-.ingredient-image{aspect-ratio:4/3;background:var(--blue)}
+.ingredient-image{aspect-ratio:4/3;overflow:hidden;background:var(--blue)}
 .ingredient-image>img{width:100%;height:100%;object-fit:cover}
 .ingredient-body{padding:20px 22px 22px}
 .ingredient-body h3{font-size:19px;margin-bottom:8px}
@@ -765,6 +765,8 @@ select:disabled{background:#eef2f5;color:var(--muted);cursor:not-allowed}
 .benefit-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14px}
 .benefit-list li{display:flex;align-items:baseline;gap:10px}
 .benefit-list i{font-size:11px;color:#4f8a43}
+.herbs-section>.fine-print{margin:20px 0 0}
+html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 @media(max-width:600px){.ingredient-grid{grid-template-columns:1fr;gap:18px}}
 /* "Our story" dropdown holding Our Herbs. */
 .nav-group{position:relative}
