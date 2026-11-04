@@ -805,3 +805,9 @@ html:lang(km) .hero-tagline{font-family:Khmer,sans-serif;font-style:normal;line-
 @media(max-width:800px){.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.photo-grid img:last-child{grid-column:1/-1;aspect-ratio:16/9}}
 /* Founder role line under the name on the About page. */
 .founder-role{margin:-12px 0 20px;font-size:14px;font-weight:600;color:var(--primary)}
+/* Founder quote under the journey cards. */
+.founder-quote{margin:40px auto 0;max-width:720px;text-align:center}
+.founder-quote>i{font-size:24px;color:var(--primary);margin-bottom:12px}
+.founder-quote p{font-family:var(--display);font-size:clamp(24px,2.6vw,34px);line-height:1.35;color:var(--ink);margin:0 0 12px}
+html:lang(km) .founder-quote p{font-family:Khmer,sans-serif;line-height:1.7}
+.founder-quote cite{font-style:normal;font-size:14px;font-weight:600;color:var(--primary)}

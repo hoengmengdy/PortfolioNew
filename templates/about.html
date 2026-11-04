@@ -2,7 +2,16 @@
 {% block content %}
 <section class="page-hero"><h1>{{ t('about_title') }}</h1><p>{{ t('about_intro') }}</p></section>
 <section class="section story-grid" data-reveal><img class="story-photo" src="{{ url_for('static', filename='images/about-lab.webp') }}" alt="{{ t('alt_about_lab') }}" width="1200" height="1600"><div><p class="eyebrow">{{ t('founder_eyebrow') }}</p><h2>{{ t('founder_name') }}</h2><p class="founder-role">{{ t('founder_role') }}</p><p>{{ t('founder_p1') }}</p><p>{{ t('founder_p2') }}</p><p>{{ t('founder_p3') }}</p><div class="story-signature">{{ t('founder_name') }}<span>LSV Industry Co., Ltd.</span></div></div></section>
-<section class="philosophy section" id="philosophy" data-reveal><p class="eyebrow">{{ t('our_philosophy') }}</p><h2>{{ t('philosophy_heading') }}</h2><div class="three-grid">{% for key,icon in [('mission','sun'),('vision','seedling'),('quality','droplet')] %}<article><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i><h3>{{ t(key) }}</h3><p>{{ t(key + '_description') }}</p></article>{% endfor %}</div></section>
+<section class="philosophy section" id="journey" aria-labelledby="journey-heading" data-reveal>
+  <p class="eyebrow">{{ t('journey_eyebrow') }}</p>
+  <h2 id="journey-heading">{{ t('journey_heading') }}</h2>
+  <div class="three-grid">
+    {% for key,icon in [('founded','industry'),('brands','tags'),('quality','certificate'),('farmers','seedling'),('protect','shield-halved'),('award','award')] %}
+    <article><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i><h3>{{ t('journey_' + key) }}</h3><p>{{ t('journey_' + key + '_text') }}</p></article>
+    {% endfor %}
+  </div>
+  <blockquote class="founder-quote"><i class="fa-solid fa-quote-left" aria-hidden="true"></i><p>{{ t('founder_quote') }}</p><cite>{{ t('founder_name') }}</cite></blockquote>
+</section>
 <section class="section sustainability" data-reveal><div><p class="eyebrow">{{ t('considered') }}</p><h2>{{ t('sustainability_heading') }} <em>{{ t('sustainability_emphasis') }}</em></h2><p>{{ t('sustainability_description') }}</p><a class="text-link" href="{{ url_for('contact') }}">{{ t('ask_question') }} ↗</a></div><img class="research-photo" src="{{ url_for('static', filename='images/about-research.webp') }}" alt="{{ t('alt_about_research') }}" loading="lazy" width="1600" height="1600"></section>
 <section class="section team-photos" aria-labelledby="team-heading" data-reveal>
   <h2 id="team-heading">{{ t('team_photos_heading') }}</h2>

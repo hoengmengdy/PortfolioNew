@@ -11,9 +11,24 @@ contact_us|Contact us|ទាក់ទងយើង
 founder_eyebrow|Our founder|ស្ថាបនិករបស់យើង
 founder_name|Nut Samphois|អ្នកស្រី នុត សម្ផស្ស
 founder_role|Founder and Managing Director, LSV Industry Co., Ltd.|ស្ថាបនិក និងអគ្គនាយិកា ក្រុមហ៊ុន LSV Industry Co., Ltd.
-founder_p1|Nut Samphois grew LSV Industry from a family business into a Cambodian maker of household and personal care products, spending more than ten years studying, researching and building her professional skills along the way.|អ្នកស្រី នុត សម្ផស្ស បានអភិវឌ្ឍ LSV Industry ពីអាជីវកម្មគ្រួសារ ទៅជារោងចក្រខ្មែរផលិតផលិតផលប្រើប្រាស់ក្នុងផ្ទះ និងផលិតផលថែរក្សាខ្លួន ដោយបានចំណាយពេលជាង ១០ ឆ្នាំ ដើម្បីសិក្សា ស្រាវជ្រាវ និងអភិវឌ្ឍសមត្ថភាពវិជ្ជាជីវៈ។
-founder_p2|Today LSV Industry makes OKA laundry soap and Empress personal care products, including facial foam, body wash and shampoo. Working with local chemists, production technicians and farmers, the team turns Cambodian farm produce such as lemongrass and pineapple into everyday care products.|សព្វថ្ងៃ LSV Industry ផលិតសាប៊ូបោកសម្លៀកបំពាក់ម៉ាក OKA និងផលិតផលថែរក្សាខ្លួន Empress រួមមាន ហ្វូមលាងមុខ សាប៊ូងូតទឹក និងសាប៊ូកក់សក់។ ដោយសហការជាមួយអ្នកគីមីវិទ្យា អ្នកបច្ចេកទេសផលិតកម្ម និងកសិករក្នុងស្រុក ក្រុមការងារបានកែច្នៃកសិផលខ្មែរ ដូចជាស្លឹកគ្រៃ និងម្នាស់ ទៅជាផលិតផលថែទាំប្រចាំថ្ងៃ។
-founder_p3|In 2017 she was named one of the 10 Outstanding Cambodian Women Entrepreneurs.|នៅឆ្នាំ ២០១៧ អ្នកស្រីត្រូវបានជ្រើសរើសជាសហគ្រិនស្ត្រីឆ្នើមទាំង ១០ រូបរបស់កម្ពុជា។
+founder_p1|Nut Samphois grew LSV Industry from a family business into a Cambodian maker of household and personal care products. Drawing on her background in chemistry, she spent more than ten years studying, researching and building her professional skills along the way.|អ្នកស្រី នុត សម្ផស្ស បានអភិវឌ្ឍ LSV Industry ពីអាជីវកម្មគ្រួសារ ទៅជារោងចក្រខ្មែរផលិតផលិតផលប្រើប្រាស់ក្នុងផ្ទះ និងផលិតផលថែរក្សាខ្លួន។ ដោយផ្អែកលើជំនាញគីមីវិទ្យា អ្នកស្រីបានចំណាយពេលជាង ១០ ឆ្នាំ ដើម្បីសិក្សា ស្រាវជ្រាវ និងអភិវឌ្ឍសមត្ថភាពវិជ្ជាជីវៈ។
+founder_p2|Based in Phnom Penh, LSV Industry makes laundry soap, fabric softener and dishwashing liquid, as well as facial foam, body wash and shampoo. Working with local chemists, production technicians and farmers, the team turns Cambodian farm produce such as lemongrass, pineapple and mustard greens into everyday products.|LSV Industry មានមូលដ្ឋាននៅរាជធានីភ្នំពេញ ផលិតសាប៊ូបោកសម្លៀកបំពាក់ ទឹកក្រអូបសម្លៀកបំពាក់ ទឹកលាងចាន ព្រមទាំងហ្វូមលាងមុខ សាប៊ូងូតទឹក និងសាប៊ូកក់សក់។ ដោយសហការជាមួយអ្នកគីមីវិទ្យា អ្នកបច្ចេកទេសផលិតកម្ម និងកសិករក្នុងស្រុក ក្រុមការងារបានកែច្នៃកសិផលខ្មែរ ដូចជាស្លឹកគ្រៃ ម្នាស់ និងស្ពៃក្រញាញ់ ទៅជាផលិតផលប្រើប្រាស់ប្រចាំថ្ងៃ។
+founder_p3|Along the way she faced doubts that a Khmer company could build its own industrial products. She answered with careful planning in finance, product quality, marketing, people and technology.|ក្នុងដំណើរនេះ អ្នកស្រីបានជួបការសង្ស័យថា ក្រុមហ៊ុនខ្មែរមិនអាចផលិតផលិតផលឧស្សាហកម្មដោយខ្លួនឯងបាន។ អ្នកស្រីបានឆ្លើយតបដោយផែនការច្បាស់លាស់ លើហិរញ្ញវត្ថុ គុណភាពផលិតផល ទីផ្សារ ធនធានមនុស្ស និងបច្ចេកវិទ្យា។
+journey_eyebrow|Her journey|ដំណើររបស់អ្នកស្រី
+journey_heading|Building Cambodian brands|កសាងម៉ាកយីហោខ្មែរ
+journey_founded|Founded in 2013|បង្កើតឡើងក្នុងឆ្នាំ ២០១៣
+journey_founded_text|LSV Industry was set up in 2013 and grew from a family business into a Khmer factory in Phnom Penh.|LSV Industry ត្រូវបានបង្កើតឡើងក្នុងឆ្នាំ ២០១៣ ហើយបានរីកចម្រើនពីអាជីវកម្មគ្រួសារ ទៅជារោងចក្រខ្មែរនៅរាជធានីភ្នំពេញ។
+journey_brands|Four Cambodian brands|ម៉ាកយីហោខ្មែរចំនួន ៤
+journey_brands_text|The company makes its own brands: OKA, best known for laundry soap, along with Empress, Nature Plus and Rins.|ក្រុមហ៊ុនផលិតម៉ាកយីហោផ្ទាល់ខ្លួន៖ OKA ដែលល្បីដោយសាប៊ូបោកសម្លៀកបំពាក់ ព្រមទាំង Empress, Nature Plus និង Rins។
+journey_quality|Quality standards|ស្តង់ដាគុណភាព
+journey_quality_text|Production follows Japanese manufacturing standards, and the products are reported to be recognised under ISO, GMP and Halal.|ការផលិតអនុវត្តតាមស្តង់ដាផលិតកម្មជប៉ុន ហើយផលិតផលត្រូវបានរាយការណ៍ថាទទួលស្គាល់ដោយ ISO, GMP និង Halal។
+journey_farmers|Helping local farmers|ជួយកសិករក្នុងស្រុក
+journey_farmers_text|In 2024, when mustard green prices fell, she developed a face mask, facial wash and soaps from them to give farmers another market.|នៅឆ្នាំ ២០២៤ ពេលស្ពៃក្រញាញ់ធ្លាក់ថ្លៃ អ្នកស្រីបានច្នៃម៉ាសលាបមុខ ហ្វូមលាងមុខ និងសាប៊ូពីស្ពៃក្រញាញ់ ដើម្បីបង្កើតទីផ្សារបន្ថែមសម្រាប់កសិករ។
+journey_protect|Standing up for local brands|ការពារម៉ាកយីហោក្នុងស្រុក
+journey_protect_text|She has spoken out against counterfeit copies of Empress products and for fairer access to finance for Cambodian small businesses.|អ្នកស្រីបានលើកឡើងប្រឆាំងនឹងការក្លែងបន្លំផលិតផល Empress និងគាំទ្រឱ្យសហគ្រាសធុនតូចខ្មែរទទួលបានហិរញ្ញប្បទានដោយយុត្តិធម៌។
+journey_award|Recognition|ការទទួលស្គាល់
+journey_award_text|In 2017 she was named one of the 10 Outstanding Cambodian Women Entrepreneurs.|នៅឆ្នាំ ២០១៧ អ្នកស្រីត្រូវបានជ្រើសរើសជាសហគ្រិនស្ត្រីឆ្នើមទាំង ១០ រូបរបស់កម្ពុជា។
+founder_quote|My aim is to help everyone.|បំណងខ្ញុំ គឺចង់ជួយគ្រប់គ្នា។
 team_photos_heading|Our team at work|ក្រុមការងាររបស់យើង
 alt_about_lab|A scientist in the LSV lab holding up a flask of blue liquid.|អ្នកវិទ្យាសាស្ត្រក្នុងមន្ទីរពិសោធន៍ LSV កាន់ដបកែវដែលមានទឹកពណ៌ខៀវ។
 alt_about_research|Our team smelling fresh pineapple and extract samples in the lab.|ក្រុមការងាររបស់យើងកំពុងហិតក្លិនម្នាស់ស្រស់ និងសំណាកសារធាតុចម្រាញ់ក្នុងមន្ទីរពិសោធន៍។
