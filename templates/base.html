@@ -14,7 +14,7 @@
   <link rel="icon" href="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='35') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='36') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='6') }}"></script>
 </head>
 <body class="page-{{ page }}">
@@ -29,7 +29,7 @@
       {% if endpoint == 'about' %}
       <div class="nav-group{% if request.endpoint in ['about', 'herbs'] %} is-active{% endif %}">
         <a href="{{ url_for('about') }}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}>{{ t('about_title') }} <i class="fa-solid fa-chevron-down nav-chevron" aria-hidden="true"></i></a>
-        <div class="nav-submenu"><a href="{{ url_for('herbs') }}" {% if request.endpoint == 'herbs' %}aria-current="page"{% endif %}>{{ t('herbs_title') }}</a></div>
+        <div class="nav-submenu"><a href="{{ url_for('herbs') }}" {% if request.endpoint == 'herbs' %}aria-current="page"{% endif %}><i class="fa-solid fa-leaf" aria-hidden="true"></i>{{ t('herbs_title') }}</a></div>
       </div>
       {% else %}
       <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ t(label) }}</a>
