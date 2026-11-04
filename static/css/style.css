@@ -811,3 +811,6 @@ html:lang(km) .hero-tagline{font-family:Khmer,sans-serif;font-style:normal;line-
 .founder-quote p{font-family:var(--display);font-size:clamp(24px,2.6vw,34px);line-height:1.35;color:var(--ink);margin:0 0 12px}
 html:lang(km) .founder-quote p{font-family:Khmer,sans-serif;line-height:1.7}
 .founder-quote cite{font-style:normal;font-size:14px;font-weight:600;color:var(--primary)}
+/* Current and pressed menu items use the main blue with white text. */
+.site-header nav a[aria-current],.site-header nav a:active,.nav-group.is-active>a{background:var(--primary);color:#fff}
+.site-header nav a[aria-current]:hover,.nav-group.is-active>a:hover{background:var(--primary-hover);color:#fff}
