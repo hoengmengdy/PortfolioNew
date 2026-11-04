@@ -37,7 +37,7 @@ def query(app, sql, *args):
 
 
 def test_shop_cart_and_checkout(client, app, telegram_codes):
-    assert '/account/login' in client.get('/checkout').location
+    assert client.get('/checkout').location == '/cart'
     shop = client.get('/shop').text
     assert '$18.00' in shop and 'Add to cart' in shop
     assert add_to_cart(client).status_code == 303
@@ -79,6 +79,19 @@ def test_cart_update_remove_and_stock_limits(client, app, telegram_codes):
     assert response.status_code == 409 and 'no longer have enough stock' in response.text
     assert query(app, 'SELECT count(*) FROM orders') == [(0,)]
     assert query(app, 'SELECT stock FROM products WHERE id=1') == [(1,)]
+
+
+
+def test_guest_checkout_without_account(client, app):
+    add_to_cart(client)
+    page = client.get('/checkout')
+    assert page.status_code == 200 and 'name="save_address"' not in page.text and 'Sign in to use your saved address' in page.text
+    response = client.post('/checkout', data=order_form(client))
+    assert response.status_code == 303 and response.location.startswith('/orders/')
+    assert client.get(response.location).status_code == 200
+    assert query(app, 'SELECT customer_id,name FROM orders') == [(None, 'Sok Dara')]
+    assert query(app, 'SELECT count(*) FROM customers') == [(0,)]
+    assert query(app, 'SELECT count(*) FROM customer_addresses') == [(0,)]
 
 
 def test_checkout_validation(client, app, telegram_codes):

@@ -786,3 +786,6 @@ html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 .hero-visual-product>img{inset:clamp(20px,4vw,48px);width:calc(100% - 2*clamp(20px,4vw,48px));height:calc(100% - 2*clamp(20px,4vw,48px));object-fit:contain}
 /* Hint under the product photo upload field. */
 .field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.6;color:var(--muted)}
+/* Optional sign-in hint for guests at checkout. */
+.guest-note{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:12px 14px;border-radius:10px;background:var(--blue);color:var(--ink);font-size:14px}
+.guest-note .text-link{min-height:0}

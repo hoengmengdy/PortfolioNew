@@ -78,8 +78,8 @@ def test_telegram_failure_and_redirect_target(client, app, telegram_codes, monke
     with connect_db(app) as connection:
         connection.execute('DELETE FROM login_codes')
     add_to_cart(client)
-    login_page = client.get('/checkout').location
-    assert login_page.endswith('/account/login?next=/checkout')
+    login_page = '/account/login?next=/checkout'
+    assert login_page in client.get('/checkout').text
     client.post('/account/login', data={'csrf_token': token(client, login_page), 'phone': '012345678', 'next': '/checkout'})
     verify_page = '/account/verify?next=/checkout'
     response = client.post(verify_page, data={'csrf_token': token(client, verify_page), 'code': telegram_codes[-1][1]})

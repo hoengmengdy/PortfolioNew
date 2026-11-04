@@ -398,19 +398,18 @@ def create_app(test_config=None):
                                place_name=lambda row: locations.name(row, lang)), status
 
     @app.get('/checkout')
-    @customer_required
     def checkout():
         if not session.get('cart'):
             return redirect(url_for('cart'))
+        # Signing in is optional: it only pre-fills and saves the delivery address.
         customer = current_customer()
-        saved = db().execute('SELECT * FROM customer_addresses WHERE customer_id=?', (customer['id'],)).fetchone()
-        values = dict(saved) if saved else {'phone': customer['phone'], 'save_address': '1'}
-        values['phone'] = local_phone(values['phone'])
+        saved = db().execute('SELECT * FROM customer_addresses WHERE customer_id=?', (customer['id'],)).fetchone() if customer else None
+        values = dict(saved) if saved else {'phone': customer['phone'], 'save_address': '1'} if customer else {'phone': ''}
+        values['phone'] = local_phone(values['phone']) if values['phone'] else ''
         values['payment_method'] = next(iter(payment_methods()), '')
         return render_checkout(values, {})
 
     @app.post('/checkout')
-    @customer_required
     @limiter.limit('10 per minute;60 per hour')
     def place_order():
         values = {key: request.form.get(key, '').strip() for key in (*ADDRESS_FIELDS, 'note', 'payment_method', 'save_address')}
@@ -443,6 +442,7 @@ def create_app(test_config=None):
         address, city = locations.describe(place, values['street'], lang)
         delivery = app.config['DELIVERY_FEE_CENTS']
         token = secrets.token_urlsafe(16)
+        customer = current_customer()
         connection = db()
         try:
             connection.execute('BEGIN IMMEDIATE')
@@ -453,13 +453,14 @@ def create_app(test_config=None):
                     return render_checkout(values, {'form': t('stock_changed')}, 409)
             order_id = connection.execute(
                 'INSERT INTO orders(token,customer_id,name,phone,email,address,city,note,payment_method,subtotal_cents,delivery_cents,total_cents,language) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
-                (token, current_customer()['id'], name, phone, '', address, city, values['note'], values['payment_method'],
+                (token, customer['id'] if customer else None, name, phone, '', address, city, values['note'], values['payment_method'],
                  subtotal, delivery, subtotal + delivery, lang)).lastrowid
             connection.executemany('INSERT INTO order_items(order_id,product_id,name,unit_cents,quantity) VALUES(?,?,?,?,?)',
                                    [(order_id, item['product']['id'], item['product']['name'], item['product']['price_cents'], item['quantity']) for item in items])
-            connection.execute("UPDATE customers SET name=? WHERE id=? AND name=''", (name, current_customer()['id']))
-            if values['save_address']:
-                saved = (current_customer()['id'], values['first_name'], values['last_name'], phone, values['province'], values['district'], values['commune'], values['street'])
+            if customer:
+                connection.execute("UPDATE customers SET name=? WHERE id=? AND name=''", (name, customer['id']))
+            if customer and values['save_address']:
+                saved = (customer['id'], values['first_name'], values['last_name'], phone, values['province'], values['district'], values['commune'], values['street'])
                 connection.execute('INSERT INTO customer_addresses(customer_id,first_name,last_name,phone,province,district,commune,street) VALUES(?,?,?,?,?,?,?,?) '
                                    'ON CONFLICT(customer_id) DO UPDATE SET first_name=excluded.first_name,last_name=excluded.last_name,phone=excluded.phone,'
                                    'province=excluded.province,district=excluded.district,commune=excluded.commune,street=excluded.street', saved)

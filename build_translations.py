@@ -15,7 +15,9 @@ care_intro|Care that fits your day.|ការថែទាំដែលសមន�
 collection_simple|Explore the collection|ស្វែងយល់ពីផលិតផល
 gallery_simple|A closer look|មើលរូបភាពបន្ថែម
 home_title|Home|ទំព័រដើម
-about_title|Our story|រឿងរ៉ាវរបស់យើង
+about_title|About|អំពីយើង
+have_account|Have an account?|មានគណនីរួចហើយ?
+sign_in_saved_address|Sign in to use your saved address|ចូលគណនីដើម្បីប្រើអាសយដ្ឋានដែលបានរក្សាទុក
 retailers_title|Find a retailer|ស្វែងរកហាង
 contact_title|Contact|ទំនាក់ទំនង
 admin_title|Admin|អ្នកគ្រប់គ្រង

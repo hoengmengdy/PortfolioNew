@@ -107,12 +107,11 @@ def test_stale_links_groups_and_unknown_messages(client, app, bot):
 
 def test_checkout_redirect_survives_bot_sign_in(client, app, bot):
     add_to_cart(client)
-    login_page = client.get('/checkout').location
+    assert 'next=/checkout' in client.get('/checkout').text  # the optional "Sign in" link on the checkout page
     _, start = request_code(client, next_path='/checkout')
     telegram_bot.handle_update(app, update(f'/start {start}'))
     telegram_bot.handle_update(app, update(contact={'phone_number': '85512345678', 'user_id': USER}))
     verify = '/account/verify?next=/checkout'
-    assert '/account/login' in login_page
     assert client.post(verify, data={'csrf_token': token(client, verify), 'code': sent_code(bot)}).location == '/checkout'
 
 
