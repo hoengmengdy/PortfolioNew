@@ -61,7 +61,7 @@ def payload(client):
     return dict(csrf_token=token(client), name='Test Visitor', email='visitor@example.com', phone='+250 123 456 789', subject='Retail partnership', message='Please send more information about your collection.')
 
 
-@pytest.mark.parametrize('path', ['/', '/about', '/retailers', '/contact', '/shop', '/cart', '/admin/login'])
+@pytest.mark.parametrize('path', ['/', '/herbs', '/about', '/retailers', '/contact', '/shop', '/cart', '/admin/login'])
 @pytest.mark.parametrize('language', ['en', 'km'])
 def test_all_pages_and_languages(client, path, language):
     response = client.get(f'/set-language/{language}?next={path}', follow_redirects=True)

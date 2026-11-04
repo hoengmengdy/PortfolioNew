@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% from 'ingredient_cards.html' import ingredient_cards with context %}
+{% block content %}
+<section class="page-hero"><p class="eyebrow">{{ t('herbs_eyebrow') }}</p><h1>{{ t('herbs_title') }}</h1><p>{{ t('herbs_intro') }}</p></section>
+<section class="section herbs-section" aria-labelledby="herbs-heading">
+  <div class="section-heading"><div><p class="eyebrow">{{ t('herbs_list_eyebrow') }}</p><h2 id="herbs-heading">{{ t('herbs_list_heading') }}</h2></div></div>
+  {{ ingredient_cards(['napa_cabbage', 'rau_d', 'ingredient_x', 'ingredient_y', 'ingredient_z']) }}
+  <p class="fine-print">{{ t('herbs_disclaimer') }}</p>
+</section>
+<section class="section herbs-section" aria-labelledby="active-heading">
+  <div class="section-heading"><div><p class="eyebrow">{{ t('active_eyebrow') }}</p><h2 id="active-heading">{{ t('active_heading') }}</h2></div></div>
+  {{ ingredient_cards(['aloe_vera', 'centella_asiatica', 'turmeric', 'green_tea']) }}
+  <p class="band-cta"><a class="button" href="{{ url_for('shop') }}">{{ t('shop_now') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
+</section>
+{% include 'inquiry.html' %}
+{% endblock %}

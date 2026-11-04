@@ -223,6 +223,10 @@ def create_app(test_config=None):
     def index():
         return render_template('index.html', page='home')
 
+    @app.get('/herbs')
+    def herbs():
+        return render_template('herbs.html', page='herbs')
+
     @app.get('/about')
     def about():
         return render_template('about.html', page='about')
