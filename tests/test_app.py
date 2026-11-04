@@ -158,10 +158,10 @@ def test_admin_access_status_and_logout(client, app):
 
 
 def test_retailer_search_and_admin_crud(client, app):
-    response = client.get('/retailers?country=Rwanda&city=kig')
+    response = client.get('/retailers?city=kig')
     assert 'Kigali Store' in response.text and 'Phnom Store' not in response.text
     assert 'No retailers found' in client.get('/retailers?city=unknown').text
-    assert client.get('/retailers?country=%27%20OR%201%3D1--').status_code == 200
+    assert client.get('/retailers?city=%27%20OR%201%3D1--').status_code == 200
     login(client)
     retailer = dict(csrf_token=token(client, '/admin'), name='New Store', country='Rwanda', city='Huye', address='Main street', phone='', email='store@example.com')
     assert client.post('/admin/retailers', data=retailer).status_code == 302

@@ -131,10 +131,9 @@ ask_question|Ask us a question|សួរយើងមួយសំណួរ
 retailers_eyebrow|A LITTLE CLOSER TO YOU|នៅជិតអ្នកបន្តិច
 retailers_heading|Find your|ស្វែងរក
 retailers_emphasis|local ritual.|ហាងក្បែរអ្នក។
-retailers_intro|Explore our directory by country and city. Connect with a store to confirm availability before visiting.|ស្វែងរកតាមប្រទេស និងទីក្រុង។ សូមទាក់ទងហាងដើម្បីបញ្ជាក់ផលិតផលមុនទៅ។
+retailers_intro|Explore our directory by city. Connect with a store to confirm availability before visiting.|ស្វែងរកតាមទីក្រុង។ សូមទាក់ទងហាងដើម្បីបញ្ជាក់ផលិតផលមុនទៅ។
 country|Country|ប្រទេស
 city|City|ទីក្រុង
-all_countries|All countries|ប្រទេសទាំងអស់
 city_placeholder|Enter a city|បញ្ចូលទីក្រុង
 search|Search retailers|ស្វែងរកហាង
 reset|Clear filters|សម្អាតតម្រង

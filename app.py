@@ -233,11 +233,9 @@ def create_app(test_config=None):
 
     @app.get('/retailers')
     def retailers():
-        country = request.args.get('country', '').strip()[:80]
         city = request.args.get('city', '').strip()[:80]
-        rows = db().execute("SELECT * FROM retailers WHERE (?='' OR country=?) AND (?='' OR lower(city) LIKE '%' || lower(?) || '%') ORDER BY country,city,name", (country, country, city, city)).fetchall()
-        countries = [row[0] for row in db().execute('SELECT DISTINCT country FROM retailers ORDER BY country')]
-        return render_template('retailers.html', page='retailers', retailers=rows, countries=countries, country=country, city=city)
+        rows = db().execute("SELECT * FROM retailers WHERE (?='' OR lower(city) LIKE '%' || lower(?) || '%') ORDER BY country,city,name", (city, city)).fetchall()
+        return render_template('retailers.html', page='retailers', retailers=rows, city=city)
 
     @app.get('/contact')
     def contact():
