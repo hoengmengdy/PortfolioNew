@@ -51,18 +51,6 @@
   </div>
 </section>
 
-<section class="journal section" aria-labelledby="gallery-heading">
-  <div class="section-heading"><h2 id="gallery-heading">{{ t('gallery_simple') }}</h2></div>
-  <div class="gallery-grid">
-    {% for image,key in [('hero','light'),('soap-hero','slow'),('botanical','nature')] %}
-    <button class="gallery-item" type="button" data-lightbox="{{ url_for('static', filename='images/' + image + '.webp') }}" aria-label="{{ t('view_image') }}: {{ t(key + '_caption') }}">
-      <img src="{{ url_for('static', filename='images/' + image + '.webp') }}" alt="{{ t(key + '_caption') }}" loading="lazy" width="700" height="800">
-      <span>{{ t(key + '_caption') }} <i class="fa-solid fa-expand" aria-hidden="true"></i></span>
-    </button>
-    {% endfor %}
-  </div>
-</section>
-
 <div class="band band-peach">
 <section class="steps section" aria-labelledby="steps-heading">
   <div class="section-heading centered"><h2 id="steps-heading">{{ t('steps_heading') }}</h2><p>{{ t('steps_intro') }}</p></div>
@@ -86,7 +74,4 @@
 </div>
 <div class="inquiry-spacer"></div>
 {% include 'inquiry.html' %}
-{% endblock %}
-{% block extra %}
-<dialog class="lightbox" aria-label="{{ t('visual_journal') }}"><button type="button" class="lightbox-close icon-button" aria-label="{{ t('close') }}">&times;</button><img alt=""><p></p></dialog>
 {% endblock %}
