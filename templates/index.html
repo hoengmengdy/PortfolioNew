@@ -73,12 +73,6 @@
 </section>
 </div>
 
-<div class="band band-tan">
-<section class="commitment section" aria-labelledby="commitment-heading">
-  <div><h2 id="commitment-heading">{{ t('commitment') }}</h2><p>{{ t('promise_description') }}</p><a class="text-link" href="{{ url_for('about') }}">{{ t('read_story') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
-  <div>{% for key in ['why','commitment'] %}<article class="numbered-feature"><span>0{{ loop.index }}</span><div><h3>{{ t('why_choose' if key == 'why' else 'commitment') }}</h3><p>{{ t(key + '_description') }}</p></div></article>{% endfor %}</div>
-</section>
-</div>
 <div class="inquiry-spacer"></div>
 {% include 'inquiry.html' %}
 {% endblock %}
