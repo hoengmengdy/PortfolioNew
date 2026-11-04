@@ -786,3 +786,9 @@ html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 /* Optional sign-in hint for guests at checkout. */
 .guest-note{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:12px 14px;border-radius:10px;background:var(--blue);color:var(--ink);font-size:14px}
 .guest-note .text-link{min-height:0}
+/* Steps use icons instead of photos. */
+.step-card{padding:28px;background:#fff;border-radius:var(--radius);border:1px solid var(--line)}
+.step-icon{display:grid;place-items:center;width:56px;height:56px;margin-bottom:20px;border-radius:16px;background:var(--blue);color:var(--primary);font-size:22px}
+/* Footer without a description: logo on the left, link columns grouped on the right. */
+.footer-top{grid-template-columns:1fr auto auto;column-gap:clamp(40px,8vw,120px)}
+@media(max-width:600px){.footer-top{grid-template-columns:1fr 1fr;column-gap:26px}}

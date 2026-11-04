@@ -331,7 +331,7 @@ step_1_description|Browse the collection and pick what suits your routine.|ម�
 step_2|Take a quiet moment|ចំណាយពេលស្ងប់ស្ងាត់បន្តិច
 step_2_description|Make your morning or evening care a small pause just for you.|ធ្វើឱ្យការថែទាំពេលព្រឹក ឬពេលល្ងាច ក្លាយជាពេលសម្រាកតូចមួយសម្រាប់អ្នក។
 step_3|Care, the simple way|ថែទាំតាមរបៀបសាមញ្ញ
-step_3_description|Order online and pay on delivery or by bank transfer.|កុម្ម៉ង់តាមអនឡាញ ហើយបង់ប្រាក់ពេលទទួលទំនិញ ឬតាមការផ្ទេរប្រាក់តាមធនាគារ។
+step_3_description|Order online, pay with ABA, KHQR or card, and we deliver to your door.|កុម្ម៉ង់តាមអនឡាញ បង់តាម ABA, KHQR ឬកាត ហើយយើងដឹកជញ្ជូនដល់ផ្ទះ។
 account_title|My account|គណនីរបស់ខ្ញុំ
 account_login_title|Sign in|ចូលគណនី
 login_intro|Enter your phone number. We will send a sign-in code to your Telegram.|បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក។ យើងនឹងផ្ញើលេខកូដចូលគណនីទៅ Telegram របស់អ្នក។
