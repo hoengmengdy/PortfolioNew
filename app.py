@@ -758,6 +758,7 @@ def create_app(test_config=None):
             data['products'] = db().execute('SELECT * FROM products ORDER BY active DESC, id').fetchall()
             data['product_images'] = product_images
             data['photo_limit_mb'] = MAX_PHOTO_BYTES // (1024 * 1024)
+            data['photo_size'] = PHOTO_SIZE
         elif view == 'messages':
             status = request.args.get('status', '')
             if status not in ('', 'new', 'read', 'archived'):

@@ -184,3 +184,44 @@ if (places) {
   });
   district.addEventListener('change', async () => fill(commune, (await load()).communes[district.value] || []));
 }
+
+// Product photos: shrink large pictures in the browser before upload, since the host refuses bodies over 4.5 MB.
+document.querySelectorAll('input[type=file][data-max-bytes]').forEach(input => {
+  const maxBytes = Number(input.dataset.maxBytes);
+  const maxSide = Number(input.dataset.maxSide);
+  const submit = input.form?.querySelector('[type=submit]');
+  const encode = (canvas, type) => new Promise(resolve => canvas.toBlob(resolve, type, 0.9));
+  input.addEventListener('change', async () => {
+    input.setCustomValidity('');
+    const file = input.files[0];
+    if (!file) return;
+    if (submit) submit.disabled = true;
+    try {
+      const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+      const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+      if (scale < 1 || file.size > maxBytes / 2) {
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(bitmap.width * scale);
+        canvas.height = Math.round(bitmap.height * scale);
+        canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        let blob = await encode(canvas, 'image/webp');
+        // Browsers without WebP encoding fall back to PNG, which can be larger than the original.
+        if (!blob || blob.type !== 'image/webp') blob = await encode(canvas, 'image/jpeg');
+        if (blob && blob.size < file.size) {
+          const name = file.name.replace(/\.[^.]+$/, '') + (blob.type === 'image/webp' ? '.webp' : '.jpg');
+          const files = new DataTransfer();
+          files.items.add(new File([blob], name, { type: blob.type }));
+          input.files = files.files;
+        }
+      }
+    } catch {
+      // Not a picture the browser can read; the server will refuse it with a clear message.
+    } finally {
+      if (submit) submit.disabled = false;
+    }
+    if (input.files[0].size > maxBytes) {
+      input.setCustomValidity(input.dataset.tooLarge);
+      input.reportValidity();
+    }
+  });
+});
