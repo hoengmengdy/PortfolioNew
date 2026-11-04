@@ -193,7 +193,7 @@ def test_admin_uploads_product_photo(client, app):
     assert 'Set-Cookie' not in app.test_client().get('/' + image).headers  # visitors' photo responses stay cacheable
     from PIL import Image
     assert max(Image.open(io.BytesIO(photo.data)).size) == app_module.PHOTO_SIZE
-    assert '/' + image in client.get('/shop').text
+    assert '/' + image in client.get('/shop').text and '/' + image in client.get('/').text
     # Saving again without a new file keeps the uploaded photo.
     assert client.post('/admin/products', data={**form, 'image': image}, content_type='multipart/form-data').status_code == 302
     assert query(app, 'SELECT image FROM products WHERE id=?', product_id)[0][0] == image

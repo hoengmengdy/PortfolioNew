@@ -268,7 +268,9 @@ def create_app(test_config=None):
 
     @app.get('/')
     def index():
-        return render_template('index.html', page='home')
+        # The homepage shows the first shop products, so pictures and text changed in the admin appear here too.
+        products = db().execute('SELECT * FROM products WHERE active=1 ORDER BY id LIMIT 3').fetchall()
+        return render_template('index.html', page='home', products=products)
 
     @app.get('/herbs')
     def herbs():
