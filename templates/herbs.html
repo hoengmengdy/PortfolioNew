@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% from 'ingredient_cards.html' import ingredient_cards with context %}
 {% block content %}
-<section class="page-hero"><p class="eyebrow">{{ t('herbs_eyebrow') }}</p><h1>{{ t('herbs_title') }}</h1><p>{{ t('herbs_intro') }}</p></section>
+<section class="page-hero"><h1>{{ t('herbs_title') }}</h1><p>{{ t('herbs_intro') }}</p></section>
 <section class="section herbs-section" aria-labelledby="herbs-heading">
   <div class="section-heading"><div><p class="eyebrow">{{ t('herbs_list_eyebrow') }}</p><h2 id="herbs-heading">{{ t('herbs_list_heading') }}</h2></div></div>
   {{ ingredient_cards(['napa_cabbage', 'rau_d', 'ingredient_x', 'ingredient_y', 'ingredient_z']) }}
