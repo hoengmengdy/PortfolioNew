@@ -397,6 +397,43 @@ marquee_2|Order online|កុម្ម៉ង់តាមអនឡាញ
 marquee_3|Pay with ABA, KHQR or card|បង់តាម ABA, KHQR ឬកាត
 marquee_4|Delivery to your door|ដឹកជញ្ជូនដល់ផ្ទះ
 steps_intro|From choosing your favourite to delivery at your door, caring for yourself stays simple.|ចាប់ពីការជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត រហូតដល់ការដឹកជញ្ជូនដល់ផ្ទះ ការថែទាំខ្លួនឯងនៅតែសាមញ្ញ។
+herbs_title|Our Herbs|វត្ថុធាតុដើម
+herbs_eyebrow|FROM THE GARDEN|ពីសួនច្បារ
+herbs_intro|Fresh herbs and natural ingredients, chosen for everyday care and healthy living.|រុក្ខជាតិស្រស់ និងគ្រឿងផ្សំធម្មជាតិ ដែលបានជ្រើសរើសសម្រាប់ការថែទាំប្រចាំថ្ងៃ និងជីវិតដែលមានសុខភាពល្អ។
+herbs_list_eyebrow|NATURAL INGREDIENTS|គ្រឿងផ្សំធម្មជាតិ
+herbs_list_heading|The herbs we work with|រុក្ខជាតិដែលយើងប្រើ
+herbs_disclaimer|Ingredient information is general and not medical advice.|ព័ត៌មានអំពីគ្រឿងផ្សំនេះជាព័ត៌មានទូទៅ មិនមែនជាដំបូន្មានវេជ្ជសាស្ត្រទេ។
+active_eyebrow|ACTIVE INGREDIENTS|គ្រឿងផ្សំសកម្ម
+active_heading|What makes it work|អ្វីដែលធ្វើឱ្យមានប្រសិទ្ធភាព
+see_our_herbs|See our herbs|មើលវត្ថុធាតុដើមរបស់យើង
+benefits|Benefits|អត្ថប្រយោជន៍
+herb_napa_cabbage_name|Napa Cabbage|ស្ពៃក្តោបចិន
+herb_napa_cabbage_description|A mild, crisp leafy green, rich in water, vitamin C and vitamin K.|បន្លែស្លឹកស្រួយ រសជាតិស្រាល សម្បូរទឹក វីតាមីន C និងវីតាមីន K។
+herb_napa_cabbage_benefits|Naturally hydrating;Source of vitamins C and K;Fresh, light and easy to use|ផ្តល់សំណើមដោយធម្មជាតិ;ប្រភពវីតាមីន C និង K;ស្រស់ ស្រាល និងងាយប្រើ
+herb_rau_d_name|Rau D… (name to be confirmed)|Rau D… (ឈ្មោះនឹងបញ្ជាក់)
+herb_rau_d_description|A traditional leafy herb. Full details coming soon.|រុក្ខជាតិស្លឹកបុរាណ។ ព័ត៌មានលម្អិតនឹងមកដល់ឆាប់ៗ។
+herb_rau_d_benefits|Benefit to be confirmed;Usage to be confirmed|អត្ថប្រយោជន៍នឹងបញ្ជាក់;របៀបប្រើនឹងបញ្ជាក់
+herb_ingredient_x_name|Ingredient X|គ្រឿងផ្សំ X
+herb_ingredient_x_description|Description coming soon.|ការពិពណ៌នានឹងមកដល់ឆាប់ៗ។
+herb_ingredient_x_benefits|Benefit to be confirmed|អត្ថប្រយោជន៍នឹងបញ្ជាក់
+herb_ingredient_y_name|Ingredient Y|គ្រឿងផ្សំ Y
+herb_ingredient_y_description|Description coming soon.|ការពិពណ៌នានឹងមកដល់ឆាប់ៗ។
+herb_ingredient_y_benefits|Benefit to be confirmed|អត្ថប្រយោជន៍នឹងបញ្ជាក់
+herb_ingredient_z_name|Ingredient Z|គ្រឿងផ្សំ Z
+herb_ingredient_z_description|Description coming soon.|ការពិពណ៌នានឹងមកដល់ឆាប់ៗ។
+herb_ingredient_z_benefits|Benefit to be confirmed|អត្ថប្រយោជន៍នឹងបញ្ជាក់
+herb_aloe_vera_name|Aloe Vera|ប្រទាលកន្ទុយក្រពើ
+herb_aloe_vera_description|A cooling gel from the aloe leaf, loved for comfort and moisture.|ជែលត្រជាក់ពីស្លឹកប្រទាលកន្ទុយក្រពើ ល្បីសម្រាប់ភាពស្រួល និងសំណើម។
+herb_aloe_vera_benefits|Soothing and cooling;Light, lasting moisture|ធ្វើឱ្យស្ងប់ និងត្រជាក់;សំណើមស្រាល និងយូរ
+herb_centella_asiatica_name|Centella Asiatica|ត្រចៀកក្រាញ់ (Centella Asiatica)
+herb_centella_asiatica_description|Also called gotu kola, a gentle herb long used in Asian traditions.|រុក្ខជាតិស្រាលៗ ដែលត្រូវបានប្រើជាយូរមកហើយក្នុងប្រពៃណីអាស៊ី។
+herb_centella_asiatica_benefits|Calms the skin;Supports the skin barrier|ធ្វើឱ្យស្បែកស្ងប់;ជួយគាំទ្ររបាំងការពារស្បែក
+herb_turmeric_name|Turmeric|រមៀត
+herb_turmeric_description|A golden root used in kitchens and beauty rituals across Asia.|ឫសពណ៌មាស ប្រើក្នុងផ្ទះបាយ និងការថែរក្សាសម្ផស្សនៅទូទាំងអាស៊ី។
+herb_turmeric_benefits|Rich in antioxidants;Helps brighten the look of skin|សម្បូរសារធាតុប្រឆាំងអុកស៊ីតកម្ម;ជួយឱ្យស្បែកមើលទៅភ្លឺថ្លា
+herb_green_tea_name|Green Tea|តែបៃតង
+herb_green_tea_description|Fresh tea leaves full of natural polyphenols.|ស្លឹកតែស្រស់ សម្បូរសារធាតុប៉ូលីហ្វេណុលធម្មជាតិ។
+herb_green_tea_benefits|Antioxidant care;Refreshing feel|ការថែទាំប្រឆាំងអុកស៊ីតកម្ម;អារម្មណ៍ស្រស់ស្រាយ
 '''
 
 if __name__ == '__main__':

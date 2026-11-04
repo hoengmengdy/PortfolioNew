@@ -7,7 +7,7 @@
       <h3>{{ t('herb_' + slug + '_name') }}</h3>
       <p>{{ t('herb_' + slug + '_description') }}</p>
       <h4>{{ t('benefits') }}</h4>
-      <ul class="benefit-list">{% for benefit in t('herb_' + slug + '_benefits').split('|') %}<li><i class="fa-solid fa-leaf" aria-hidden="true"></i>{{ benefit }}</li>{% endfor %}</ul>
+      <ul class="benefit-list">{% for benefit in t('herb_' + slug + '_benefits').split(';') %}<li><i class="fa-solid fa-leaf" aria-hidden="true"></i>{{ benefit }}</li>{% endfor %}</ul>
     </div>
   </article>
   {% endfor %}
