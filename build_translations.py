@@ -7,6 +7,7 @@ welcome_hero|WELCOME TO Empress Cambodia Cosmetics|ស្វាគមន៍ម�
 reference_hero_heading|Simple care. Everyday comfort.|ការថែទាំសាមញ្ញ សម្រាប់រាល់ថ្ងៃ។
 reference_hero_description|Thoughtful skincare, a calmer routine, and a little time for yourself.|ការថែរក្សាស្បែកដោយយកចិត្តទុកដាក់ ទម្លាប់ដ៏សាមញ្ញ និងពេលវេលាបន្តិចសម្រាប់ខ្លួនអ្នក។
 contact_us|Contact us|ទាក់ទងយើង
+alt_sky_hills|Illustration of a blue sky with a white cloud over green hills.|រូបគំនូរមេឃពណ៌ខៀវ មានពពកពណ៌ស លើភ្នំតូចៗពណ៌បៃតង។
 alt_soap_hero|Empress Natural Beauty Soap box with rice and romdoul flowers.|ប្រអប់សាប៊ូ Empress Natural Beauty ជាមួយកួរស្រូវ និងផ្ការំដួល។
 product_details|Ask about this product|សួរអំពីផលិតផលនេះ
 show_password|Show password|បង្ហាញពាក្យសម្ងាត់

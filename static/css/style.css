@@ -791,3 +791,6 @@ html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 /* Optional sign-in hint for guests at checkout. */
 .guest-note{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:12px 14px;border-radius:10px;background:var(--blue);color:var(--ink);font-size:14px}
 .guest-note .text-link{min-height:0}
+/* Single picture where the homepage gallery used to be. */
+.feature-picture{border-top:1px solid var(--line)}
+.feature-picture>img{display:block;width:100%;max-width:720px;height:auto;margin:0 auto;border-radius:var(--radius)}
