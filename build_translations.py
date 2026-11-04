@@ -418,9 +418,6 @@ herb_ingredient_x_benefits|Benefit to be confirmed|អត្ថប្រយោ�
 herb_ingredient_y_name|Ingredient Y|គ្រឿងផ្សំ Y
 herb_ingredient_y_description|Description coming soon.|ការពិពណ៌នានឹងមកដល់ឆាប់ៗ។
 herb_ingredient_y_benefits|Benefit to be confirmed|អត្ថប្រយោជន៍នឹងបញ្ជាក់
-herb_ingredient_z_name|Ingredient Z|គ្រឿងផ្សំ Z
-herb_ingredient_z_description|Description coming soon.|ការពិពណ៌នានឹងមកដល់ឆាប់ៗ។
-herb_ingredient_z_benefits|Benefit to be confirmed|អត្ថប្រយោជន៍នឹងបញ្ជាក់
 herb_aloe_vera_name|Aloe Vera|ប្រទាលកន្ទុយក្រពើ
 herb_aloe_vera_description|A cooling gel from the aloe leaf, loved for comfort and moisture.|ជែលត្រជាក់ពីស្លឹកប្រទាលកន្ទុយក្រពើ ល្បីសម្រាប់ភាពស្រួល និងសំណើម។
 herb_aloe_vera_benefits|Soothing and cooling;Light, lasting moisture|ធ្វើឱ្យស្ងប់ និងត្រជាក់;សំណើមស្រាល និងយូរ
