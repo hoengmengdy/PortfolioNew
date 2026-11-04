@@ -10,11 +10,11 @@
       <a class="button hero-contact" href="{{ url_for('contact') }}">{{ t('contact_us') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
   </div>
-  <div class="hero-visual">
-    <img src="{{ url_for('static', filename='images/soap-hero.webp') }}"
-         srcset="{{ url_for('static', filename='images/soap-hero-small.webp') }} 640w, {{ url_for('static', filename='images/soap-hero.webp') }} 1120w"
+  <div class="hero-visual hero-visual-product">
+    <img src="{{ url_for('static', filename='images/empress-soap.webp') }}"
+         srcset="{{ url_for('static', filename='images/empress-soap-small.webp') }} 800w, {{ url_for('static', filename='images/empress-soap.webp') }} 1774w"
          sizes="(max-width: 600px) 100vw, 48vw" alt="{{ t('alt_soap_hero') }}"
-         fetchpriority="high" width="1120" height="1400">
+         fetchpriority="high" width="1774" height="887">
   </div>
 </section>
 
