@@ -8,6 +8,12 @@ reference_hero_heading|Visakh Cosmetics|Visakh Cosmetics
 hero_tagline|Forever young|ក្មេងជានិច្ច
 reference_hero_description|Discover our innovative herbal infused cremes and lotions to rejuvenate your skin.|ស្វែងយល់ពីក្រែម និងឡេដ៏ច្នៃប្រឌិតរបស់យើង ដែលលាយជាមួយរុក្ខជាតិ ដើម្បីធ្វើឱ្យស្បែករបស់អ្នកស្រស់ថ្លាឡើងវិញ។
 contact_us|Contact us|ទាក់ទងយើង
+founder_eyebrow|Our founder|ស្ថាបនិករបស់យើង
+founder_name|Nut Samphois|អ្នកស្រី នុត សម្ផស្ស
+founder_role|Founder and Managing Director, LSV Industry Co., Ltd.|ស្ថាបនិក និងអគ្គនាយិកា ក្រុមហ៊ុន LSV Industry Co., Ltd.
+founder_p1|Nut Samphois grew LSV Industry from a family business into a Cambodian maker of household and personal care products, spending more than ten years studying, researching and building her professional skills along the way.|អ្នកស្រី នុត សម្ផស្ស បានអភិវឌ្ឍ LSV Industry ពីអាជីវកម្មគ្រួសារ ទៅជារោងចក្រខ្មែរផលិតផលិតផលប្រើប្រាស់ក្នុងផ្ទះ និងផលិតផលថែរក្សាខ្លួន ដោយបានចំណាយពេលជាង ១០ ឆ្នាំ ដើម្បីសិក្សា ស្រាវជ្រាវ និងអភិវឌ្ឍសមត្ថភាពវិជ្ជាជីវៈ។
+founder_p2|Today LSV Industry makes OKA laundry soap and Empress personal care products, including facial foam, body wash and shampoo. Working with local chemists, production technicians and farmers, the team turns Cambodian farm produce such as lemongrass and pineapple into everyday care products.|សព្វថ្ងៃ LSV Industry ផលិតសាប៊ូបោកសម្លៀកបំពាក់ម៉ាក OKA និងផលិតផលថែរក្សាខ្លួន Empress រួមមាន ហ្វូមលាងមុខ សាប៊ូងូតទឹក និងសាប៊ូកក់សក់។ ដោយសហការជាមួយអ្នកគីមីវិទ្យា អ្នកបច្ចេកទេសផលិតកម្ម និងកសិករក្នុងស្រុក ក្រុមការងារបានកែច្នៃកសិផលខ្មែរ ដូចជាស្លឹកគ្រៃ និងម្នាស់ ទៅជាផលិតផលថែទាំប្រចាំថ្ងៃ។
+founder_p3|In 2017 she was named one of the 10 Outstanding Cambodian Women Entrepreneurs.|នៅឆ្នាំ ២០១៧ អ្នកស្រីត្រូវបានជ្រើសរើសជាសហគ្រិនស្ត្រីឆ្នើមទាំង ១០ រូបរបស់កម្ពុជា។
 team_photos_heading|Our team at work|ក្រុមការងាររបស់យើង
 alt_about_lab|A scientist in the LSV lab holding up a flask of blue liquid.|អ្នកវិទ្យាសាស្ត្រក្នុងមន្ទីរពិសោធន៍ LSV កាន់ដបកែវដែលមានទឹកពណ៌ខៀវ។
 alt_about_research|Our team smelling fresh pineapple and extract samples in the lab.|ក្រុមការងាររបស់យើងកំពុងហិតក្លិនម្នាស់ស្រស់ និងសំណាកសារធាតុចម្រាញ់ក្នុងមន្ទីរពិសោធន៍។

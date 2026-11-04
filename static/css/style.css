@@ -803,3 +803,5 @@ html:lang(km) .hero-tagline{font-family:Khmer,sans-serif;font-style:normal;line-
 .photo-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
 .photo-grid img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:12px}
 @media(max-width:800px){.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.photo-grid img:last-child{grid-column:1/-1;aspect-ratio:16/9}}
+/* Founder role line under the name on the About page. */
+.founder-role{margin:-12px 0 20px;font-size:14px;font-weight:600;color:var(--primary)}
