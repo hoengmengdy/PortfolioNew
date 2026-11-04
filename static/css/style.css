@@ -787,5 +787,8 @@ html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 .guest-note{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:12px 14px;border-radius:10px;background:var(--blue);color:var(--ink);font-size:14px}
 .guest-note .text-link{min-height:0}
 /* Footer without a description: logo on the left, link columns grouped on the right. */
-.footer-top{grid-template-columns:1fr auto auto;column-gap:clamp(40px,8vw,120px)}
+.footer-top{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(32px,6vw,80px)}
 @media(max-width:600px){.footer-top{grid-template-columns:1fr 1fr;column-gap:26px}}
+.footer-social{display:flex;flex-wrap:wrap;gap:10px}
+.footer-social a{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--blue);color:var(--primary);font-size:16px;transition:background .15s,color .15s}
+.footer-social a:hover{background:var(--primary);color:#fff}

@@ -14,7 +14,7 @@
   <link rel="icon" href="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='44') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='45') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='7') }}"></script>
 </head>
 <body class="page-{{ page }}">
@@ -56,6 +56,13 @@
     <div class="footer-top">
       <div>
         <a class="brand footer-brand" href="{{ url_for('index') }}"><img class="brand-logo" src="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" alt="Empress Cambodia" width="2100" height="903" loading="lazy"></a>
+        <div class="footer-social">
+          {% if config.FACEBOOK_URL %}<a href="{{ config.FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'Facebook · Empress Cambodia' }}" title="{{ 'Facebook · Empress Cambodia' }}"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>{% endif %}
+          {% if config.COMPANY_FACEBOOK_URL %}<a href="{{ config.COMPANY_FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'Facebook · LSV Industry' }}" title="{{ 'Facebook · LSV Industry' }}"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>{% endif %}
+          {% if config.TELEGRAM_URL %}<a href="{{ config.TELEGRAM_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'Telegram Group' }}" title="{{ 'Telegram Group' }}"><i class="fa-brands fa-telegram" aria-hidden="true"></i></a>{% endif %}
+          {% if config.TELEGRAM_CHAT_URL %}<a href="{{ config.TELEGRAM_CHAT_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ t('telegram_chat') }}" title="{{ t('telegram_chat') }}"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></a>{% endif %}
+          {% if config.INSTAGRAM_URL %}<a href="{{ config.INSTAGRAM_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'Instagram' }}" title="{{ 'Instagram' }}"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>{% endif %}
+        </div>
       </div>
       <div>
         <h2>{{ t('explore') }}</h2>
@@ -67,13 +74,8 @@
         <a href="{{ url_for('contact', subject=t('partnership')) }}">{{ t('partnership') }}</a>
         {% if contact_email %}<a href="mailto:{{ contact_email }}">{{ contact_email }}</a>{% endif %}
         {% if contact_phone %}<a href="tel:{{ contact_phone_link }}"><i class="fa-solid fa-phone" aria-hidden="true"></i> {{ contact_phone }}</a>{% endif %}
-        {% if config.FACEBOOK_URL %}<a href="{{ config.FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Empress Cambodia</a>{% endif %}
-        {% if config.COMPANY_FACEBOOK_URL %}<a href="{{ config.COMPANY_FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook" aria-hidden="true"></i> LSV Industry</a>{% endif %}
-        {% if config.TELEGRAM_URL %}<a href="{{ config.TELEGRAM_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram" aria-hidden="true"></i> Telegram Group</a>{% endif %}
-        {% if config.TELEGRAM_CHAT_URL %}<a href="{{ config.TELEGRAM_CHAT_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram" aria-hidden="true"></i> {{ t('telegram_chat') }}</a>{% endif %}
         {% if config.CONTACT_ADDRESS %}<p class="footer-detail"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ config.CONTACT_ADDRESS }}</p>{% endif %}
         {% if config.BUSINESS_HOURS %}<p class="footer-detail"><i class="fa-regular fa-clock" aria-hidden="true"></i> {{ config.BUSINESS_HOURS }}</p>{% endif %}
-        {% if config.INSTAGRAM_URL %}<a href="{{ config.INSTAGRAM_URL }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a>{% endif %}
       </div>
     </div>
     <div class="footer-bottom"><span>© 2026 Empress Cambodia. {{ t('rights') }}</span></div>
