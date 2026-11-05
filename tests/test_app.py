@@ -111,12 +111,15 @@ def test_homepage_video_highlights(client):
     assert response.status_code == 206 and response.mimetype == 'video/mp4' and len(response.data) == 100
     assert client.get('/videos/missing.mp4').status_code == 404
 
-@pytest.mark.parametrize('path, before', [('/', 'home-story'), ('/about', 'philosophy')])
-def test_videos_follow_building_cambodian_brands(client, path, before):
-    sections = re.findall(r'<section class="([\w -]+)"', client.get(path).text)
+def test_homepage_has_videos_but_no_brand_story(client):
+    page = client.get('/').text
+    assert 'home-story' not in page and 'data-video-carousel' in page
+
+
+def test_about_videos_follow_building_cambodian_brands(client):
+    sections = re.findall(r'<section class="([\w -]+)"', client.get('/about').text)
     names = [name.split()[0] for name in sections]
-    assert names[names.index(before) + 1] == 'video-section'
-    assert names.count('video-section') == 1
+    assert names[names.index('philosophy') + 1] == 'video-section'
 
 def test_about_cards_open_history_dialogs(client):
     page = client.get('/about').text

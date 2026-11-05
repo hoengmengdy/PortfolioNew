@@ -81,7 +81,6 @@ intro_eyebrow|WELCOME TO Empress Cambodia|ស្វាគមន៍មកកា�
 intro_title|Beautiful care begins|ការថែទាំដ៏ល្អចាប់ផ្តើម
 intro_emphasis|with the little things.|ពីរឿងតូចៗ។
 intro_description|A quiet moment. A familiar scent. The feeling of starting fresh. We believe the most meaningful skincare routines are the ones that bring you back to yourself.|ពេលស្ងប់ស្ងាត់ ក្លិនដែលធ្លាប់ស្គាល់ និងអារម្មណ៍ស្រស់ស្រាយ។ យើងជឿថាទម្លាប់ថែស្បែកដ៏មានន័យគឺជួយឱ្យអ្នកមានអារម្មណ៍ល្អឡើងវិញ។
-meet_brand|Get to know us|ស្គាល់យើងបន្ថែម
 ritual_eyebrow|A LITTLE CARE GOES A LONG WAY|ការថែទាំតិចតួចមានន័យច្រើន
 ritual_title|For your skin.|សម្រាប់ស្បែកអ្នក។
 ritual_emphasis|For your senses.|សម្រាប់អារម្មណ៍អ្នក។

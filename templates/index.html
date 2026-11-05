@@ -51,20 +51,6 @@
 </section>
 </div>
 
-<section class="home-story section" aria-labelledby="story-heading">
-  <div class="home-story-media">
-    <img class="home-story-main" src="{{ url_for('static', filename='images/about-lab.webp') }}" alt="{{ t('alt_about_lab') }}" loading="lazy" width="1200" height="1600">
-    <img class="home-story-small" src="{{ url_for('static', filename='images/about-oil.webp') }}" alt="{{ t('alt_about_oil') }}" loading="lazy" width="1541" height="1600">
-  </div>
-  <div class="home-story-copy">
-    <h2 id="story-heading">{{ t('journey_heading') }}</h2>
-    {% for key, icon in [('founded','calendar-check'),('brands','leaf'),('quality','award')] %}
-    <div class="numbered-feature"><i class="fa-solid fa-{{ icon }} feature-icon" aria-hidden="true"></i><div><h3>{{ t('journey_' ~ key) }}</h3><p>{{ t('journey_' ~ key ~ '_text') }}</p></div></div>
-    {% endfor %}
-    <a class="button" href="{{ url_for('about') }}">{{ t('meet_brand') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-  </div>
-</section>
-
 {% include 'video_section.html' %}
 
 <div class="band band-navy">

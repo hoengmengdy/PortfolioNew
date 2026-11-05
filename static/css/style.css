@@ -859,14 +859,7 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .page-home .ingredient-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .page-home .ingredient-card{border:0;border-radius:20px;box-shadow:0 1px 2px #17293a0f}
 .page-home .ingredient-body p,.page-home .benefit-list{font-size:15px;color:#3f5060}
-.home-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(48px,7vw,104px)}
-.home-story-media{position:relative;padding:0 14% 12% 0}
-.home-story-main{aspect-ratio:4/5;height:auto;border-radius:24px}
-.home-story-small{position:absolute;right:0;bottom:0;width:44%;height:auto;aspect-ratio:1/1;border:8px solid #fff;border-radius:20px;box-shadow:0 22px 44px #17293a2e}
-.home-story-copy h2{margin-bottom:24px}
-.page-home .home-story-copy .numbered-feature p{font-size:15px;color:#3f5060}
-.home-story-copy .numbered-feature:last-of-type{border-bottom:1px solid var(--line);margin-bottom:32px}
-.band-navy{background:#123049;color:#d6e6f2}
+.page-home.band-navy{background:#123049;color:#d6e6f2}
 .band-navy .steps{border-top:0}
 .band-navy h2,.band-navy h3{color:#fff}
 .band-navy .section-heading.centered p{color:#c3d8e8;font-size:17px}
@@ -887,8 +880,6 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 html:lang(km) .page-home main h2{font-family:Cormorant,Khmer,serif;line-height:1.4}
 @media(max-width:1000px){.page-home .ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:800px){
-  .home-story{grid-template-columns:1fr}
-  .home-story-media{max-width:520px;margin:0 auto;width:100%}
   .band-navy .steps-grid{grid-template-columns:1fr}
 }
 @media(max-width:600px){
