@@ -840,26 +840,11 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .site-header nav a:active{background:var(--primary);color:#fff}
 .site-header nav a[aria-current]:hover,.nav-group.is-active>a:hover{background:var(--primary-hover);color:#fff}
 .text-link:hover,.footer-top>div>a:hover,.product-card a:hover .product-inquiry{color:#123f5f}
-/* Homepage: easier-to-read card text. */
-.page-home .product-card p,.page-home .ingredient-body p,.page-home .benefit-list,.page-home .numbered-feature p,.page-home .step-card p{font-size:15px;color:#3f5060}
-/* Homepage on phones: smaller pictures and side-by-side cards, so the page is much shorter. */
-@media(max-width:600px){
-  .page-home .herbs-section .ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .page-home .ingredient-body{padding:14px}
-  .page-home .ingredient-body h3{font-size:17px}
-  .page-home .ingredient-body p,.page-home .benefit-list{font-size:13px}
-  .page-home .ritual-image{height:210px}
-  .page-home .steps-grid{gap:18px}
-  .page-home .step-card{display:flex;align-items:flex-start;gap:16px}
-  .page-home .step-card img{flex:0 0 104px;width:104px;height:104px;margin:0}
-  .page-home .step-card>div{flex:1;min-width:0}
-}
 /* Product photos always show whole: the frame is 4:5 like the product photos, and other shapes fit inside it. */
 .product-image{height:auto;aspect-ratio:4/5;background:#f5f5f7}
 .product-image>img{width:100%;height:100%;object-fit:contain}
 .product-card a:hover .product-image>img{transform:scale(1.03)}
-.step-card img,.cart-line img{object-fit:contain;background:#f5f5f7}
-.step-card:hover img{transform:scale(1.03)}
+.cart-line img{object-fit:contain;background:#f5f5f7}
 /* The whole banner links to the shop, and the button sits in the empty space beside the artwork. */
 .hero-slider-link{position:absolute;inset:0;display:block}
 .hero-slider-link:focus-visible{outline:3px solid #0f4c75;outline-offset:-5px}
@@ -869,3 +854,64 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 @media(max-width:700px){.hero-shop{top:10px;right:10px;transform:none;min-height:36px;padding:6px 12px;gap:8px;font-size:12px}}
 /* Small company logo under the social icons in the footer. */
 .footer-company-logo{width:112px;height:auto;margin-top:20px}
+/* Homepage design. Everything is scoped to the homepage, so other pages stay as they are. */
+.page-home .section{padding:clamp(56px,7vw,104px) 0}
+.page-home main h2{font-size:clamp(36px,4.2vw,58px);font-weight:500;line-height:1.08}
+.page-home .section-heading{margin-bottom:clamp(28px,3.5vw,48px)}
+.page-home .product-grid{gap:clamp(20px,2.4vw,32px)}
+.page-home .product-card{border:0;border-radius:20px;background:transparent;overflow:visible;box-shadow:none;transition:transform .35s ease}
+.page-home .product-card:hover{transform:translateY(-6px);box-shadow:none}
+.page-home .product-image{border-radius:20px;box-shadow:0 1px 2px #17293a14;transition:box-shadow .35s ease}
+.page-home .product-card:hover .product-image{box-shadow:0 26px 48px #17293a2e}
+.page-home .product-meta{align-items:baseline;padding:20px 4px 6px}
+.page-home .product-meta h3{font-size:20px}
+.page-home .product-meta .price{font-size:18px}
+.page-home .product-card p{padding:0 4px 12px;font-size:15px;color:#3f5060}
+.page-home .product-inquiry{padding:0 4px;font-size:14px}
+.band-soft{background:#eef6fc}
+.page-home .ingredient-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.page-home .ingredient-card{border:0;border-radius:20px;box-shadow:0 1px 2px #17293a0f}
+.page-home .ingredient-body p,.page-home .benefit-list{font-size:15px;color:#3f5060}
+.home-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(48px,7vw,104px)}
+.home-story-media{position:relative;padding:0 14% 12% 0}
+.home-story-main{aspect-ratio:4/5;height:auto;border-radius:24px}
+.home-story-small{position:absolute;right:0;bottom:0;width:44%;height:auto;aspect-ratio:1/1;border:8px solid #fff;border-radius:20px;box-shadow:0 22px 44px #17293a2e}
+.home-story-copy h2{margin-bottom:24px}
+.page-home .home-story-copy .numbered-feature p{font-size:15px;color:#3f5060}
+.home-story-copy .numbered-feature:last-of-type{border-bottom:1px solid var(--line);margin-bottom:32px}
+.band-navy{background:#123049;color:#d6e6f2}
+.band-navy .steps{border-top:0}
+.band-navy h2,.band-navy h3{color:#fff}
+.band-navy .section-heading.centered p{color:#c3d8e8;font-size:17px}
+.band-navy .steps-grid{gap:20px}
+.band-navy .step-card{padding:clamp(24px,2.6vw,36px);border:1px solid #ffffff24;border-radius:20px;background:#ffffff0d;transition:background .3s ease,transform .3s ease}
+.band-navy .step-card:hover{background:#ffffff1a;transform:translateY(-4px)}
+.step-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
+.step-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#9acdeb;color:#123049;font-size:20px}
+.band-navy .step-number{margin:0;font-family:var(--display);font-size:44px;font-weight:500;line-height:1;color:#9acdeb}
+.band-navy .step-card h3{font-size:21px;margin-bottom:10px}
+.band-navy .step-card p{font-size:15px;line-height:1.75;color:#c3d8e8}
+.page-home .inquiry-spacer{height:clamp(44px,6vw,80px)}
+.page-home .inquiry{margin-bottom:clamp(44px,6vw,80px);padding:clamp(32px,5vw,64px);border-radius:24px;background:linear-gradient(120deg,#2a6f9e,#123f5f);box-shadow:0 26px 54px #17293a2e}
+.page-home .inquiry h2,.page-home .inquiry h2 em,.page-home .inquiry p{color:#fff}
+.page-home main .inquiry h2{font-size:clamp(30px,3.4vw,46px)}
+.page-home .inquiry p{font-size:16px}
+.page-home .inquiry .eyebrow{font-size:12px;color:#cfe6f6}
+html:lang(km) .page-home main h2{font-family:Cormorant,Khmer,serif;line-height:1.4}
+@media(max-width:1000px){.page-home .ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){
+  .home-story{grid-template-columns:1fr}
+  .home-story-media{max-width:520px;margin:0 auto;width:100%}
+  .band-navy .steps-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .page-home .product-grid{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
+  .page-home .product-grid::-webkit-scrollbar{display:none}
+  .page-home .product-card{scroll-snap-align:start}
+  .page-home .product-card:hover{transform:none}
+  .page-home .ingredient-grid{gap:12px}
+  .page-home .ingredient-body{padding:14px}
+  .page-home .ingredient-body h3{font-size:17px}
+  .page-home .ingredient-body p,.page-home .benefit-list{font-size:13px}
+  .page-home .step-top{margin-bottom:18px}
+}

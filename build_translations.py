@@ -42,7 +42,6 @@ alt_soap_hero|Empress Natural Beauty Soap box with rice and romdoul flowers.|ប
 product_details|Ask about this product|សួរអំពីផលិតផលនេះ
 show_password|Show password|បង្ហាញពាក្យសម្ងាត់
 hide_password|Hide password|លាក់ពាក្យសម្ងាត់
-care_intro|Care that fits your day.|ការថែទាំដែលសមនឹងជីវិតប្រចាំថ្ងៃ។
 collection_simple|Explore the collection|ស្វែងយល់ពីផលិតផល
 gallery_simple|A closer look|មើលរូបភាពបន្ថែម
 home_title|Home|ទំព័រដើម
@@ -84,10 +83,6 @@ meet_brand|Get to know us|ស្គាល់យើងបន្ថែម
 ritual_eyebrow|A LITTLE CARE GOES A LONG WAY|ការថែទាំតិចតួចមានន័យច្រើន
 ritual_title|For your skin.|សម្រាប់ស្បែកអ្នក។
 ritual_emphasis|For your senses.|សម្រាប់អារម្មណ៍អ្នក។
-skincare|Skincare, made simple|ការថែស្បែកដ៏សាមញ្ញ
-skincare_description|Explore a considered approach to cleansing, moisture, and the small routines that help you feel cared for.|ស្វែងយល់ពីការសម្អាត ការផ្តល់សំណើម និងទម្លាប់តូចៗដែលធ្វើឱ្យអ្នកមានអារម្មណ៍ថាបានថែទាំល្អ។
-wellness|Wellness, in the everyday|សុខុមាលភាពក្នុងជីវិតប្រចាំថ្ងៃ
-wellness_description|Make room for an unhurried morning or a restful evening. Your daily ritual can be a moment just for you.|ទុកពេលសម្រាប់ព្រឹកដ៏ស្ងប់ស្ងាត់ ឬល្ងាចដ៏សម្រាក។ ទម្លាប់ប្រចាំថ្ងៃអាចជាពេលវេលាសម្រាប់អ្នកផ្ទាល់។
 our_philosophy|Our philosophy|ទស្សនវិជ្ជារបស់យើង
 nature_label|NATURE IS OUR STARTING POINT|ធម្មជាតិជាចំណុចចាប់ផ្តើម
 collection_eyebrow|THE EVERYDAY EDIT|ការថែទាំប្រចាំថ្ងៃ
@@ -246,7 +241,6 @@ confirm_delete|Delete this retailer from the public directory? This cannot be un
 error_retailer|Please complete the required fields and provide valid contact information.|សូមបំពេញប្រអប់ចាំបាច់ និងព័ត៌មានទំនាក់ទំនងត្រឹមត្រូវ។
 saved|Changes saved successfully.|បានរក្សាទុកការផ្លាស់ប្តូរដោយជោគជ័យ។
 alt_hero|Amber glass skincare bottle on a pedestal in natural sunlight.|ដបកញ្ចក់ពណ៌អាំប៊ែរលើជើងទម្រក្រោមពន្លឺធម្មជាតិ។
-alt_forest|Sunlight filtering through a lush green forest.|ពន្លឺព្រះអាទិត្យឆ្លងកាត់ព្រៃបៃតង។
 alt_serum|An amber bottle in warm botanical shadows; illustrative skincare photography.|ដបពណ៌អាំប៊ែរក្រោមស្រមោលរុក្ខជាតិ រូបថតគំរូ។
 alt_cleanser|A still life of skincare products; illustrative collection photography.|រូបថតផលិតផលថែស្បែកសម្រាប់បណ្តុំគំរូ។
 alt_cream|Skincare packaging and soft textures; illustrative product photography.|ការវេចខ្ចប់ និងផ្ទៃទន់ រូបថតផលិតផលគំរូ។
