@@ -433,9 +433,9 @@ active_heading|What makes it work|អ្វីដែលធ្វើឱ្យម�
 see_our_herbs|See our herbs|មើលវត្ថុធាតុដើមរបស់យើង
 videos_heading|Video highlights|វីដេអូពិសេស
 video_play|Play video|ចាក់វីដេអូ
-video_pause|Pause video|ផ្អាកវីដេអូ
-video_mute|Mute|បិទសំឡេង
-video_unmute|Turn sound on|បើកសំឡេង
+video_prev|Previous video|វីដេអូមុន
+video_next|Next video|វីដេអូបន្ទាប់
+video_close|Close video|បិទវីដេអូ
 benefits|Benefits|អត្ថប្រយោជន៍
 view_details|View details|មើលព័ត៌មានលម្អិត
 back_to_herbs|Back to Our Herbs|ត្រឡប់ទៅវត្ថុធាតុដើម

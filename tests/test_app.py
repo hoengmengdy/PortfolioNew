@@ -105,7 +105,7 @@ def test_account_link_moved_from_header_to_footer(client):
 def test_homepage_video_highlights(client):
     page = client.get('/').text
     for n in range(1, 6):
-        assert f'src="/videos/koc-{n}.mp4"' in page
+        assert f'href="/videos/koc-{n}.mp4"' in page
         assert f'images/videos/koc-{n}.webp' in page
     response = client.get('/videos/koc-1.mp4', headers={'Range': 'bytes=0-99'})
     assert response.status_code == 206 and response.mimetype == 'video/mp4' and len(response.data) == 100

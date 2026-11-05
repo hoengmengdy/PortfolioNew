@@ -276,49 +276,107 @@ document.querySelectorAll('[data-hero-slider]').forEach(slider => {
   start();
 });
 
-// Homepage video highlights: tap to play or pause, one video at a time, and stop when scrolled away or the tab is hidden.
-const videoCards = [...document.querySelectorAll('[data-video]')];
-videoCards.forEach(card => {
-  const video = card.querySelector('video');
-  const toggle = card.querySelector('.video-toggle');
-  const icon = toggle.querySelector('i');
-  const mute = card.querySelector('.video-mute');
-  const sync = () => {
-    const playing = !video.paused && !video.ended;
-    card.classList.toggle('is-playing', playing);
-    toggle.setAttribute('aria-label', playing ? toggle.dataset.pause : toggle.dataset.play);
-    icon.classList.toggle('fa-play', !playing);
-    icon.classList.toggle('fa-pause', playing);
-    mute.hidden = !playing && video.currentTime === 0;
+// Homepage video highlights: a carousel that loops by itself (not with reduced motion) and pauses while hovered, focused,
+// touched, off screen or while a video is open. The cards are repeated once so the end runs straight into the start.
+document.querySelectorAll('[data-video-carousel]').forEach(section => {
+  const track = section.querySelector('.video-track');
+  const cards = [...track.children];
+  const dialog = section.querySelector('.video-dialog');
+  const player = dialog.querySelector('video');
+  const sources = cards.map(card => card.querySelector('.video-open').getAttribute('href'));
+  cards.forEach((card, index) => card.dataset.index = index);
+  cards.forEach(card => {
+    const copy = card.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    copy.querySelectorAll('a').forEach(link => link.tabIndex = -1);
+    track.append(copy);
+  });
+
+  const stepSize = () => cards[1].offsetLeft - cards[0].offsetLeft;
+  const loopSize = () => stepSize() * cards.length;
+  // Silently moves back by exactly one set of cards, which looks identical.
+  const wrap = () => {
+    if (track.scrollLeft >= loopSize()) track.scrollLeft -= loopSize();
   };
-  toggle.addEventListener('click', () => {
-    if (video.paused || video.ended) {
-      videoCards.forEach(other => {
-        if (other !== card) other.querySelector('video').pause();
-      });
-      video.play().catch(sync);
-    } else {
-      video.pause();
+  const move = direction => {
+    wrap();
+    if (direction < 0 && track.scrollLeft < 1) track.scrollLeft += loopSize();
+    const step = stepSize();
+    const target = (Math.round(track.scrollLeft / step) + direction) * step;
+    track.scrollTo({left: target, behavior: reduceMotion ? 'auto' : 'smooth'});
+  };
+
+  let timer = null;
+  let onScreen = false;
+  let touching = false;
+  const stop = () => {
+    clearInterval(timer);
+    timer = null;
+  };
+  const start = () => {
+    stop();
+    if (!reduceMotion && onScreen && !touching && !document.hidden && !dialog.open && !track.matches(':hover') && !track.matches(':focus-within')) {
+      timer = setInterval(() => move(1), 3000);
     }
-  });
-  mute.addEventListener('click', () => {
-    video.muted = !video.muted;
-    mute.setAttribute('aria-label', video.muted ? mute.dataset.unmute : mute.dataset.mute);
-    const muteIcon = mute.querySelector('i');
-    muteIcon.classList.toggle('fa-volume-high', !video.muted);
-    muteIcon.classList.toggle('fa-volume-xmark', video.muted);
-  });
-  video.addEventListener('play', sync);
-  video.addEventListener('pause', sync);
-  // Back to the cover image when finished.
-  video.addEventListener('ended', () => {
-    video.load();
-    sync();
-  });
+  };
+  track.addEventListener('mouseenter', stop);
+  track.addEventListener('mouseleave', start);
+  track.addEventListener('focusin', stop);
+  track.addEventListener('focusout', () => setTimeout(start));
+  track.addEventListener('touchstart', () => {
+    touching = true;
+    stop();
+  }, {passive: true});
+  track.addEventListener('touchend', () => {
+    touching = false;
+    start();
+  }, {passive: true});
+  let settle = null;
+  track.addEventListener('scroll', () => {
+    clearTimeout(settle);
+    settle = setTimeout(wrap, 200);
+  }, {passive: true});
+  document.addEventListener('visibilitychange', start);
   new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) video.pause();
-  }, {threshold: .25}).observe(card);
-});
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) videoCards.forEach(card => card.querySelector('video').pause());
+    onScreen = entries[0].isIntersecting;
+    start();
+  }, {threshold: .25}).observe(track);
+
+  let current = 0;
+  const playCurrent = () => {
+    player.src = sources[current];
+    player.play().catch(() => {});
+  };
+  track.addEventListener('click', event => {
+    const link = event.target.closest('.video-open');
+    if (!link) return;
+    event.preventDefault();
+    current = Number(link.closest('.video-card').dataset.index);
+    stop();
+    dialog.showModal();
+    playCurrent();
+  });
+  section.querySelectorAll('[data-video-prev], [data-video-next]').forEach(button => {
+    const direction = button.hasAttribute('data-video-next') ? 1 : -1;
+    button.addEventListener('click', () => {
+      if (dialog.open) {
+        current = (current + direction + sources.length) % sources.length;
+        playCurrent();
+      } else {
+        move(direction);
+        start();
+      }
+    });
+  });
+  section.querySelector('[data-video-close]').addEventListener('click', () => dialog.close());
+  // A click on the dark area outside the video closes it too.
+  dialog.addEventListener('click', event => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('close', () => {
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    start();
+  });
 });
