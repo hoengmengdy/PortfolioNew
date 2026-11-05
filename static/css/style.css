@@ -867,3 +867,5 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .hero-slider-link:hover .hero-shop{background:var(--primary-hover);border-color:var(--primary-hover)}
 .hero-slider-link:hover .hero-shop .fa-arrow-right{transform:translateX(8px)}
 @media(max-width:700px){.hero-shop{top:10px;right:10px;transform:none;min-height:36px;padding:6px 12px;gap:8px;font-size:12px}}
+/* Small company logo under the social icons in the footer. */
+.footer-company-logo{width:112px;height:auto;margin-top:20px}

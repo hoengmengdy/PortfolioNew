@@ -14,7 +14,7 @@
   <link rel="icon" href="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='57') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='58') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='8') }}"></script>
 </head>
 <body class="page-{{ page }}">
@@ -63,6 +63,7 @@
           {% if config.TELEGRAM_CHAT_URL %}<a href="{{ config.TELEGRAM_CHAT_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ t('telegram_chat') }}" title="{{ t('telegram_chat') }}"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></a>{% endif %}
           {% if config.INSTAGRAM_URL %}<a href="{{ config.INSTAGRAM_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'Instagram' }}" title="{{ 'Instagram' }}"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>{% endif %}
         </div>
+        <img class="footer-company-logo" src="{{ url_for('static', filename='images/lsv-industry-logo.webp') }}" alt="LSV Industry" width="480" height="270" loading="lazy">
       </div>
       <div>
         <h2>{{ t('explore') }}</h2>
