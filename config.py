@@ -31,7 +31,7 @@ class Config:
     CONTACT_PHONE = os.getenv('CONTACT_PHONE', '069 777 150')
     CONTACT_ADDRESS = os.getenv('CONTACT_ADDRESS', '')
     BUSINESS_HOURS = os.getenv('BUSINESS_HOURS', '')
-    FACEBOOK_URL = os.getenv('FACEBOOK_URL', 'https://www.facebook.com/myempressbeauty') if os.getenv('FACEBOOK_URL', 'https://').startswith('https://') else ''
+    FACEBOOK_URL = os.getenv('FACEBOOK_URL', '') if os.getenv('FACEBOOK_URL', '').startswith('https://') else ''
     # Second Facebook page: the LSV Industry company page.
     COMPANY_FACEBOOK_URL = os.getenv('COMPANY_FACEBOOK_URL', 'https://www.facebook.com/lsvindustry') if os.getenv('COMPANY_FACEBOOK_URL', 'https://').startswith('https://') else ''
     # Telegram group (lsvindustrykh) and the LSV Industry account customers can message directly.

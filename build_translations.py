@@ -3,10 +3,7 @@ import json
 from pathlib import Path
 
 ROWS = '''
-welcome_hero|Simply good skincare|ការថែរក្សាស្បែកដ៏ល្អ ដោយសាមញ្ញ
 reference_hero_heading|Visakh Cosmetics|Visakh Cosmetics
-hero_tagline|Forever young|ក្មេងជានិច្ច
-reference_hero_description|Discover our innovative herbal infused cremes and lotions to rejuvenate your skin.|ស្វែងយល់ពីក្រែម និងឡេដ៏ច្នៃប្រឌិតរបស់យើង ដែលលាយជាមួយរុក្ខជាតិ ដើម្បីធ្វើឱ្យស្បែករបស់អ្នកស្រស់ថ្លាឡើងវិញ។
 contact_us|Contact us|ទាក់ទងយើង
 founder_eyebrow|Our founder|ស្ថាបនិករបស់យើង
 founder_name|Nut Samphois|អ្នកស្រី នុត សម្ផស្ស

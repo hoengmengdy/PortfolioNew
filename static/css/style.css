@@ -828,15 +828,6 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .hero-slider-dot:focus-visible{outline:2px solid #0f4c75;outline-offset:1px;border-radius:4px}
 @media(max-width:700px){.hero-slider{aspect-ratio:16/9}.hero-slider-dots{bottom:2px}}
 @media print{.hero-slider-dots{display:none}}
-/* The heading text sits in its own band under the slider. */
-.hero.hero-intro{display:block;min-height:0;text-align:center}
-.hero-intro .hero-copy{padding:clamp(44px,5vw,72px) 24px}
-.hero-intro .hero-content{max-width:680px;margin:0 auto}
-.hero-intro .eyebrow.hero-welcome{justify-content:center}
-.hero-intro .eyebrow.hero-welcome::after{content:'';width:40px;height:1px;background:currentColor;flex-shrink:0}
-.hero-intro .hero-description{max-width:520px;margin-left:auto;margin-right:auto}
-.hero-intro .hero-description::before{left:50%;transform:translateX(-50%)}
-@media(max-width:600px){.hero-intro .eyebrow.hero-welcome::after{width:28px}}
 /* Larger logo. The image has no transparent margin, so these sizes are the visible size. */
 .brand-logo{width:187px;height:65px}
 .footer-brand .brand-logo{width:207px;height:72px}
@@ -869,3 +860,10 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .product-card a:hover .product-image>img{transform:scale(1.03)}
 .step-card img,.cart-line img{object-fit:contain;background:#f5f5f7}
 .step-card:hover img{transform:scale(1.03)}
+/* The whole banner links to the shop, and the button sits in the empty space beside the artwork. */
+.hero-slider-link{position:absolute;inset:0;display:block}
+.hero-slider-link:focus-visible{outline:3px solid #0f4c75;outline-offset:-5px}
+.hero-shop{position:absolute;top:50%;right:6%;z-index:1;transform:translateY(-50%);box-shadow:0 10px 26px #17293a33}
+.hero-slider-link:hover .hero-shop{background:var(--primary-hover);border-color:var(--primary-hover)}
+.hero-slider-link:hover .hero-shop .fa-arrow-right{transform:translateX(8px)}
+@media(max-width:700px){.hero-shop{top:10px;right:10px;transform:none;min-height:36px;padding:6px 12px;gap:8px;font-size:12px}}
