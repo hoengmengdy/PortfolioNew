@@ -76,7 +76,7 @@ def test_all_pages_and_languages(client, path, language):
 def test_herb_detail_pages(client, slug):
     response = client.get(f'/herbs/{slug}')
     assert response.status_code == 200
-    assert f'images/herbs/{slug}.svg' in response.text
+    assert f'images/herbs/{slug}.' in response.text
     assert 'id="herb-heading"' in response.text
 
 
@@ -111,11 +111,12 @@ def test_homepage_video_highlights(client):
     assert response.status_code == 206 and response.mimetype == 'video/mp4' and len(response.data) == 100
     assert client.get('/videos/missing.mp4').status_code == 404
 
-def test_homepage_videos_are_the_last_section(client):
-    page = client.get('/').text
-    main = page[page.index('<main'):page.index('</main>')]
-    assert main.rindex('<section') == main.index('class="video-section') - len('<section ')
-
+@pytest.mark.parametrize('path, before', [('/', 'home-story'), ('/about', 'philosophy')])
+def test_videos_follow_building_cambodian_brands(client, path, before):
+    sections = re.findall(r'<section class="([\w -]+)"', client.get(path).text)
+    names = [name.split()[0] for name in sections]
+    assert names[names.index(before) + 1] == 'video-section'
+    assert names.count('video-section') == 1
 
 def test_about_cards_open_history_dialogs(client):
     page = client.get('/about').text
@@ -131,11 +132,13 @@ def test_products_open_full_view(client, path):
     assert opened and opened == set(re.findall(r'<dialog class="detail-dialog" id="(product-dialog-\d+)"', page))
 
 
-def test_herbs_page_shows_feature_picture(client):
+def test_ingredient_x_card_uses_the_picture(client):
     page = client.get('/herbs').text
-    assert page.count('src="/static/images/herbs/herb-feature.webp"') == 2 and 'data-open-dialog="herb-feature-dialog"' in page
-    assert 'url_for' not in page and "t('" not in page
-    assert client.get('/static/images/herbs/herb-feature.webp').status_code == 200
+    grid = page[page.index('class="ingredient-grid"'):page.index('active-heading')]
+    assert 'src="/static/images/herbs/ingredient-x.webp"' in grid
+    assert 'herb-feature' not in page
+    assert client.get('/static/images/herbs/ingredient-x.webp').status_code == 200
+    assert 'src="/static/images/herbs/ingredient-x.webp"' in client.get('/herbs/ingredient-x').text
 
 def test_language_remembered_and_redirects_safe(client):
     response = client.get('/set-language/km?next=https://evil.example')

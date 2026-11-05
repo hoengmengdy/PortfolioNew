@@ -316,7 +316,7 @@ document.querySelectorAll('[data-video-carousel]').forEach(section => {
   const start = () => {
     stop();
     if (!reduceMotion && onScreen && !touching && !document.hidden && !dialog.open && !track.matches(':hover') && !track.matches(':focus-within')) {
-      timer = setInterval(() => move(1), 3000);
+      timer = setInterval(() => move(1), 1800);
     }
   };
   track.addEventListener('mouseenter', stop);

@@ -1000,9 +1000,6 @@ body:has(dialog[open]){overflow:hidden}
 .detail-dialog-copy .add-to-cart{padding:6px 0 0}
 .dialog-close{position:absolute;top:12px;right:12px;z-index:1}
 html:lang(km) .detail-dialog-copy h2{font-family:Khmer,sans-serif;line-height:1.5}
-.herb-feature-dialog{width:min(92vw,calc(84dvh*.74))}
-.herb-feature-dialog .detail-dialog-body{display:block}
-.herb-feature-dialog img{display:block;width:100%;height:auto}
 .product-zoom{display:block;cursor:zoom-in}
 .product-zoom-icon{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#ffffffd9;color:var(--primary);font-size:13px}
 .journey-card{position:relative;display:flex;flex-direction:column;cursor:pointer}
@@ -1013,16 +1010,11 @@ html:lang(km) .detail-dialog-copy h2{font-family:Khmer,sans-serif;line-height:1.
 .journey-more:focus-visible{outline:0}
 .journey-more:focus-visible::after{outline:2px solid var(--primary);outline-offset:-3px}
 .journey-card:hover .journey-more i{transform:translateX(4px)}
-.herbs-feature{align-items:center}
-.herbs-feature-image{display:block;flex-shrink:0;width:clamp(150px,20vw,240px);cursor:zoom-in;transition:transform .3s}
-.herbs-feature-image:hover{transform:scale(1.04)}
-.herbs-feature-image img{display:block;width:100%;height:auto}
 @media(max-width:700px){
   .detail-dialog-body{grid-template-columns:1fr}
   .detail-dialog-media{min-height:0;max-height:46dvh}
   .detail-dialog-media img{max-height:46dvh}
   .detail-dialog-copy{padding:20px 20px 24px}
   .product-zoom-icon{top:6px;right:6px;width:28px;height:28px;font-size:11px}
-  .herbs-feature{flex-direction:row}
-  .herbs-feature-image{width:120px}
 }
+.ingredient-image:has(img[src$='.webp']),.herb-detail-image:has(img[src$='.webp']){background:#fff}

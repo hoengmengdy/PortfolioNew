@@ -3,13 +3,7 @@
 {% block content %}
 <section class="page-hero"><h1>{{ t('herbs_title') }}</h1><p>{{ t('herbs_intro') }}</p></section>
 <section class="section herbs-section" aria-labelledby="herbs-heading">
-  <div class="section-heading herbs-feature">
-    <div><p class="eyebrow">{{ t('herbs_list_eyebrow') }}</p><h2 id="herbs-heading">{{ t('herbs_list_heading') }}</h2></div>
-    <a class="herbs-feature-image" href="{{ url_for('static', filename='images/herbs/herb-feature.webp') }}" data-open-dialog="herb-feature-dialog" aria-label="{{ t('view_details') }}: {{ t('alt_herb_feature') }}"><img src="{{ url_for('static', filename='images/herbs/herb-feature.webp') }}" alt="{{ t('alt_herb_feature') }}" width="632" height="852"></a>
-  </div>
-  <dialog class="detail-dialog herb-feature-dialog" id="herb-feature-dialog" aria-label="{{ t('alt_herb_feature') }}">
-    <div class="detail-dialog-body"><img src="{{ url_for('static', filename='images/herbs/herb-feature.webp') }}" alt="{{ t('alt_herb_feature') }}" loading="lazy" width="632" height="852"><button class="video-arrow dialog-close" type="button" data-close-dialog aria-label="{{ t('video_close') }}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
-  </dialog>
+  <div class="section-heading"><div><p class="eyebrow">{{ t('herbs_list_eyebrow') }}</p><h2 id="herbs-heading">{{ t('herbs_list_heading') }}</h2></div></div>
   {{ ingredient_cards(natural_herbs) }}
 </section>
 <section class="section herbs-section" aria-labelledby="active-heading">

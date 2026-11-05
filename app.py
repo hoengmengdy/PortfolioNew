@@ -129,6 +129,8 @@ def admin_required(view):
 # Ingredients with a card and a detail page; each needs herb_<key>_* translations and an images/herbs SVG.
 NATURAL_HERBS = ('napa_cabbage', 'rau_d', 'ingredient_x', 'ingredient_y')
 ACTIVE_INGREDIENTS = ('aloe_vera', 'centella_asiatica', 'turmeric', 'green_tea')
+# Herbs with a picture in another format than the usual SVG.
+HERB_PICTURES = {'ingredient_x': 'ingredient-x.webp'}
 
 
 def create_app(test_config=None):
@@ -181,6 +183,9 @@ def create_app(test_config=None):
             return url_for('product_photo', photo_id=int(image[len(PHOTO_PREFIX):].removesuffix('.webp')))
         return url_for('static', filename='images/' + image)
 
+    def herb_image(slug):
+        return 'images/herbs/' + HERB_PICTURES.get(slug, slug.replace('_', '-') + '.svg')
+
     def localized(row, field):
         return (session.get('language') == 'km' and row[field + '_km']) or row[field]
 
@@ -208,7 +213,7 @@ def create_app(test_config=None):
     @app.context_processor
     def context():
         cart_count = sum(session.get('cart', {}).values())
-        return dict(t=t, lang=session.get('language', 'en'), languages={'en': 'English', 'km': 'ខ្មែរ'}, contact_email=app.config['CONTACT_EMAIL'], contact_phone=app.config['CONTACT_PHONE'], contact_phone_link=normalize_phone(app.config['CONTACT_PHONE']) or app.config['CONTACT_PHONE'].replace(' ', ''), localized=localized, product_image_url=product_image_url, cart_count=cart_count, customer=current_customer())
+        return dict(t=t, lang=session.get('language', 'en'), languages={'en': 'English', 'km': 'ខ្មែរ'}, contact_email=app.config['CONTACT_EMAIL'], contact_phone=app.config['CONTACT_PHONE'], contact_phone_link=normalize_phone(app.config['CONTACT_PHONE']) or app.config['CONTACT_PHONE'].replace(' ', ''), localized=localized, product_image_url=product_image_url, herb_image=herb_image, cart_count=cart_count, customer=current_customer())
 
     @app.teardown_appcontext
     def close_db(error=None):

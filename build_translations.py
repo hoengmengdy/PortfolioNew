@@ -27,7 +27,6 @@ journey_award|Recognition|ការទទួលស្គាល់
 journey_award_text|In 2017 she was named one of the 10 Outstanding Cambodian Women Entrepreneurs.|នៅឆ្នាំ ២០១៧ អ្នកស្រីត្រូវបានជ្រើសរើសជាសហគ្រិនស្ត្រីឆ្នើមទាំង ១០ រូបរបស់កម្ពុជា។
 journey_brands_more|Based in Phnom Penh, LSV Industry makes laundry soap, fabric softener and dishwashing liquid, as well as facial foam, body wash and shampoo.|LSV Industry មានមូលដ្ឋាននៅរាជធានីភ្នំពេញ ផលិតសាប៊ូបោកសម្លៀកបំពាក់ ទឹកក្រអូបសម្លៀកបំពាក់ ទឹកលាងចាន ព្រមទាំងហ្វូមលាងមុខ សាប៊ូងូតទឹក និងសាប៊ូកក់សក់។
 journey_farmers_more|Working with local chemists, production technicians and farmers, the team turns Cambodian farm produce such as lemongrass, pineapple and mustard greens into everyday products.|ដោយសហការជាមួយអ្នកគីមីវិទ្យា អ្នកបច្ចេកទេសផលិតកម្ម និងកសិករក្នុងស្រុក ក្រុមការងារបានកែច្នៃកសិផលខ្មែរ ដូចជាស្លឹកគ្រៃ ម្នាស់ និងស្ពៃក្រញាញ់ ទៅជាផលិតផលប្រើប្រាស់ប្រចាំថ្ងៃ។
-alt_herb_feature|3D illustration of a pale green herb bud with open leaves.|រូបភាព 3D នៃពន្លករុក្ខជាតិពណ៌បៃតងស្រាល ដែលមានស្លឹករីក។
 founder_quote|My aim is to help everyone.|បំណងខ្ញុំ គឺចង់ជួយគ្រប់គ្នា។
 team_photos_heading|Our team at work|ក្រុមការងាររបស់យើង
 alt_about_lab|A scientist in the LSV lab holding up a flask of blue liquid.|អ្នកវិទ្យាសាស្ត្រក្នុងមន្ទីរពិសោធន៍ LSV កាន់ដបកែវដែលមានទឹកពណ៌ខៀវ។
