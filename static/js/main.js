@@ -225,3 +225,53 @@ document.querySelectorAll('input[type=file][data-max-bytes]').forEach(input => {
     }
   });
 });
+
+// Homepage banner slider: fades every few seconds, stops while it is hovered or focused, and can be swiped. It does not
+// advance by itself with reduced motion turned on.
+document.querySelectorAll('[data-hero-slider]').forEach(slider => {
+  const slides = [...slider.querySelectorAll('.hero-slide')];
+  const dots = [...slider.querySelectorAll('.hero-slider-dot')];
+  let current = 0;
+  let timer = null;
+  const show = index => {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('is-active', i === current);
+      if (i === current) slide.removeAttribute('aria-hidden');
+      else slide.setAttribute('aria-hidden', 'true');
+    });
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === current);
+      if (i === current) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    });
+  };
+  const stop = () => {
+    clearInterval(timer);
+    timer = null;
+  };
+  const start = () => {
+    stop();
+    if (!reduceMotion && !document.hidden && !slider.matches(':hover') && !slider.matches(':focus-within')) {
+      timer = setInterval(() => show(current + 1), 5000);
+    }
+  };
+  dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('focusin', stop);
+  slider.addEventListener('focusout', () => setTimeout(start));
+  document.addEventListener('visibilitychange', start);
+  let touchStart = null;
+  slider.addEventListener('touchstart', event => {
+    touchStart = event.touches[0].clientX;
+  }, {passive: true});
+  slider.addEventListener('touchend', event => {
+    if (touchStart === null) return;
+    const distance = event.changedTouches[0].clientX - touchStart;
+    touchStart = null;
+    if (Math.abs(distance) > 40) show(current + (distance < 0 ? 1 : -1));
+    start();
+  }, {passive: true});
+  start();
+});

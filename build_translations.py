@@ -37,7 +37,10 @@ alt_about_oil|Checking the colour of a natural oil sample in a small beaker.|ក
 alt_about_team|Two team members in the lab with a fruit and an oil extract.|សមាជិកក្រុមពីរនាក់ក្នុងមន្ទីរពិសោធន៍ ជាមួយផ្លែឈើ និងប្រេងចម្រាញ់។
 alt_about_event|Greeting guests at a product event in traditional Khmer dress.|ការស្វាគមន៍ភ្ញៀវនៅក្នុងកម្មវិធីផលិតផល ក្នុងសម្លៀកបំពាក់ប្រពៃណីខ្មែរ។
 alt_about_speech|Giving a speech at a community event.|ការថ្លែងសុន្ទរកថានៅក្នុងកម្មវិធីសហគមន៍។
-alt_sky_hills|Illustration of a blue sky with a white cloud over green hills.|រូបគំនូរមេឃពណ៌ខៀវ មានពពកពណ៌ស លើភ្នំតូចៗពណ៌បៃតង។
+hero_slider_label|Featured banners|បដាពិសេស
+hero_slide_go|Go to slide|ទៅកាន់ស្លាយទី
+alt_banner_1|A woman in a white suit sitting on a giant VISAKHA by Nature Plus bottle.|នារីស្លៀកឈុតពណ៌ស អង្គុយលើដប VISAKHA by Nature Plus ដ៏ធំមួយ។
+alt_banner_2|A woman with long black hair in a white suit, beside a bottle of VISAKHA by Nature Plus.|នារីសក់ខ្មៅវែង ស្លៀកឈុតពណ៌ស នៅក្បែរដប VISAKHA by Nature Plus។
 alt_soap_hero|Empress Natural Beauty Soap box with rice and romdoul flowers.|ប្រអប់សាប៊ូ Empress Natural Beauty ជាមួយកួរស្រូវ និងផ្ការំដួល។
 product_details|Ask about this product|សួរអំពីផលិតផលនេះ
 show_password|Show password|បង្ហាញពាក្យសម្ងាត់

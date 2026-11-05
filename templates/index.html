@@ -1,7 +1,20 @@
 {% extends 'base.html' %}
 {% from 'ingredient_cards.html' import ingredient_cards with context %}
 {% block content %}
-<section class="hero" aria-labelledby="hero-heading">
+<section class="hero-slider" aria-roledescription="carousel" aria-label="{{ t('hero_slider_label') }}" data-hero-slider>
+  {% for n in range(1, 3) %}
+  <div class="hero-slide{% if loop.first %} is-active{% endif %}"{% if not loop.first %} aria-hidden="true"{% endif %}>
+    <img src="{{ url_for('static', filename='images/banner-visakha-' ~ n ~ '.webp') }}" srcset="{{ url_for('static', filename='images/banner-visakha-' ~ n ~ '-small.webp') }} 960w, {{ url_for('static', filename='images/banner-visakha-' ~ n ~ '.webp') }} 1911w" sizes="100vw" alt="{{ t('alt_banner_' ~ n) }}" {% if loop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} width="1911" height="823">
+  </div>
+  {% endfor %}
+  <div class="hero-slider-dots">
+    {% for n in range(1, 3) %}
+    <button type="button" class="hero-slider-dot{% if loop.first %} is-active{% endif %}" aria-label="{{ t('hero_slide_go') }} {{ n }}"{% if loop.first %} aria-current="true"{% endif %}></button>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="hero hero-intro" aria-labelledby="hero-heading">
   <div class="hero-copy">
     <div class="hero-content">
       <p class="eyebrow hero-welcome">{{ t('welcome_hero') }}</p>
@@ -10,9 +23,6 @@
       <p class="hero-description">{{ t('reference_hero_description') }}</p>
       <a class="button hero-contact" href="{{ url_for('shop') }}">{{ t('shop_now') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
-  </div>
-  <div class="hero-visual">
-    <img src="{{ url_for('static', filename='images/sky-hills.webp') }}" alt="{{ t('alt_sky_hills') }}" fetchpriority="high" width="1199" height="1182">
   </div>
 </section>
 
