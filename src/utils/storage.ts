@@ -1,0 +1,16 @@
+/** localStorage can throw in private windows or when site data is blocked. */
+export function readStorage(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+export function writeStorage(key: string, value: string): void {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // The preference just won't persist; the current page keeps working.
+  }
+}

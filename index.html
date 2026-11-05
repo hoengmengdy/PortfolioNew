@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hoeng Mengdy | Full-Stack Developer in Phnom Penh</title>
+    <meta name="description" content="Hoeng Mengdy is a full-stack developer and BIT student in Phnom Penh, Cambodia, building modern web applications and practical digital solutions." />
+    <meta name="author" content="Hoeng Mengdy" />
+    <meta name="theme-color" content="#080808" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hoeng Mengdy" />
+    <meta property="og:title" content="Hoeng Mengdy | Full-Stack Developer in Phnom Penh" />
+    <meta property="og:description" content="Building Digital Experiences. Creating Real Solutions." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="km_KH" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Hoeng Mengdy, Full-Stack Developer. Building Digital Experiences. Creating Real Solutions." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hoeng Mengdy | Full-Stack Developer in Phnom Penh" />
+    <meta name="twitter:description" content="Building Digital Experiences. Creating Real Solutions." />
+    <!-- seo:url-tags -->
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Hoeng Mengdy",
+            "alternateName": "ហ៊ឺង ម៉េងឌី",
+            "url": "__SITE_URL__",
+            "jobTitle": "Full-Stack Developer",
+            "affiliation": {
+                "@type": "CollegeOrUniversity",
+                "name": "BELTEI International University"
+            },
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Phnom Penh",
+                "addressCountry": "KH"
+            },
+            "sameAs": ["https://github.com/hoengmengdy", "https://t.me/mengdyy"]
+        }
+    </script>
+
+    <!-- Applies the saved theme and language before first paint to avoid a flash. -->
+    <script src="/theme-init.js"></script>
+
+    <style>
+        html {
+            background: #080808;
+        }
+        
+        html[data-theme='light'] {
+            background: #faf7ef;
+        }
+        
+        .boot {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+        }
+        
+        .boot i {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-top-color: #d4af37;
+            border-radius: 50%;
+            animation: boot 1s linear infinite;
+        }
+        
+        @keyframes boot {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .boot i {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <div class="boot" role="status" aria-label="Loading"><i></i></div>
+    </div>
+    <noscript>
+      <div style="padding: 2rem; color: #fff; font-family: system-ui, sans-serif">
+        <h1>Hoeng Mengdy</h1>
+        <p>Full-Stack Developer and BIT student in Phnom Penh, Cambodia.</p>
+        <p>
+          This site needs JavaScript. Find my work on
+          <a style="color: #d4af37" href="https://github.com/hoengmengdy">GitHub</a> or message me
+          on <a style="color: #d4af37" href="https://t.me/mengdyy">Telegram</a>.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
