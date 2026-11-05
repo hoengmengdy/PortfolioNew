@@ -116,10 +116,9 @@ def test_homepage_has_videos_but_no_brand_story(client):
     assert 'home-story' not in page and 'data-video-carousel' in page
 
 
-def test_about_videos_follow_building_cambodian_brands(client):
-    sections = re.findall(r'<section class="([\w -]+)"', client.get('/about').text)
-    names = [name.split()[0] for name in sections]
-    assert names[names.index('philosophy') + 1] == 'video-section'
+def test_about_page_has_no_videos(client):
+    page = client.get('/about').text
+    assert 'data-video-carousel' not in page and 'id="journey-heading"' in page
 
 def test_homepage_has_no_steps_and_videos_have_no_shop_button(client):
     page = client.get('/').text
