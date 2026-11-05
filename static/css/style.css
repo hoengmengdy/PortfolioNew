@@ -763,10 +763,6 @@ html:lang(km) .hero-tagline{font-family:var(--display);font-style:normal;line-he
 .story-photo{object-position:center 25%}
 .research-photo{object-position:center 40%}
 .team-photos{border-top:1px solid var(--line)}
-.team-photos h2{margin-bottom:28px}
-.photo-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
-.photo-grid img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:12px}
-@media(max-width:800px){.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.photo-grid img:last-child{grid-column:1/-1;aspect-ratio:16/9}}
 /* Founder role line under the name on the About page. */
 .founder-role{margin:-12px 0 20px;font-size:14px;font-weight:600;color:var(--primary)}
 /* Founder quote under the journey cards. */
@@ -1122,3 +1118,11 @@ html:lang(km) .feature-list{font-size:15px}
 /* The founder photo shows whole, at its own proportions, on every screen size. */
 .story-photo,.story-grid .story-photo{width:100%;height:auto;aspect-ratio:3/4;object-fit:contain}
 .story-grid{align-items:start}
+/* About page team photos: the same 3D carousel; a photo opens whole, at its own shape. */
+.photo-card{aspect-ratio:4/5}
+.photo-card .video-open{cursor:zoom-in}
+.photo-card .video-open img{object-position:center 20%}
+.photo-dialog .video-stage{width:auto}
+.photo-dialog .video-stage img{display:block;width:auto;height:auto;max-width:92vw;max-height:88dvh;border-radius:var(--radius)}
+.photo-dialog .video-stage-prev{left:10px}
+.photo-dialog .video-stage-next{right:10px}

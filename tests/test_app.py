@@ -133,6 +133,13 @@ def test_homepage_feature_section_lists_real_products(client):
     assert 'href="/shop"' in section and 'href="/about"' in section
     assert client.get('/static/images/visakha-feature-700.webp').status_code == 200
 
+def test_about_team_photos_are_a_carousel(client):
+    page = client.get('/about').text
+    section = page[page.index('data-photo-carousel'):page.index('</dialog>', page.index('data-photo-carousel'))]
+    for name in ('rice', 'oil', 'team', 'event', 'speech'):
+        assert f'href="/static/images/about-{name}.webp"' in section
+    assert 'class="video-dialog photo-dialog"' in section and 'data-video-next' in section
+
 def test_about_cards_open_history_dialogs(client):
     page = client.get('/about').text
     for key in ['founded', 'brands', 'quality', 'farmers', 'protect', 'award']:

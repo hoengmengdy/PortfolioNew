@@ -465,6 +465,9 @@ feature_eyebrow|VISAKHA BY NATURE PLUS|VISAKHA ដោយ Nature Plus
 feature_photo_alt|A VISAKHA by Nature Plus bottle in a red knitted bag with a towel and flowers.|ដប VISAKHA by Nature Plus ក្នុងកាបូបក្រហមត្បាញ ជាមួយកន្សែង និងផ្កា។
 see_more|See more|មើលបន្ថែម
 our_story|Our story|រឿងរបស់យើង
+photo_prev|Previous photo|រូបមុន
+photo_next|Next photo|រូបបន្ទាប់
+photo_close|Close photo|បិទរូប
 benefits|Benefits|អត្ថប្រយោជន៍
 view_details|View details|មើលព័ត៌មានលម្អិត
 back_to_herbs|Back to Our Herbs|ត្រឡប់ទៅវត្ថុធាតុដើម

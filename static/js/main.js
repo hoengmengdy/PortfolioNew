@@ -258,13 +258,14 @@ document.querySelectorAll('[data-hero-slider]').forEach(slider => {
   start();
 });
 
-// Homepage video highlights: a carousel that loops by itself (not with reduced motion) and pauses while hovered, focused,
-// touched, off screen or while a video is open. The cards are repeated once so the end runs straight into the start.
-document.querySelectorAll('[data-video-carousel]').forEach(section => {
+// Video highlights and team photos: a carousel that loops by itself (not with reduced motion) and pauses while hovered, focused,
+// touched, off screen or while an item is open. The cards are repeated once so the end runs straight into the start.
+document.querySelectorAll('[data-video-carousel], [data-photo-carousel]').forEach(section => {
   const track = section.querySelector('.video-track');
   const cards = [...track.children];
   const dialog = section.querySelector('.video-dialog');
-  const player = dialog.querySelector('video');
+  const player = dialog.querySelector('video, img');
+  const isVideo = player.tagName === 'VIDEO';
   const sources = cards.map(card => card.querySelector('.video-open').getAttribute('href'));
   cards.forEach((card, index) => card.dataset.index = index);
   cards.forEach(card => {
@@ -367,7 +368,8 @@ document.querySelectorAll('[data-video-carousel]').forEach(section => {
   let current = 0;
   const playCurrent = () => {
     player.src = sources[current];
-    player.play().catch(() => {});
+    if (isVideo) player.play().catch(() => {});
+    else player.alt = cards[current].querySelector('img').alt;
   };
   track.addEventListener('click', event => {
     const link = event.target.closest('.video-open');
@@ -391,14 +393,14 @@ document.querySelectorAll('[data-video-carousel]').forEach(section => {
     });
   });
   section.querySelector('[data-video-close]').addEventListener('click', () => dialog.close());
-  // A click on the dark area outside the video closes it too.
+  // A click on the dark area outside closes it too.
   dialog.addEventListener('click', event => {
     if (event.target === dialog) dialog.close();
   });
   dialog.addEventListener('close', () => {
-    player.pause();
+    if (isVideo) player.pause();
     player.removeAttribute('src');
-    player.load();
+    if (isVideo) player.load();
     start();
   });
 });
