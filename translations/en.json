@@ -394,6 +394,8 @@
   "low_stock_warning": "Low stock:",
   "orders_needing_action": "Orders needing action",
   "view_all": "View all",
+  "awaiting_payment": "Awaiting payment",
+  "awaiting_payment_note": "Customers have not paid these orders yet. They move to your orders by themselves once paid. Their items stay reserved, so cancel any that will not be paid.",
   "nothing_to_do": "Nothing to do right now.",
   "action_confirm": "Confirm order",
   "action_ship": "Mark shipped",

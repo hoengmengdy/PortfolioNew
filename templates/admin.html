@@ -36,10 +36,11 @@
 
   {% elif view == 'orders' %}
   <div class="filter-tabs admin-filters">
-    {% for key in ['', 'pending', 'payment', 'confirmed', 'shipped', 'completed', 'cancelled'] %}
-    <a href="{{ url_for('admin', view='orders', status=key or None) }}" {% if status == key %}aria-current="page"{% endif %}>{{ t('all') if not key else (t('stat_payments_to_check') if key == 'payment' else t('order_status_' + key)) }}</a>
+    {% for key in ['', 'pending', 'payment', 'confirmed', 'shipped', 'completed', 'cancelled', 'awaiting'] %}
+    <a href="{{ url_for('admin', view='orders', status=key or None) }}" {% if status == key %}aria-current="page"{% endif %}>{% if key == 'awaiting' %}{{ t('awaiting_payment') }} ({{ counts.awaiting_payment }}){% else %}{{ t('all') if not key else (t('stat_payments_to_check') if key == 'payment' else t('order_status_' + key)) }}{% endif %}</a>
     {% endfor %}
   </div>
+  {% if status == 'awaiting' %}<p class="fine-print">{{ t('awaiting_payment_note') }}</p>{% endif %}
   <div class="order-list">
     {% for order in orders %}{{ m.order_card(order, order_items.get(order.id, []), request.full_path) }}{% else %}<p class="empty-state">{{ t('no_orders') }}</p>{% endfor %}
   </div>

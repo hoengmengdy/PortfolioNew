@@ -8,7 +8,7 @@ import re
 import pytest
 
 import payway
-from test_app import app, client, token  # noqa: F401  (pytest fixtures)
+from test_app import app, client, login, token  # noqa: F401  (pytest fixtures)
 from test_shop import add_to_cart, order_form, query, sign_in, telegram_codes  # noqa: F401
 
 API_KEY = 'test-api-key'
@@ -131,3 +131,31 @@ def test_check_transaction_request(app, monkeypatch):
     monkeypatch.setattr(payway, 'urlopen', lambda request, timeout: (_ for _ in ()).throw(OSError('down')))
     with pytest.raises(payway.PayWayError):
         payway.check_transaction(config, '123')
+
+
+def test_payway_order_reaches_admin_only_once_paid(client, app, shop):
+    checks, result = shop
+    order_url = place_payway_order(client).removesuffix('/pay')
+    client.get(order_url + '/pay')
+    login(client)
+    assert 'Sok Dara' not in client.get('/admin/orders').text
+    assert 'Sok Dara' in client.get('/admin/orders?status=awaiting').text
+    # PayWay's notice never arrived and the customer did not come back: the admin page still finds the payment.
+    result[0] = approved(37.50)
+    with client.session_transaction() as session:
+        session.pop('payway_checked_at', None)
+    assert 'Sok Dara' in client.get('/admin/orders').text
+    assert query(app, 'SELECT payment_status FROM orders') == [('paid',)]
+
+
+def test_admin_checks_payway_at_most_once_a_minute(client, app, shop):
+    checks, result = shop
+    order_url = place_payway_order(client).removesuffix('/pay')
+    client.get(order_url + '/pay')
+    login(client)
+    client.get('/admin/orders')
+    calls = len(checks)
+    assert calls == 1
+    client.get('/admin/orders')
+    client.get('/admin')
+    assert len(checks) == calls

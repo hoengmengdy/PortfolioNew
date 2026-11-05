@@ -398,6 +398,8 @@ stat_revenue|Paid revenue|ចំណូលបានបង់
 low_stock_warning|Low stock:|ស្តុកជិតអស់៖
 orders_needing_action|Orders needing action|ការកុម្ម៉ង់ដែលត្រូវធ្វើ
 view_all|View all|មើលទាំងអស់
+awaiting_payment|Awaiting payment|រង់ចាំការបង់ប្រាក់
+awaiting_payment_note|Customers have not paid these orders yet. They move to your orders by themselves once paid. Their items stay reserved, so cancel any that will not be paid.|ភ្ញៀវមិនទាន់បង់ប្រាក់សម្រាប់ការកុម្ម៉ង់ទាំងនេះទេ។ វានឹងចូលទៅក្នុងបញ្ជីការកុម្ម៉ង់ដោយស្វ័យប្រវត្តិ នៅពេលបង់ប្រាក់រួច។ ទំនិញនៅតែត្រូវបានកក់ទុក ដូច្នេះសូមលុបចោលការកុម្ម៉ង់ណាដែលនឹងមិនបង់ប្រាក់។
 nothing_to_do|Nothing to do right now.|មិនមានអ្វីត្រូវធ្វើទេពេលនេះ។
 action_confirm|Confirm order|បញ្ជាក់ការកុម្ម៉ង់
 action_ship|Mark shipped|កំពុងដឹកជញ្ជូន

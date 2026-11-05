@@ -44,6 +44,9 @@ PHOTO_SIZE = 1600
 ORDER_ACTIONS = {'confirm': ('confirmed', None), 'ship': ('shipped', None), 'complete': ('completed', None),
                  'paid': (None, 'paid'), 'cancel': ('cancelled', None), 'reopen': ('pending', None)}
 TELEGRAM_GATEWAY_URL = 'https://gatewayapi.telegram.org/sendVerificationMessage'
+# New orders the customer has not paid yet (or, for a bank transfer, has not reported paying). They stay on their own
+# admin tab until payment arrives. Older cash-on-delivery orders are paid on arrival, so they are never held back.
+AWAITING_PAYMENT = "(payment_status='unpaid' AND payment_method<>'cod' AND status='pending')"
 
 
 def send_telegram_code(phone, code):
@@ -768,10 +771,23 @@ def create_app(test_config=None):
     def admin_counts():
         """Numbers shown on the admin tabs: what needs attention now."""
         one = lambda sql, *args: db().execute(sql, args).fetchone()[0]
-        return {'orders': one("SELECT count(*) FROM orders WHERE status='pending'"),
+        return {'orders': one(f"SELECT count(*) FROM orders WHERE status='pending' AND NOT {AWAITING_PAYMENT}"),
+                'awaiting_payment': one(f'SELECT count(*) FROM orders WHERE {AWAITING_PAYMENT}'),
                 'payments': one("SELECT count(*) FROM orders WHERE payment_status='submitted' AND status!='cancelled'"),
                 'messages': one("SELECT count(*) FROM messages WHERE status='new'"),
                 'low_stock': one('SELECT count(*) FROM products WHERE active=1 AND stock<=?', LOW_STOCK)}
+
+    def reconcile_recent_payway():
+        """PayWay's notice can fail to reach us, so before showing orders ask PayWay about recent unpaid ones.
+        A paid order then still reaches the admin. At most once a minute per admin, to keep pages quick."""
+        now = int(time.time())
+        if not payway.enabled(app.config) or now - session.get('payway_checked_at', 0) < 60:
+            return
+        session['payway_checked_at'] = now
+        recent = db().execute("SELECT * FROM orders WHERE payment_method='payway' AND payment_status='unpaid' AND status<>'cancelled' AND id IN "
+                              "(SELECT order_id FROM payway_transactions WHERE status='pending' AND created_at>?) ORDER BY id DESC LIMIT 5", (now - 2 * 86400,)).fetchall()
+        for found in recent:
+            reconcile_payway(found)
 
     def items_by_order(orders):
         grouped = {}
@@ -785,20 +801,24 @@ def create_app(test_config=None):
     @app.get('/admin/<any(orders, products, messages, retailers):view>')
     @admin_required
     def admin(view):
+        if view in ('overview', 'orders'):
+            reconcile_recent_payway()
         data = dict(view=view, counts=admin_counts(), order_statuses=ORDER_STATUSES, payment_statuses=PAYMENT_STATUSES, low_stock=LOW_STOCK)
         if view == 'overview':
             data['revenue'] = db().execute("SELECT coalesce(sum(total_cents),0) FROM orders WHERE payment_status='paid' AND status!='cancelled'").fetchone()[0]
-            data['orders'] = db().execute("SELECT * FROM orders WHERE status IN ('pending','confirmed','shipped') OR payment_status='submitted' ORDER BY id DESC LIMIT 5").fetchall()
+            data['orders'] = db().execute(f"SELECT * FROM orders WHERE (status IN ('pending','confirmed','shipped') OR payment_status='submitted') AND NOT {AWAITING_PAYMENT} ORDER BY id DESC LIMIT 5").fetchall()
             data['messages'] = db().execute("SELECT * FROM messages WHERE status='new' ORDER BY id DESC LIMIT 5").fetchall()
             data['low_products'] = db().execute('SELECT * FROM products WHERE active=1 AND stock<=? ORDER BY stock, id', (LOW_STOCK,)).fetchall()
         elif view == 'orders':
             status = request.args.get('status', '')
-            if status not in ('', 'payment', *ORDER_STATUSES):
+            if status not in ('', 'payment', 'awaiting', *ORDER_STATUSES):
                 abort(400)
             if status == 'payment':
                 where, args = "payment_status='submitted' AND status!='cancelled'", ()
+            elif status == 'awaiting':
+                where, args = AWAITING_PAYMENT, ()
             else:
-                where, args = "(?='' OR status=?)", (status, status)
+                where, args = f"(?='' OR status=?) AND NOT {AWAITING_PAYMENT}", (status, status)
             data['status'] = status
             data['orders'] = db().execute(f'SELECT * FROM orders WHERE {where} ORDER BY id DESC LIMIT 200', args).fetchall()
             data['order_items'] = items_by_order(data['orders'])
