@@ -1119,3 +1119,6 @@ html:lang(km) .feature-copy>p:not(.eyebrow){font-size:15px}
 html:lang(km) .feature-list{font-size:15px}
 @media(max-width:800px){.feature-section{grid-template-columns:1fr;gap:28px}}
 @media(max-width:600px){.feature-copy h2{font-size:38px}html:lang(km) .feature-copy h2{font-size:27px}.feature-actions .button{flex:1;white-space:nowrap}}
+/* The founder photo shows whole, at its own proportions, on every screen size. */
+.story-photo,.story-grid .story-photo{width:100%;height:auto;aspect-ratio:3/4;object-fit:contain}
+.story-grid{align-items:start}
