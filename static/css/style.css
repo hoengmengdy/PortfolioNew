@@ -824,7 +824,7 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .hero-slider-link:hover .hero-shop .fa-arrow-right{transform:translateX(8px)}
 @media(max-width:700px){.hero-shop{top:10px;right:10px;transform:none;min-height:36px;padding:6px 12px;gap:8px;font-size:12px}}
 /* Small company logo under the social icons in the footer. */
-.footer-company-logo{width:112px;height:auto;margin-top:20px}
+.footer-company-logo{width:76px;height:auto;margin-top:16px}
 /* Homepage design. Everything is scoped to the homepage, so other pages stay as they are. */
 .page-home .section{padding:clamp(56px,7vw,104px) 0}
 .page-home main h2{font-size:clamp(36px,4.2vw,58px);font-weight:500;line-height:1.08}
