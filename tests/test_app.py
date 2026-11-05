@@ -72,6 +72,28 @@ def test_all_pages_and_languages(client, path, language):
     assert response.headers['Cache-Control'] == 'no-store'
 
 
+@pytest.mark.parametrize('slug', ['napa-cabbage', 'rau-d', 'ingredient-x', 'ingredient-y', 'aloe-vera', 'centella-asiatica', 'turmeric', 'green-tea'])
+def test_herb_detail_pages(client, slug):
+    response = client.get(f'/herbs/{slug}')
+    assert response.status_code == 200
+    assert f'images/herbs/{slug}.svg' in response.text
+    assert 'id="herb-heading"' in response.text
+
+
+@pytest.mark.parametrize('slug', ['unknown', 'napa_cabbage', 'title'])
+def test_unknown_herb_is_not_found(client, slug):
+    assert client.get(f'/herbs/{slug}').status_code == 404
+
+
+def test_herb_cards_link_to_detail_pages_and_nav_lists_herbs(client):
+    page = client.get('/herbs').text
+    assert 'href="/herbs/napa-cabbage"' in page and 'href="/herbs/green-tea"' in page
+    assert 'href="/herbs/aloe-vera"' in client.get('/').text
+    nav = re.search(r'<nav id="navigation".*?</nav>', page, re.S)[0]
+    assert nav.index('href="/about"') < nav.index('href="/herbs"') < nav.index('href="/contact"')
+    assert 'nav-submenu' not in nav
+
+
 def test_language_remembered_and_redirects_safe(client):
     response = client.get('/set-language/km?next=https://evil.example')
     assert response.location == '/'

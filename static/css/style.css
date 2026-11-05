@@ -757,19 +757,6 @@ select:disabled{background:#eef2f5;color:var(--muted);cursor:not-allowed}
 .herbs-section>.fine-print{margin:20px 0 0}
 html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 @media(max-width:600px){.ingredient-grid{grid-template-columns:1fr;gap:18px}}
-/* "Our story" dropdown holding Our Herbs. */
-.nav-group{position:relative}
-.nav-group.is-active>a{background:var(--blue);color:var(--primary);font-weight:600}
-.nav-chevron{font-size:9px;margin-left:6px;transition:transform .2s}
-.nav-group:hover .nav-chevron,.nav-group:focus-within .nav-chevron{transform:rotate(180deg)}
-.nav-submenu{position:absolute;top:calc(100% + 8px);left:0;min-width:200px;padding:8px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 36px #203d511f;z-index:40;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility .18s}
-/* Invisible bridge so the menu stays open while the pointer crosses the gap. */
-.nav-submenu::before{content:'';position:absolute;left:0;right:0;top:-10px;height:10px}
-.nav-group:hover .nav-submenu,.nav-group:focus-within .nav-submenu{opacity:1;visibility:visible;transform:none}
-.site-header .nav-submenu a{gap:10px;width:100%}
-.site-header .nav-submenu a:hover{background:var(--blue);color:var(--primary)}
-.nav-submenu a>i{font-size:12px;color:#4f8a43}
-@media(max-width:800px){.nav-chevron{display:none}.nav-submenu{position:static;min-width:0;padding:4px 0 0 16px;border:0;box-shadow:none;opacity:1;visibility:visible;transform:none}.nav-submenu::before{display:none}}
 /* Hint under the product photo upload field. */
 .field-hint{display:block;margin-top:6px;font-size:12px;line-height:1.6;color:var(--muted)}
 /* Optional sign-in hint for guests at checkout. */
@@ -801,8 +788,8 @@ html:lang(km) .hero-tagline{font-family:Khmer,sans-serif;font-style:normal;line-
 html:lang(km) .founder-quote p{font-family:Khmer,sans-serif;line-height:1.7}
 .founder-quote cite{font-style:normal;font-size:14px;font-weight:600;color:var(--primary)}
 /* Current and pressed menu items use the main blue with white text. */
-.site-header nav a[aria-current],.site-header nav a:active,.nav-group.is-active>a{background:var(--primary);color:#fff}
-.site-header nav a[aria-current]:hover,.nav-group.is-active>a:hover{background:var(--primary-hover);color:#fff}
+.site-header nav a[aria-current],.site-header nav a:active{background:var(--primary);color:#fff}
+.site-header nav a[aria-current]:hover{background:var(--primary-hover);color:#fff}
 /* Hero typography: refined, high-end feel. */
 .hero .eyebrow.hero-welcome{display:flex;align-items:center;gap:14px;margin-bottom:18px;font-family:var(--body);font-size:13px;font-weight:500;letter-spacing:4px;text-transform:uppercase;line-height:1.6;color:#0f4c75}
 .hero .eyebrow.hero-welcome::before{content:'';width:40px;height:1px;background:currentColor;flex-shrink:0}
@@ -836,9 +823,9 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 @media(max-width:380px){.site-header .brand-logo{width:106px;height:37px}}
 @media(max-width:340px){.site-header .brand-logo{width:92px;height:32px}}
 /* Hover: a clearly darker blue on menus and light buttons, and darker text on links. */
-.site-header nav a:hover,.site-header .nav-submenu a:hover,.language-options a:hover,.language-selector summary:hover,.cart-link:hover,.social-link:hover,.menu-toggle:hover,.button-light:hover,.button-outline:hover{background:#b7d9f0;color:#123f5f;border-color:#b7d9f0}
+.site-header nav a:hover,.language-options a:hover,.language-selector summary:hover,.cart-link:hover,.social-link:hover,.menu-toggle:hover,.button-light:hover,.button-outline:hover{background:#b7d9f0;color:#123f5f;border-color:#b7d9f0}
 .site-header nav a:active{background:var(--primary);color:#fff}
-.site-header nav a[aria-current]:hover,.nav-group.is-active>a:hover{background:var(--primary-hover);color:#fff}
+.site-header nav a[aria-current]:hover{background:var(--primary-hover);color:#fff}
 .text-link:hover,.footer-top>div>a:hover,.product-card a:hover .product-inquiry{color:#123f5f}
 /* Product photos always show whole: the frame is 4:5 like the product photos, and other shapes fit inside it. */
 .product-image{height:auto;aspect-ratio:4/5;background:#f5f5f7}
@@ -915,3 +902,28 @@ html:lang(km) .page-home main h2{font-family:Cormorant,Khmer,serif;line-height:1
   .page-home .ingredient-body p,.page-home .benefit-list{font-size:13px}
   .page-home .step-top{margin-bottom:18px}
 }
+/* Ingredient cards: the whole card opens the detail page through the heading link. */
+.ingredient-card{position:relative}
+.ingredient-body{display:flex;flex-direction:column;flex:1}
+.ingredient-link{color:inherit}
+.ingredient-link::after{content:'';position:absolute;inset:0;border-radius:inherit}
+.ingredient-link:focus-visible{outline:0}
+.ingredient-link:focus-visible::after{outline:2px solid var(--primary);outline-offset:-3px}
+.ingredient-card:hover .ingredient-link{color:var(--primary)}
+.ingredient-more{display:inline-flex;align-items:center;gap:8px;margin-top:auto;padding-top:16px;font-size:13px;font-weight:600;color:var(--primary)}
+.ingredient-more i{font-size:11px;transition:transform .2s}
+.ingredient-card:hover .ingredient-more i{transform:translateX(4px)}
+/* Ingredient detail page. */
+.herb-back{margin-bottom:20px}
+.herb-detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+.herb-detail-image{aspect-ratio:4/3;overflow:hidden;border-radius:var(--radius);background:var(--blue)}
+.herb-detail-image img{display:block;width:100%;height:100%;object-fit:cover}
+.herb-detail-copy h1{margin-bottom:16px;font-size:clamp(32px,3.6vw,48px)}
+.herb-detail-copy>p{font-size:16px;margin-bottom:22px}
+.herb-detail-copy h2{margin:0 0 12px;font-family:var(--body);font-size:12px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--primary)}
+.herb-detail-copy .benefit-list{font-size:15px;gap:10px;margin-bottom:26px}
+.herb-detail-copy .fine-print{margin:18px 0 0}
+html:lang(km) .herb-detail-copy h2{font-family:Khmer,sans-serif;letter-spacing:.3px;font-size:13px}
+@media(max-width:800px){.herb-detail-grid{grid-template-columns:1fr}}
+/* Five menu items just above the phone menu breakpoint: tighten so the header still fits. */
+@media(min-width:801px) and (max-width:860px){.site-header{padding:0 14px;gap:10px}.site-header nav a{padding:10px 8px}}

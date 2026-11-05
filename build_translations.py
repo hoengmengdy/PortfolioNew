@@ -432,6 +432,9 @@ active_eyebrow|ACTIVE INGREDIENTS|គ្រឿងផ្សំសកម្ម
 active_heading|What makes it work|អ្វីដែលធ្វើឱ្យមានប្រសិទ្ធភាព
 see_our_herbs|See our herbs|មើលវត្ថុធាតុដើមរបស់យើង
 benefits|Benefits|អត្ថប្រយោជន៍
+view_details|View details|មើលព័ត៌មានលម្អិត
+back_to_herbs|Back to Our Herbs|ត្រឡប់ទៅវត្ថុធាតុដើម
+more_ingredients|More ingredients|គ្រឿងផ្សំផ្សេងទៀត
 herb_napa_cabbage_name|Napa Cabbage|ស្ពៃក្តោបចិន
 herb_napa_cabbage_description|A mild, crisp leafy green, rich in water, vitamin C and vitamin K.|បន្លែស្លឹកស្រួយ រសជាតិស្រាល សម្បូរទឹក វីតាមីន C និងវីតាមីន K។
 herb_napa_cabbage_benefits|Naturally hydrating;Source of vitamins C and K;Fresh, light and easy to use|ផ្តល់សំណើមដោយធម្មជាតិ;ប្រភពវីតាមីន C និង K;ស្រស់ ស្រាល និងងាយប្រើ

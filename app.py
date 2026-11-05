@@ -125,6 +125,11 @@ def admin_required(view):
     return wrapped
 
 
+# Ingredients with a card and a detail page; each needs herb_<key>_* translations and an images/herbs SVG.
+NATURAL_HERBS = ('napa_cabbage', 'rau_d', 'ingredient_x', 'ingredient_y')
+ACTIVE_INGREDIENTS = ('aloe_vera', 'centella_asiatica', 'turmeric', 'green_tea')
+
+
 def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -270,11 +275,21 @@ def create_app(test_config=None):
     def index():
         # The homepage shows the first shop products, so pictures and text changed in the admin appear here too.
         products = db().execute('SELECT * FROM products WHERE active=1 ORDER BY id LIMIT 3').fetchall()
-        return render_template('index.html', page='home', products=products)
+        return render_template('index.html', page='home', products=products, active_ingredients=ACTIVE_INGREDIENTS)
 
     @app.get('/herbs')
     def herbs():
-        return render_template('herbs.html', page='herbs')
+        return render_template('herbs.html', page='herbs', natural_herbs=NATURAL_HERBS, active_ingredients=ACTIVE_INGREDIENTS)
+
+    @app.get('/herbs/<slug>')
+    def herb_detail(slug):
+        # URLs use hyphens (napa-cabbage); translation keys use underscores (napa_cabbage).
+        herb = slug.replace('-', '_')
+        group = next((group for group in (NATURAL_HERBS, ACTIVE_INGREDIENTS) if herb in group), None)
+        if group is None or '_' in slug:
+            abort(404)
+        others = [other for other in group if other != herb]
+        return render_template('herb_detail.html', page='herbs', herb=herb, others=others)
 
     @app.get('/about')
     def about():

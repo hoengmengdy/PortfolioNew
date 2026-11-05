@@ -4,10 +4,11 @@
   <article class="ingredient-card">
     <div class="ingredient-image"><img src="{{ url_for('static', filename='images/herbs/' + slug.replace('_', '-') + '.svg') }}" alt="{{ t('herb_' + slug + '_name') }}" loading="lazy" width="400" height="300"></div>
     <div class="ingredient-body">
-      <h3>{{ t('herb_' + slug + '_name') }}</h3>
+      <h3><a class="ingredient-link" href="{{ url_for('herb_detail', slug=slug.replace('_', '-')) }}">{{ t('herb_' + slug + '_name') }}</a></h3>
       <p>{{ t('herb_' + slug + '_description') }}</p>
       <h4>{{ t('benefits') }}</h4>
       <ul class="benefit-list">{% for benefit in t('herb_' + slug + '_benefits').split(';') %}<li><i class="fa-solid fa-leaf" aria-hidden="true"></i>{{ benefit }}</li>{% endfor %}</ul>
+      <span class="ingredient-more" aria-hidden="true">{{ t('view_details') }} <i class="fa-solid fa-arrow-right"></i></span>
     </div>
   </article>
   {% endfor %}

@@ -3,18 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ t(page + '_title') }} · Empress Cambodia</title>
+  {% set page_title = t('herb_' + herb + '_name') if herb else t(page + '_title') %}
+  <title>{{ page_title }} · Empress Cambodia</title>
   <meta name="description" content="{{ t('meta_description') }}">
   <meta name="theme-color" content="#e8f4fc">
   {% if page in ['admin', 'error'] %}<meta name="robots" content="noindex,nofollow">{% endif %}
-  <meta property="og:title" content="{{ t(page + '_title') }} · Empress Cambodia">
+  <meta property="og:title" content="{{ page_title }} · Empress Cambodia">
   <meta property="og:description" content="{{ t('meta_description') }}">
   <meta property="og:type" content="website">
   <meta property="og:image" content="{{ url_for('static', filename='images/soap-hero-small.webp', _external=True) }}">
   <link rel="icon" href="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='59') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='60') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='8') }}"></script>
 </head>
 <body class="page-{{ page }}">
@@ -25,15 +26,8 @@
     </a>
     <button class="menu-toggle icon-button" aria-label="{{ t('menu') }}" aria-expanded="false" aria-controls="navigation"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
     <nav id="navigation" aria-label="{{ t('navigation') }}">
-      {% for endpoint,label in [('shop','shop_title'),('about','about_title'),('contact','contact_title'),('retailers','retailers_title')] %}
-      {% if endpoint == 'about' %}
-      <div class="nav-group{% if request.endpoint in ['about', 'herbs'] %} is-active{% endif %}">
-        <a href="{{ url_for('about') }}" {% if request.endpoint == 'about' %}aria-current="page"{% endif %}>{{ t('about_title') }} <i class="fa-solid fa-chevron-down nav-chevron" aria-hidden="true"></i></a>
-        <div class="nav-submenu"><a href="{{ url_for('herbs') }}" {% if request.endpoint == 'herbs' %}aria-current="page"{% endif %}><i class="fa-solid fa-leaf" aria-hidden="true"></i>{{ t('herbs_title') }}</a></div>
-      </div>
-      {% else %}
-      <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ t(label) }}</a>
-      {% endif %}
+      {% for endpoint,label in [('shop','shop_title'),('about','about_title'),('herbs','herbs_title'),('contact','contact_title'),('retailers','retailers_title')] %}
+      <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint or (endpoint == 'herbs' and request.endpoint == 'herb_detail') %}aria-current="page"{% endif %}>{{ t(label) }}</a>
       {% endfor %}
     </nav>
     <div class="header-actions">
