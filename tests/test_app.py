@@ -94,6 +94,14 @@ def test_herb_cards_link_to_detail_pages_and_nav_lists_herbs(client):
     assert 'nav-submenu' not in nav
 
 
+def test_account_link_moved_from_header_to_footer(client):
+    page = client.get('/').text
+    header = re.search(r'<header.*?</header>', page, re.S)[0]
+    footer = re.search(r'<footer.*?</footer>', page, re.S)[0]
+    assert '/account' not in header
+    assert 'href="/account/login"' in footer
+
+
 def test_language_remembered_and_redirects_safe(client):
     response = client.get('/set-language/km?next=https://evil.example')
     assert response.location == '/'

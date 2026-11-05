@@ -15,7 +15,7 @@
   <link rel="icon" href="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='60') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='61') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='8') }}"></script>
 </head>
 <body class="page-{{ page }}">
@@ -32,7 +32,6 @@
     </nav>
     <div class="header-actions">
       {% if config.INSTAGRAM_URL %}<a class="social-link icon-button" href="{{ config.INSTAGRAM_URL }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>{% endif %}
-      <a class="cart-link icon-button" href="{{ url_for('account') if customer else url_for('account_login') }}" aria-label="{{ t('account_title') if customer else t('account_login_title') }}" {% if request.endpoint in ['account', 'account_login', 'verify_login_code'] %}aria-current="page"{% endif %}><i class="fa-{{ 'solid' if customer else 'regular' }} fa-user" aria-hidden="true"></i></a>
       <a class="cart-link icon-button" href="{{ url_for('cart') }}" aria-label="{{ t('cart_title') }} ({{ cart_count }})" {% if request.endpoint == 'cart' %}aria-current="page"{% endif %}><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>{% if cart_count %}<span class="cart-count" aria-hidden="true">{{ cart_count }}</span>{% endif %}</a>
       <details class="language-selector">
         <summary><img class="flag" src="{{ url_for('static', filename='images/flags/' + lang + '.svg') }}" alt="" width="21" height="14"><span>{{ languages[lang] }}</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
@@ -62,6 +61,7 @@
       <div>
         <h2>{{ t('explore') }}</h2>
         {% for endpoint,label in [('index','home_title'),('herbs','herbs_title'),('shop','shop_title'),('about','about_title'),('contact','contact_title'),('retailers','retailers_title')] %}<a href="{{ url_for(endpoint) }}">{{ t(label) }}</a>{% endfor %}
+        <a href="{{ url_for('account') if customer else url_for('account_login') }}">{{ t('account_title') if customer else t('account_login_title') }}</a>
       </div>
       <div>
         <h2>{{ t('connect') }}</h2>

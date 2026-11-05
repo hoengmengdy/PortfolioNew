@@ -927,3 +927,26 @@ html:lang(km) .herb-detail-copy h2{font-family:Khmer,sans-serif;letter-spacing:.
 @media(max-width:800px){.herb-detail-grid{grid-template-columns:1fr}}
 /* Five menu items just above the phone menu breakpoint: tighten so the header still fits. */
 @media(min-width:801px) and (max-width:860px){.site-header{padding:0 14px;gap:10px}.site-header nav a{padding:10px 8px}}
+/* Menu links use the elegant heading font (Khmer keeps its own font, which has its own sizing). */
+.site-header nav a{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:.2px}
+html:lang(km) .site-header nav a{font-family:Khmer,sans-serif;font-size:14px;font-weight:500;letter-spacing:0}
+@media(max-width:1000px){.site-header nav a{font-size:16px}html:lang(km) .site-header nav a{font-size:13px}}
+@media(max-width:800px){.site-header nav a{font-size:19px}html:lang(km) .site-header nav a{font-size:15px}}
+/* Phones: two products side by side. */
+@media(max-width:600px){
+  .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .product-grid>.empty-state{grid-column:1/-1}
+  .product-meta{flex-direction:column;gap:2px;padding:12px 12px 4px}
+  .product-meta h3{font-size:15px;line-height:1.35}
+  .price{font-size:15px}
+  .product-card p{padding:0 12px 12px;font-size:13px;line-height:1.55}
+  .add-to-cart{flex-direction:column;gap:8px;padding:0 12px 12px}
+  .add-to-cart input{width:100%;font-size:16px}
+  .add-to-cart .button{flex:none;width:100%;padding:9px 6px;font-size:13px}
+  .page-home .product-grid{grid-auto-columns:46%;gap:12px}
+  .page-home .product-meta{padding:12px 2px 4px}
+  .page-home .product-meta h3{font-size:15px}
+  .page-home .product-meta .price{font-size:15px}
+  .page-home .product-card p{padding:0 2px 8px;font-size:13px}
+  .page-home .product-inquiry{padding:0 2px;font-size:13px}
+}
