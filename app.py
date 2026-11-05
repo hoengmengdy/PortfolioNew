@@ -279,9 +279,16 @@ def create_app(test_config=None):
 
     @app.get('/')
     def index():
-        # The homepage shows the first shop products, so pictures and text changed in the admin appear here too.
-        products = db().execute('SELECT * FROM products WHERE active=1 ORDER BY id LIMIT 3').fetchall()
-        return render_template('index.html', page='home', products=products, active_ingredients=ACTIVE_INGREDIENTS)
+        # Products come from the shop, so pictures and text changed in the admin appear here too.
+        products = db().execute('SELECT * FROM products WHERE active=1 ORDER BY id DESC').fetchall()
+        # Best sellers are real order counts; the section stays hidden until at least two products have sold.
+        sold = db().execute("SELECT oi.product_id, SUM(oi.quantity) AS total FROM order_items oi JOIN orders o ON o.id=oi.order_id "
+                            "WHERE oi.product_id IS NOT NULL AND o.status<>'cancelled' GROUP BY oi.product_id ORDER BY total DESC, oi.product_id LIMIT 3").fetchall()
+        by_id = {product['id']: product for product in products}
+        best_sellers = [by_id[row['product_id']] for row in sold if row['product_id'] in by_id]
+        best_sellers = best_sellers if len(best_sellers) >= 2 else []
+        new_arrivals = [product for product in products if product not in best_sellers][:3]
+        return render_template('index.html', page='home', best_sellers=best_sellers, new_arrivals=new_arrivals, active_ingredients=ACTIVE_INGREDIENTS, payment_methods=payment_methods())
 
     @app.get('/videos/<name>')
     def video(name):
@@ -363,8 +370,19 @@ def create_app(test_config=None):
 
     @app.get('/shop')
     def shop():
-        products = db().execute('SELECT * FROM products WHERE active=1 ORDER BY id').fetchall()
-        return render_template('shop.html', page='shop', products=products)
+        q = request.args.get('q', '').strip()[:80]
+        products = db().execute("SELECT * FROM products WHERE active=1 AND (?='' OR lower(name) LIKE '%' || lower(?) || '%' OR name_km LIKE '%' || ? || '%' "
+                                "OR lower(description) LIKE '%' || lower(?) || '%' OR description_km LIKE '%' || ? || '%') ORDER BY id", (q, q, q, q, q)).fetchall()
+        return render_template('shop.html', page='shop', products=products, q=q)
+
+    @app.get('/shop/<int:product_id>')
+    def product_detail(product_id):
+        product = db().execute('SELECT * FROM products WHERE id=? AND active=1', (product_id,)).fetchone()
+        if not product:
+            abort(404)
+        related = db().execute('SELECT * FROM products WHERE active=1 AND id<>? ORDER BY id LIMIT 4', (product_id,)).fetchall()
+        return render_template('product.html', page='shop', product=product, related=related,
+                               custom_title=localized(product, 'name'), page_description=localized(product, 'description'))
 
     @app.post('/cart/add')
     def cart_add():
@@ -381,7 +399,8 @@ def create_app(test_config=None):
             cart[key] = total
             session['cart'] = cart
             flash(t('added_to_cart'), 'success')
-        return redirect(url_for('cart') if request.form.get('next') == 'cart' else url_for('shop'), code=303)
+        destination = {'cart': url_for('cart'), 'checkout': url_for('checkout'), 'product': url_for('product_detail', product_id=product['id'])}
+        return redirect(destination.get(request.form.get('next'), url_for('shop')), code=303)
 
     @app.get('/cart')
     def cart():

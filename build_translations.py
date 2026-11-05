@@ -38,8 +38,8 @@ alt_about_event|Greeting guests at a product event in traditional Khmer dress.|�
 alt_about_speech|Giving a speech at a community event.|ការថ្លែងសុន្ទរកថានៅក្នុងកម្មវិធីសហគមន៍។
 hero_slider_label|Featured banners|បដាពិសេស
 hero_slide_go|Go to slide|ទៅកាន់ស្លាយទី
-alt_banner_1|A woman in a white suit sitting on a giant VISAKHA by Nature Plus bottle.|នារីស្លៀកឈុតពណ៌ស អង្គុយលើដប VISAKHA by Nature Plus ដ៏ធំមួយ។
-alt_banner_2|A woman with long black hair in a white suit, beside a bottle of VISAKHA by Nature Plus.|នារីសក់ខ្មៅវែង ស្លៀកឈុតពណ៌ស នៅក្បែរដប VISAKHA by Nature Plus។
+alt_banner_1|A woman with long black hair in a white suit, beside a bottle of VISAKHA by Nature Plus.|នារីសក់ខ្មៅវែង ស្លៀកឈុតពណ៌ស នៅក្បែរដប VISAKHA by Nature Plus។
+alt_banner_2|A woman in a white suit sitting on a giant VISAKHA by Nature Plus bottle.|នារីស្លៀកឈុតពណ៌ស អង្គុយលើដប VISAKHA by Nature Plus ដ៏ធំមួយ។
 alt_soap_hero|Empress Natural Beauty Soap box with rice and romdoul flowers.|ប្រអប់សាប៊ូ Empress Natural Beauty ជាមួយកួរស្រូវ និងផ្ការំដួល។
 product_details|Ask about this product|សួរអំពីផលិតផលនេះ
 show_password|Show password|បង្ហាញពាក្យសម្ងាត់
@@ -246,7 +246,7 @@ alt_serum|An amber bottle in warm botanical shadows; illustrative skincare photo
 alt_cleanser|A still life of skincare products; illustrative collection photography.|រូបថតផលិតផលថែស្បែកសម្រាប់បណ្តុំគំរូ។
 alt_cream|Skincare packaging and soft textures; illustrative product photography.|ការវេចខ្ចប់ និងផ្ទៃទន់ រូបថតផលិតផលគំរូ។
 shop_title|Shop|ហាងទំនិញ
-shop_intro|Choose your favourites and order online. Pay on delivery or by bank transfer.|ជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត ហើយកុម្ម៉ង់តាមអនឡាញ។ បង់ប្រាក់ពេលទទួលទំនិញ ឬតាមការផ្ទេរប្រាក់តាមធនាគារ។
+shop_intro|Choose your favourites and order online.|ជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត ហើយកុម្ម៉ង់តាមអនឡាញ។
 shop_now|Shop now|ទិញឥឡូវនេះ
 quantity|Quantity|ចំនួន
 add_to_cart|Add to cart|ដាក់ចូលកន្ត្រក
@@ -428,6 +428,37 @@ video_play|Play video|ចាក់វីដេអូ
 video_prev|Previous video|វីដេអូមុន
 video_next|Next video|វីដេអូបន្ទាប់
 video_close|Close video|បិទវីដេអូ
+best_sellers|Best sellers|លក់ដាច់បំផុត
+new_arrivals|New arrivals|ផលិតផលថ្មី
+buy_now|Buy now|ទិញឥឡូវនេះ
+back_to_shop|Back to shop|ត្រឡប់ទៅហាង
+you_may_like|You may also like|ផលិតផលផ្សេងទៀតដែលអ្នកអាចចូលចិត្ត
+view_full_photo|View full photo|មើលរូបពេញ
+search_products|Search products|ស្វែងរកផលិតផល
+search_results|Search results|លទ្ធផលស្វែងរក
+no_results|No products match your search.|រកមិនឃើញផលិតផលដែលត្រូវនឹងការស្វែងរករបស់អ្នកទេ។
+why_heading|Why choose us|ហេតុអ្វីជ្រើសរើសយើង
+why_local|Made in Cambodia|ផលិតនៅកម្ពុជា
+why_local_text|Made by LSV Industry, a Khmer factory in Phnom Penh.|ផលិតដោយ LSV Industry ជារោងចក្រខ្មែរនៅរាជធានីភ្នំពេញ។
+why_ingredients|Cambodian farm produce|កសិផលខ្មែរ
+why_ingredients_text|Everyday products made from produce such as lemongrass, pineapple and mustard greens.|ផលិតផលប្រចាំថ្ងៃ កែច្នៃពីកសិផល ដូចជាស្លឹកគ្រៃ ម្នាស់ និងស្ពៃក្រញាញ់។
+why_quality|Quality standards|ស្តង់ដាគុណភាព
+why_quality_text|Production follows Japanese manufacturing standards.|ការផលិតអនុវត្តតាមស្តង់ដាផលិតកម្មជប៉ុន។
+why_farmers|Working with local farmers|សហការជាមួយកសិករក្នុងស្រុក
+why_farmers_text|Our team works with local farmers and gives them another market.|ក្រុមការងារសហការជាមួយកសិករក្នុងស្រុក និងបង្កើតទីផ្សារបន្ថែមសម្រាប់ពួកគេ។
+faq_heading|Frequently asked questions|សំណួរដែលសួរញឹកញាប់
+faq_order_q|How do I place an order?|តើខ្ញុំកុម្ម៉ង់ដោយរបៀបណា?
+faq_order_a|Choose your products in the shop, add them to your cart, then enter your delivery details at checkout.|ជ្រើសរើសផលិតផលក្នុងហាង ដាក់ចូលកន្ត្រក រួចបំពេញព័ត៌មានដឹកជញ្ជូននៅពេលទូទាត់ប្រាក់។
+faq_pay_q|How can I pay?|តើខ្ញុំអាចបង់ប្រាក់ដោយរបៀបណា?
+faq_pay_payway|Pay online with ABA, KHQR or card.|បង់ប្រាក់តាមអនឡាញតាមរយៈ ABA, KHQR ឬកាត។
+faq_delivery_q|How much is delivery?|តើថ្លៃដឹកជញ្ជូនប៉ុន្មាន?
+faq_delivery_a|The delivery fee is shown in your cart and at checkout before you pay.|ថ្លៃដឹកជញ្ជូនបង្ហាញក្នុងកន្ត្រក និងនៅពេលទូទាត់ប្រាក់ មុនពេលអ្នកបង់ប្រាក់។
+faq_track_q|How do I check my order?|តើខ្ញុំពិនិត្យការកុម្ម៉ង់ដោយរបៀបណា?
+faq_track_a|Keep the order link shown after checkout. If you sign in before ordering, your orders also appear under My orders.|សូមរក្សាតំណការកុម្ម៉ង់ដែលបង្ហាញបន្ទាប់ពីទូទាត់ប្រាក់។ បើអ្នកចូលគណនីមុនពេលកុម្ម៉ង់ ការកុម្ម៉ង់របស់អ្នកក៏នឹងបង្ហាញក្នុង "ការកុម្ម៉ង់របស់ខ្ញុំ" ផងដែរ។
+faq_store_q|Can I buy in a store?|តើខ្ញុំអាចទិញនៅហាងបានទេ?
+faq_store_a|See our list of stores, and contact the store to confirm availability before visiting.|សូមមើលបញ្ជីហាងរបស់យើង ហើយទាក់ទងហាងដើម្បីបញ្ជាក់ថាមានផលិតផល មុនពេលទៅ។
+faq_contact_q|How can I contact you?|តើខ្ញុំទាក់ទងអ្នកដោយរបៀបណា?
+faq_contact_a|Send us a message and our team will review it.|សូមផ្ញើសារមកយើង ហើយក្រុមការងាររបស់យើងនឹងពិនិត្យមើល។
 benefits|Benefits|អត្ថប្រយោជន៍
 view_details|View details|មើលព័ត៌មានលម្អិត
 back_to_herbs|Back to Our Herbs|ត្រឡប់ទៅវត្ថុធាតុដើម

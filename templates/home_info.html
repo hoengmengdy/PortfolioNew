@@ -1,0 +1,22 @@
+<section class="section why-section" aria-labelledby="why-heading">
+  <div class="section-heading centered"><h2 id="why-heading">{{ t('why_heading') }}</h2></div>
+  <div class="why-grid">
+    {% for key, icon in [('local','location-dot'),('ingredients','leaf'),('quality','award'),('farmers','seedling')] %}
+    <article><span class="why-icon"><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i></span><h3>{{ t('why_' ~ key) }}</h3><p>{{ t('why_' ~ key ~ '_text') }}</p></article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section faq-section" aria-labelledby="faq-heading">
+  <div class="section-heading centered"><h2 id="faq-heading">{{ t('faq_heading') }}</h2></div>
+  <div class="faq-list">
+    <details><summary>{{ t('faq_order_q') }}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>{{ t('faq_order_a') }}</p></details>
+    {% if payment_methods %}
+    <details><summary>{{ t('faq_pay_q') }}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>{% if 'payway' in payment_methods %}<p>{{ t('faq_pay_payway') }}</p>{% endif %}{% if 'bank' in payment_methods %}<p>{{ t('pay_bank_description') }}</p>{% endif %}</details>
+    {% endif %}
+    <details><summary>{{ t('faq_delivery_q') }}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>{{ t('faq_delivery_a') }}</p></details>
+    <details><summary>{{ t('faq_track_q') }}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>{{ t('faq_track_a') }}</p></details>
+    <details><summary>{{ t('faq_store_q') }}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>{{ t('faq_store_a') }} <a class="text-link" href="{{ url_for('retailers') }}">{{ t('retailers_title') }}</a></p></details>
+    <details><summary>{{ t('faq_contact_q') }}<i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><p>{{ t('faq_contact_a') }} <a class="text-link" href="{{ url_for('contact') }}">{{ t('contact_title') }}</a></p></details>
+  </div>
+</section>

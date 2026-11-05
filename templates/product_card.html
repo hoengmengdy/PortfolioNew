@@ -1,0 +1,17 @@
+{% macro product_card(product) %}
+<article class="product-card shop-card" id="product-{{ product.id }}">
+  <a class="product-image-link" href="{{ url_for('product_detail', product_id=product.id) }}"><div class="product-image"><img src="{{ product_image_url(product.image) }}" loading="lazy" alt="{{ localized(product, 'name') }}" width="800" height="1000"></div></a>
+  <div class="product-meta"><h3><a href="{{ url_for('product_detail', product_id=product.id) }}">{{ localized(product, 'name') }}</a></h3><strong class="price">{{ product.price_cents|money }}</strong></div>
+  <p>{{ localized(product, 'description') }}</p>
+  {% if product.stock > 0 %}
+  <form class="add-to-cart" method="post" action="{{ url_for('cart_add') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <input type="hidden" name="quantity" value="1">
+    <button class="button button-small" type="submit"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> {{ t('add_to_cart') }}</button>
+  </form>
+  {% else %}
+  <p class="stock-note">{{ t('sold_out') }}</p>
+  {% endif %}
+</article>
+{% endmacro %}

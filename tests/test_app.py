@@ -134,11 +134,53 @@ def test_about_cards_open_history_dialogs(client):
 
 
 @pytest.mark.parametrize('path', ['/', '/shop'])
-def test_products_open_full_view(client, path):
+def test_product_cards_link_to_detail_pages(client, path):
     page = client.get(path).text
-    opened = set(re.findall(r'data-open-dialog="(product-dialog-\d+)"', page))
-    assert opened and opened == set(re.findall(r'<dialog class="detail-dialog" id="(product-dialog-\d+)"', page))
+    assert 'href="/shop/1"' in page and 'name="product_id" value="1"' in page
 
+
+@pytest.mark.parametrize('language', ['en', 'km'])
+def test_product_detail_page(client, language):
+    client.get(f'/set-language/{language}?next=/')
+    response = client.get('/shop/1')
+    assert response.status_code == 200
+    assert 'id="product-heading"' in response.text and 'name="quantity"' in response.text
+    assert 'value="checkout"' in response.text and 'href="/shop/2"' in response.text
+    assert client.get('/shop/9999').status_code == 404
+
+
+def test_buy_now_goes_to_checkout_and_add_returns_to_product(client):
+    csrf = token(client, '/shop/1')
+    response = client.post('/cart/add', data={'csrf_token': csrf, 'product_id': 1, 'quantity': 1, 'next': 'checkout'})
+    assert response.status_code == 303 and response.location == '/checkout'
+    response = client.post('/cart/add', data={'csrf_token': csrf, 'product_id': 1, 'quantity': 1, 'next': 'product'})
+    assert response.location == '/shop/1'
+    response = client.post('/cart/add', data={'csrf_token': csrf, 'product_id': 1, 'quantity': 1, 'next': 'https://example.com'})
+    assert response.location == '/shop'
+
+
+def test_shop_search(client):
+    page = client.get('/shop?q=daily').text
+    assert 'href="/shop/1"' in page and 'href="/shop/2"' not in page
+    assert 'No products match' in client.get('/shop?q=zzzz').text
+    assert 'href="/shop/1"' in client.get('/shop?q=').text
+
+
+def test_homepage_sections_use_real_data_only(client):
+    page = client.get('/').text
+    assert 'id="new-heading"' in page and 'id="why-heading"' in page and 'id="faq-heading"' in page
+    assert 'id="best-heading"' not in page  # No orders yet, so nothing is called a best seller.
+    assert 'visakha-banner-1-2880.webp' in page and 'banner-visakha' not in page
+
+
+def test_homepage_best_sellers_come_from_orders(app, client):
+    with connect_db(app) as connection:
+        for product_id, status, quantity in [(1, 'completed', 1), (2, 'pending', 3), (3, 'cancelled', 9)]:
+            cursor = connection.execute("INSERT INTO orders(token,name,phone,address,city,payment_method,status,subtotal_cents,delivery_cents,total_cents,language) VALUES(?,'a','1','b','c','bank',?,1,0,1,'en')", (f't{product_id}', status))
+            connection.execute('INSERT INTO order_items(order_id,product_id,name,unit_cents,quantity) VALUES(?,?,?,1,?)', (cursor.lastrowid, product_id, 'x', quantity))
+    page = client.get('/').text
+    best = page[page.index('id="best-heading"'):page.index('id="new-heading"')]
+    assert best.index('href="/shop/2"') < best.index('href="/shop/1"') and 'href="/shop/3"' not in best
 
 def test_ingredient_x_card_uses_the_picture(client):
     page = client.get('/herbs').text

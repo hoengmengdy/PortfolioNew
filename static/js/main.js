@@ -20,11 +20,11 @@ document.addEventListener('keydown', event => {
       toggle.setAttribute('aria-expanded', 'false');
       toggle.focus();
     }
-    document.querySelectorAll('.language-selector[open]').forEach(menu => menu.open = false);
+    document.querySelectorAll('.language-selector[open], .header-search[open]').forEach(menu => menu.open = false);
   }
 });
 document.addEventListener('click', event => {
-  document.querySelectorAll('.language-selector[open]').forEach(menu => {
+  document.querySelectorAll('.language-selector[open], .header-search[open]').forEach(menu => {
     if (!menu.contains(event.target)) menu.open = false;
   });
 });
@@ -115,23 +115,6 @@ if (!reduceMotion && publicPage && 'IntersectionObserver' in window) {
   }));
 }
 if (!reduceMotion && publicPage) {
-  // Cards lean towards the mouse pointer.
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    document.querySelectorAll('.product-card').forEach(card => {
-      card.addEventListener('mousemove', event => {
-        if (card.classList.contains('reveal')) return;
-        const box = card.getBoundingClientRect();
-        const x = (event.clientX - box.left) / box.width - 0.5;
-        const y = (event.clientY - box.top) / box.height - 0.5;
-        card.classList.add('is-tilting');
-        card.style.transform = `perspective(900px) rotateX(${-y * 12}deg) rotateY(${x * 14}deg) translateY(-12px) scale(1.03)`;
-      });
-      card.addEventListener('mouseleave', () => {
-        card.classList.remove('is-tilting');
-        card.style.transform = '';
-      });
-    });
-  }
   // A ripple spreads from where a button is pressed.
   document.addEventListener('pointerdown', event => {
     const button = event.target.closest('.button');
@@ -431,4 +414,9 @@ document.addEventListener('click', event => {
   const closer = event.target.closest('[data-close-dialog]');
   if (closer) closer.closest('dialog').close();
   else if (event.target.matches('.detail-dialog')) event.target.close();
+});
+
+// Header search: ready to type as soon as it opens.
+document.querySelector('.header-search')?.addEventListener('toggle', event => {
+  if (event.target.open) event.target.querySelector('input').focus();
 });
