@@ -7,11 +7,12 @@ import secrets
 import time
 from datetime import timedelta
 from decimal import Decimal, InvalidOperation
+from pathlib import Path
 from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
 
 import click
-from flask import Flask, Response, abort, current_app, flash, g, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, Response, abort, current_app, flash, g, jsonify, redirect, render_template, request, send_from_directory, session, url_for
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect, CSRFError
@@ -276,6 +277,11 @@ def create_app(test_config=None):
         # The homepage shows the first shop products, so pictures and text changed in the admin appear here too.
         products = db().execute('SELECT * FROM products WHERE active=1 ORDER BY id LIMIT 3').fetchall()
         return render_template('index.html', page='home', products=products, active_ingredients=ACTIVE_INGREDIENTS)
+
+    @app.get('/videos/<name>')
+    def video(name):
+        # On Vercel the CDN answers these from public/videos first (functions cannot send files this large).
+        return send_from_directory(Path(app.root_path) / 'public' / 'videos', name, mimetype='video/mp4', conditional=True)
 
     @app.get('/herbs')
     def herbs():

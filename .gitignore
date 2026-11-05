@@ -9,3 +9,6 @@ database.db*
 
 .vercel
 .env*
+
+# Original video files; the web versions live in public/videos.
+static/vdo/

@@ -102,6 +102,15 @@ def test_account_link_moved_from_header_to_footer(client):
     assert 'href="/account/login"' in footer
 
 
+def test_homepage_video_highlights(client):
+    page = client.get('/').text
+    for n in range(1, 6):
+        assert f'src="/videos/koc-{n}.mp4"' in page
+        assert f'images/videos/koc-{n}.webp' in page
+    response = client.get('/videos/koc-1.mp4', headers={'Range': 'bytes=0-99'})
+    assert response.status_code == 206 and response.mimetype == 'video/mp4' and len(response.data) == 100
+    assert client.get('/videos/missing.mp4').status_code == 404
+
 def test_language_remembered_and_redirects_safe(client):
     response = client.get('/set-language/km?next=https://evil.example')
     assert response.location == '/'

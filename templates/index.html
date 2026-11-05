@@ -39,6 +39,20 @@
 </section>
 {% endif %}
 
+<section class="video-section section" aria-labelledby="videos-heading">
+  <div class="section-heading"><div><h2 id="videos-heading">{{ t('videos_heading') }}</h2></div></div>
+  <div class="video-track" tabindex="0" role="group" aria-labelledby="videos-heading">
+    {% for n in range(1, 6) %}
+    <article class="video-card" data-video>
+      <video src="{{ url_for('video', name='koc-' ~ n ~ '.mp4') }}" poster="{{ url_for('static', filename='images/videos/koc-' ~ n ~ '.webp') }}" preload="none" playsinline width="720" height="1280"></video>
+      <button class="video-toggle" type="button" aria-label="{{ t('video_play') }} {{ n }}" data-play="{{ t('video_play') }} {{ n }}" data-pause="{{ t('video_pause') }} {{ n }}"><span class="video-toggle-icon"><i class="fa-solid fa-play" aria-hidden="true"></i></span></button>
+      <button class="video-mute" type="button" hidden aria-label="{{ t('video_mute') }}" data-mute="{{ t('video_mute') }}" data-unmute="{{ t('video_unmute') }}"><i class="fa-solid fa-volume-high" aria-hidden="true"></i></button>
+      <a class="button button-small video-shop" href="{{ url_for('shop') }}">{{ t('shop_now') }}</a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
 <div class="band band-soft">
 <section class="section herbs-section" id="active-ingredients" aria-labelledby="active-heading">
   <div class="section-heading">

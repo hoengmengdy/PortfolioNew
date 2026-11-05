@@ -275,3 +275,50 @@ document.querySelectorAll('[data-hero-slider]').forEach(slider => {
   }, {passive: true});
   start();
 });
+
+// Homepage video highlights: tap to play or pause, one video at a time, and stop when scrolled away or the tab is hidden.
+const videoCards = [...document.querySelectorAll('[data-video]')];
+videoCards.forEach(card => {
+  const video = card.querySelector('video');
+  const toggle = card.querySelector('.video-toggle');
+  const icon = toggle.querySelector('i');
+  const mute = card.querySelector('.video-mute');
+  const sync = () => {
+    const playing = !video.paused && !video.ended;
+    card.classList.toggle('is-playing', playing);
+    toggle.setAttribute('aria-label', playing ? toggle.dataset.pause : toggle.dataset.play);
+    icon.classList.toggle('fa-play', !playing);
+    icon.classList.toggle('fa-pause', playing);
+    mute.hidden = !playing && video.currentTime === 0;
+  };
+  toggle.addEventListener('click', () => {
+    if (video.paused || video.ended) {
+      videoCards.forEach(other => {
+        if (other !== card) other.querySelector('video').pause();
+      });
+      video.play().catch(sync);
+    } else {
+      video.pause();
+    }
+  });
+  mute.addEventListener('click', () => {
+    video.muted = !video.muted;
+    mute.setAttribute('aria-label', video.muted ? mute.dataset.unmute : mute.dataset.mute);
+    const muteIcon = mute.querySelector('i');
+    muteIcon.classList.toggle('fa-volume-high', !video.muted);
+    muteIcon.classList.toggle('fa-volume-xmark', video.muted);
+  });
+  video.addEventListener('play', sync);
+  video.addEventListener('pause', sync);
+  // Back to the cover image when finished.
+  video.addEventListener('ended', () => {
+    video.load();
+    sync();
+  });
+  new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) video.pause();
+  }, {threshold: .25}).observe(card);
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) videoCards.forEach(card => card.querySelector('video').pause());
+});

@@ -1,4 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["sin1"]
+  "regions": ["sin1"],
+  "headers": [{"source": "/videos/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=86400"}]}]
 }
