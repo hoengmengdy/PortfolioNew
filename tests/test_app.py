@@ -190,6 +190,16 @@ def test_ingredient_x_card_uses_the_picture(client):
     assert client.get('/static/images/herbs/ingredient-x.webp').status_code == 200
     assert 'src="/static/images/herbs/ingredient-x.webp"' in client.get('/herbs/ingredient-x').text
 
+@pytest.mark.parametrize('language, font', [('en', 'jost'), ('km', 'khmer-sans')])
+def test_fonts_exist_and_the_reading_font_is_preloaded(client, language, font):
+    page = client.get(f'/set-language/{language}?next=/', follow_redirects=True).text
+    assert f'fonts/{font}.woff2' in page
+    css = client.get('/static/css/style.css').text
+    files = re.findall(r"url\('\.\./fonts/([\w-]+\.woff2)'\)", css)
+    assert sorted(files) == ['cormorant.woff2', 'jost.woff2', 'khmer-sans.woff2', 'khmer-serif.woff2']
+    for name in files:
+        assert client.get(f'/static/fonts/{name}').status_code == 200
+
 def test_language_remembered_and_redirects_safe(client):
     response = client.get('/set-language/km?next=https://evil.example')
     assert response.location == '/'

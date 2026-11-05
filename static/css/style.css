@@ -1,8 +1,9 @@
-@font-face{font-family:'DM Sans';src:url('../fonts/body.woff2') format('woff2');font-weight:100 900;font-display:swap}
-@font-face{font-family:Cormorant;src:url('../fonts/display.woff2') format('woff2');font-weight:300 700;font-display:swap}
-@font-face{font-family:Khmer;src:url('../fonts/khmer.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:Cormorant;src:url('../fonts/cormorant.woff2') format('woff2');font-weight:400 700;font-display:swap}
+@font-face{font-family:Jost;src:url('../fonts/jost.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Khmer Serif';src:url('../fonts/khmer-serif.woff2') format('woff2');font-weight:400 700;font-display:swap}
+@font-face{font-family:'Khmer Sans';src:url('../fonts/khmer-sans.woff2') format('woff2');font-weight:300 700;font-display:swap}
 
-:root{--ink:#17293a;--muted:#5a6b78;--primary:#2a6f9e;--primary-hover:#1f5579;--blue:#e8f4fc;--blue-deep:#d3e9f7;--peach:#dcedf9;--tan:#3f7fab;--display:Cormorant,Georgia,serif;--surface:#fff;--background:#fff;--line:#e6e6e6;--radius:14px;--body:'DM Sans',Khmer,sans-serif;--content:1160px}
+:root{--ink:#17293a;--muted:#5a6b78;--primary:#2a6f9e;--primary-hover:#1f5579;--blue:#e8f4fc;--blue-deep:#d3e9f7;--peach:#dcedf9;--tan:#3f7fab;--display:Cormorant,'Khmer Serif',Georgia,serif;--surface:#fff;--background:#fff;--line:#e6e6e6;--radius:14px;--body:Jost,'Khmer Sans',sans-serif;--content:1160px}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:105px}
 body{margin:0;width:100%;min-width:0;background:var(--background);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
@@ -453,7 +454,7 @@ input[readonly]{background:#f6f8fa;color:var(--muted)}
 .lightbox-close{position:absolute;top:6px;right:6px;background:#fff;font-size:28px;border:1px solid var(--line)}
 .error-page{min-height:460px}
 .error-page .button{margin-top:28px}
-html:lang(km) h1,html:lang(km) h2,html:lang(km) h3{font-family:Khmer,sans-serif;letter-spacing:0;line-height:1.65}
+html:lang(km) h1,html:lang(km) h2,html:lang(km) h3{font-family:var(--display);letter-spacing:0;line-height:1.65}
 html:lang(km) .eyebrow{letter-spacing:.3px}
 html:lang(km) .hero h1{font-size:clamp(28px,2.65vw,40px);line-height:1.7}
 html:lang(km) .hero-description{font-size:16px;line-height:1.9}
@@ -757,7 +758,7 @@ html:lang(km) .ingredient-body h4{letter-spacing:.3px;font-size:12px}
 .footer-social a:hover{background:var(--primary);color:#fff}
 /* Short tagline between the hero heading and description. */
 .hero-tagline{margin:-12px 0 16px;font-family:var(--display);font-style:italic;font-size:clamp(22px,2vw,28px);line-height:1.3;color:var(--primary)}
-html:lang(km) .hero-tagline{font-family:Khmer,sans-serif;font-style:normal;line-height:1.7}
+html:lang(km) .hero-tagline{font-family:var(--display);font-style:normal;line-height:1.7}
 /* About page photos. */
 .story-photo{object-position:center 25%}
 .research-photo{object-position:center 40%}
@@ -772,7 +773,7 @@ html:lang(km) .hero-tagline{font-family:Khmer,sans-serif;font-style:normal;line-
 .founder-quote{margin:40px auto 0;max-width:720px;text-align:center}
 .founder-quote>i{font-size:24px;color:var(--primary);margin-bottom:12px}
 .founder-quote p{font-family:var(--display);font-size:clamp(24px,2.6vw,34px);line-height:1.35;color:var(--ink);margin:0 0 12px}
-html:lang(km) .founder-quote p{font-family:Khmer,sans-serif;line-height:1.7}
+html:lang(km) .founder-quote p{font-family:var(--display);line-height:1.7}
 .founder-quote cite{font-style:normal;font-size:14px;font-weight:600;color:var(--primary)}
 /* Current and pressed menu items use the main blue with white text. */
 .site-header nav a[aria-current],.site-header nav a:active{background:var(--primary);color:#fff}
@@ -785,7 +786,7 @@ html:lang(km) .founder-quote p{font-family:Khmer,sans-serif;line-height:1.7}
 .hero-description{position:relative;max-width:440px;padding-top:22px;font-size:16px;line-height:1.85;margin-bottom:32px}
 .hero-description::before{content:'';position:absolute;top:0;left:0;width:56px;height:1px;background:#0f4c75;opacity:.45}
 html:lang(km) .hero .eyebrow.hero-welcome{letter-spacing:0;font-size:15px;text-transform:none}
-html:lang(km) .hero h1{font-family:Cormorant,Khmer,serif;font-weight:500;font-size:clamp(40px,4.6vw,68px);line-height:1.3}
+html:lang(km) .hero h1{font-family:var(--display);font-weight:500;font-size:clamp(40px,4.6vw,68px);line-height:1.3}
 html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 @media(max-width:600px){.hero .eyebrow.hero-welcome{font-size:11px;letter-spacing:3px}.hero .eyebrow.hero-welcome::before{width:28px}.hero h1{font-size:42px}.hero-tagline{font-size:16px;letter-spacing:4px}html:lang(km) .hero h1{font-size:32px}}
 /* Homepage banner slider: full width, 21:9 like the banner art (16:9 on phones), with slides that fade into each other. */
@@ -842,7 +843,7 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .page-home main .inquiry h2{font-size:clamp(30px,3.4vw,46px)}
 .page-home .inquiry p{font-size:16px}
 .page-home .inquiry .eyebrow{font-size:12px;color:#cfe6f6}
-html:lang(km) .page-home main h2{font-family:Cormorant,Khmer,serif;line-height:1.4}
+html:lang(km) .page-home main h2{font-family:var(--display);line-height:1.4}
 @media(max-width:1000px){.page-home .ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:800px){
 }
@@ -873,13 +874,13 @@ html:lang(km) .page-home main h2{font-family:Cormorant,Khmer,serif;line-height:1
 .herb-detail-copy h2{margin:0 0 12px;font-family:var(--body);font-size:12px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--primary)}
 .herb-detail-copy .benefit-list{font-size:15px;gap:10px;margin-bottom:26px}
 .herb-detail-copy .fine-print{margin:18px 0 0}
-html:lang(km) .herb-detail-copy h2{font-family:Khmer,sans-serif;letter-spacing:.3px;font-size:13px}
+html:lang(km) .herb-detail-copy h2{font-family:var(--body);letter-spacing:.3px;font-size:13px}
 @media(max-width:800px){.herb-detail-grid{grid-template-columns:1fr}}
 /* Five menu items just above the phone menu breakpoint: tighten so the header still fits. */
 @media(min-width:801px) and (max-width:860px){.site-header{padding:0 14px;gap:10px}.site-header nav a{padding:10px 8px}}
 /* Menu links use the elegant heading font (Khmer keeps its own font, which has its own sizing). */
 .site-header nav a{font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:.2px}
-html:lang(km) .site-header nav a{font-family:Khmer,sans-serif;font-size:14px;font-weight:500;letter-spacing:0}
+html:lang(km) .site-header nav a{font-family:var(--body);font-size:14px;font-weight:500;letter-spacing:0}
 @media(max-width:1000px){.site-header nav a{font-size:16px}html:lang(km) .site-header nav a{font-size:13px}}
 @media(max-width:800px){.site-header nav a{font-size:19px}html:lang(km) .site-header nav a{font-size:15px}}
 /* Phones: two products side by side. */
@@ -941,7 +942,7 @@ body:has(dialog[open]){overflow:hidden}
 .detail-dialog-copy .price{display:block;margin-bottom:14px;font-size:20px}
 .detail-dialog-copy .add-to-cart{padding:6px 0 0}
 .dialog-close{position:absolute;top:12px;right:12px;z-index:1}
-html:lang(km) .detail-dialog-copy h2{font-family:Khmer,sans-serif;line-height:1.5}
+html:lang(km) .detail-dialog-copy h2{font-family:var(--display);line-height:1.5}
 .product-zoom{display:block;cursor:zoom-in}
 .product-zoom-icon{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#ffffffd9;color:var(--primary);font-size:13px}
 .journey-card{position:relative;display:flex;flex-direction:column;cursor:pointer}
@@ -1006,7 +1007,7 @@ html:lang(km) .detail-dialog-copy h2{font-family:Khmer,sans-serif;line-height:1.
 .product-zoom-dialog{width:min(92vw,calc(86dvh*.8))}
 .product-zoom-dialog .detail-dialog-body{display:block;background:#f5f5f7}
 .product-zoom-dialog img{display:block;width:100%;height:auto}
-html:lang(km) .product-detail-copy h1{font-family:Khmer,sans-serif;line-height:1.5}
+html:lang(km) .product-detail-copy h1{font-family:var(--display);line-height:1.5}
 /* Homepage: why choose us and FAQ. */
 .why-section .section-heading,.faq-section .section-heading{justify-content:center;text-align:center}
 .why-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
@@ -1032,4 +1033,71 @@ html:lang(km) .product-detail-copy h1{font-family:Khmer,sans-serif;line-height:1
   .page-home .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
   .why-grid h3{font-size:15px}
   .why-grid p{font-size:13px}
+}
+/* Typography: Cormorant Garamond and Noto Serif Khmer for titles, Jost and Kantumruy Pro for reading. */
+body{font-size:16px;letter-spacing:.012em;font-variant-numeric:lining-nums;text-rendering:optimizeLegibility}
+h1,h2{font-weight:500;letter-spacing:.004em;line-height:1.14}
+h1{font-size:clamp(40px,4.6vw,64px)}
+h2{font-size:clamp(34px,3.6vw,50px)}
+h3{font-family:var(--display);font-size:24px;font-weight:600;letter-spacing:.004em;line-height:1.25}
+.eyebrow,.hero .eyebrow.hero-welcome{font-size:11px;font-weight:500;letter-spacing:.22em}
+.button{font-size:12.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.button-small{font-size:12px}
+.text-link,.ingredient-more,.journey-more{font-weight:500;letter-spacing:.04em}
+.price{font-weight:500;letter-spacing:.02em}
+.site-header nav a{font-size:19px;font-weight:500;letter-spacing:.015em}
+.language-selector,.footer-bottom{letter-spacing:.03em}
+.product-meta h3,.ingredient-body h3{font-size:22px;line-height:1.25}
+.three-grid h3,.why-grid h3{font-size:23px}
+.product-card p,.ingredient-body p,.benefit-list,.three-grid p,.why-grid p,.faq-list p{font-size:15px}
+.ingredient-body h4{font-weight:500;letter-spacing:.16em}
+.faq-list summary{font-family:var(--display);font-size:20px;font-weight:600}
+.footer h2{font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase}
+.footer-top>div>a:not(.brand){font-size:14px}
+.product-detail-copy .price{font-size:26px}
+.page-hero>p:not(.eyebrow){font-size:16px}
+.page-admin{font-size:15px}
+.page-admin h1,.page-admin h2,.page-admin h3{font-family:var(--body);font-weight:600;letter-spacing:0}
+.page-admin h1{font-size:28px}
+.page-admin h2{font-size:22px}
+.page-admin h3{font-size:16px}
+.page-admin .button{font-size:13px;letter-spacing:.02em;text-transform:none}
+@media(max-width:1000px){.site-header nav a{font-size:17px}}
+@media(min-width:801px) and (max-width:900px){.site-header nav a{padding:10px 6px;font-size:15px}.site-header{gap:8px}}
+@media(max-width:800px){.site-header nav a{font-size:21px}}
+@media(max-width:600px){
+  h3{font-size:21px}
+  .product-meta h3,.ingredient-body h3,.page-home .ingredient-body h3{font-size:19px}
+  .why-grid h3{font-size:19px}
+  .product-card p,.page-home .ingredient-body p,.why-grid p{font-size:14px}
+  .button{font-size:12px;letter-spacing:.08em}
+  .add-to-cart .button{padding:9px 4px;font-size:11px;letter-spacing:.05em}
+  .faq-list summary{font-size:19px}
+  .page-hero h1{font-size:40px}
+}
+/* Khmer: serif titles, no uppercase or wide spacing, and more room for the marks above and below the letters. */
+html:lang(km) body{line-height:1.9;letter-spacing:0}
+html:lang(km) h1,html:lang(km) h2,html:lang(km) h3{font-family:var(--display);font-weight:600;letter-spacing:0;line-height:1.55}
+html:lang(km) h1{font-size:clamp(30px,3.4vw,46px)}
+html:lang(km) h2,html:lang(km) .page-home main h2{font-family:var(--display);font-size:clamp(26px,2.8vw,36px);line-height:1.5}
+html:lang(km) h3{font-size:19px}
+html:lang(km) .eyebrow,html:lang(km) .ingredient-body h4,html:lang(km) .footer h2{font-size:13px;letter-spacing:0;text-transform:none}
+html:lang(km) .button{font-size:14px;letter-spacing:0;text-transform:none}
+html:lang(km) .button-small{font-size:13px}
+html:lang(km) .text-link,html:lang(km) .ingredient-more,html:lang(km) .journey-more,html:lang(km) .price,html:lang(km) .language-selector,html:lang(km) .footer-bottom{letter-spacing:0}
+html:lang(km) .site-header nav a{font-family:var(--body);font-size:15px;font-weight:500;letter-spacing:0}
+html:lang(km) .product-meta h3,html:lang(km) .ingredient-body h3,html:lang(km) .why-grid h3,html:lang(km) .three-grid h3{font-size:18px;line-height:1.55}
+html:lang(km) .faq-list summary{font-size:16px;line-height:1.6}
+html:lang(km) .product-card p,html:lang(km) .ingredient-body p,html:lang(km) .benefit-list,html:lang(km) .three-grid p,html:lang(km) .why-grid p,html:lang(km) .faq-list p{font-size:14px}
+html:lang(km) .page-admin h1,html:lang(km) .page-admin h2,html:lang(km) .page-admin h3{font-family:var(--body)}
+html:lang(km) .page-admin h1{font-size:24px}
+html:lang(km) .page-admin h2{font-size:20px}
+html:lang(km) .page-admin h3{font-size:16px}
+@media(max-width:1000px){html:lang(km) .site-header nav a{font-size:14px}}
+@media(max-width:800px){html:lang(km) .site-header nav a{font-size:16px}}
+@media(max-width:600px){
+  html:lang(km) h3{font-size:18px}
+  html:lang(km) .product-meta h3,html:lang(km) .ingredient-body h3,html:lang(km) .page-home .ingredient-body h3,html:lang(km) .why-grid h3{font-size:16px}
+  html:lang(km) .add-to-cart .button{font-size:12px}
+  html:lang(km) .page-hero h1{font-size:28px}
 }

@@ -5,7 +5,9 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from PIL import Image
+from fontTools import subset
 from fontTools.ttLib import TTFont
+from fontTools.varLib import instancer
 
 ROOT = Path(__file__).parent
 ASSETS = {
@@ -27,6 +29,34 @@ def download(item):
     return name
 
 
+GOOGLE_FONTS = 'https://raw.githubusercontent.com/google/fonts/main/ofl/'
+LATIN = [*range(0x20, 0x7F), *range(0xA0, 0x180), 0x2013, 0x2014, 0x2018, 0x2019, 0x201C, 0x201D, 0x2022, 0x2026, 0x20AC, 0x2122]
+KHMER = [*range(0x1780, 0x1800), *range(0x19E0, 0x1A00), 0x200B, 0x200C, 0x200D, 0x25CC]
+# Output file: (source in Google Fonts, variable range to keep, characters to keep, licence folder).
+FONTS = {
+    'cormorant.woff2': ('cormorantgaramond/CormorantGaramond%5Bwght%5D.ttf', {'wght': (400, 700)}, LATIN, 'cormorantgaramond'),
+    'jost.woff2': ('jost/Jost%5Bwght%5D.ttf', {'wght': (300, 700)}, LATIN, 'jost'),
+    'khmer-serif.woff2': ('notoserifkhmer/NotoSerifKhmer%5Bwdth,wght%5D.ttf', {'wdth': 100, 'wght': (400, 700)}, KHMER, 'notoserifkhmer'),
+    'khmer-sans.woff2': ('kantumruypro/KantumruyPro%5Bwght%5D.ttf', {'wght': (300, 700)}, KHMER, 'kantumruypro'),
+}
+
+
+def build_fonts():
+    """Download the site fonts, keep only the weights and characters used, and save them as small WOFF2 files."""
+    folder = ROOT / 'static/fonts'
+    for name, (source, limits, characters, licence) in FONTS.items():
+        with urllib.request.urlopen(GOOGLE_FONTS + source) as response:
+            font = TTFont(io.BytesIO(response.read()))
+        options = subset.Options(layout_features=['*'], hinting=False, notdef_outline=True)
+        subsetter = subset.Subsetter(options)
+        subsetter.populate(unicodes=characters)
+        subsetter.subset(font)
+        font = instancer.instantiateVariableFont(font, limits)
+        font.flavor = 'woff2'
+        font.save(folder / name)
+        urllib.request.urlretrieve(f'{GOOGLE_FONTS}{licence}/OFL.txt', folder / f'{licence}-OFL.txt')
+
+
 if __name__ == '__main__':
     with ThreadPoolExecutor(max_workers=5) as pool:
         print(list(pool.map(download, ASSETS.items())))
@@ -35,16 +65,4 @@ if __name__ == '__main__':
         path = ROOT / target
         path.parent.mkdir(parents=True, exist_ok=True)
         urllib.request.urlretrieve(font_url + source, path)
-    fonts = {
-        'inter.ttf': 'https://raw.githubusercontent.com/google/fonts/main/ofl/inter/Inter%5Bopsz,wght%5D.ttf',
-        'display.ttf': 'https://raw.githubusercontent.com/google/fonts/main/ofl/cormorantgaramond/CormorantGaramond%5Bwght%5D.ttf',
-        'body.ttf': 'https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/DMSans%5Bopsz,wght%5D.ttf',
-        'khmer.ttf': 'https://raw.githubusercontent.com/google/fonts/main/ofl/notosanskhmer/NotoSansKhmer%5Bwdth,wght%5D.ttf',
-    }
-    for name, url in fonts.items():
-        urllib.request.urlretrieve(url, ROOT / 'static/fonts' / name)
-        font = TTFont(ROOT / 'static/fonts' / name)
-        font.flavor = 'woff2'
-        font.save(ROOT / 'static/fonts' / name.replace('.ttf', '.woff2'))
-    for folder in ('inter', 'cormorantgaramond', 'dmsans', 'notosanskhmer'):
-        urllib.request.urlretrieve(f'https://raw.githubusercontent.com/google/fonts/main/ofl/{folder}/OFL.txt', ROOT / 'static/fonts' / f'{folder}-OFL.txt')
+    build_fonts()
