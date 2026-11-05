@@ -638,11 +638,6 @@ html:lang(km) .hero-description{font-size:16px;line-height:1.9}
 @media print{.site-header,.footer,.button,.filter-tabs,.message-actions,.admin-shortcuts{display:none}.section{width:100%;padding:20px 0}.hero{display:block;min-height:0}.hero-copy{padding:24px}.hero-visual{display:none}.page-hero{padding:20px}.message-row .message-content{display:block}}
 
 /* Warm home-page bands: moving text strip, peach steps section, tan commitment section. */
-.marquee{overflow:hidden;background:#123049;color:#e8f4fc;white-space:nowrap;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase}
-.marquee-track{display:inline-flex;gap:44px;padding:14px 22px;animation:marquee 32s linear infinite}
-.marquee-track>span{display:inline-flex;align-items:center;gap:44px}
-.marquee-track>span>span::after{content:"\2726";margin-left:44px;color:#7fbde6}
-@keyframes marquee{to{transform:translateX(-50%)}}
 .feature-icon{display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;border-radius:50%;background:var(--peach);color:var(--primary);font-size:17px}
 .band{width:100%}
 .band-peach{background:var(--peach)}
@@ -658,15 +653,10 @@ html:lang(km) .hero-description{font-size:16px;line-height:1.9}
 .band-tan .numbered-feature{flex-direction:column;gap:10px;padding:24px!important;border:1px solid #ffffff73!important;border-radius:4px}
 .band-tan .numbered-feature>span{font-size:15px}
 @media(max-width:800px){.band-tan .commitment>div:last-child{grid-template-columns:1fr}}
-@media(max-width:600px){.marquee{font-size:11px}.marquee-track{gap:28px;padding:11px 16px}.marquee-track>span{gap:28px}.marquee-track>span>span::after{margin-left:28px}}
 .band-cta{text-align:center;margin:36px 0 0}
 .inquiry-spacer{height:64px}
 /* Small footer headings read better in the body font than in the display serif. */
 .footer h2{font-family:var(--body);letter-spacing:0}
-/* Letter spacing breaks Khmer character clusters apart. */
-html:lang(km) .marquee{letter-spacing:0;text-transform:none;font-size:14px}
-/* On larger screens the hero and the marquee strip fill the first screen exactly (header 84px, strip about 46px). */
-@media(min-width:801px){.hero{min-height:max(560px,calc(100svh - 84px - 46px))}.hero-visual{min-height:100%}}
 /* Motion (strong): blurred slide-ins, bouncy scroll reveals from several directions, 3D card tilt, button shine and
    ripple, and a scroll progress bar. The reduced-motion rule above switches all of it off, and admin pages stay still. */
 @keyframes rise{from{opacity:0;transform:translateY(60px) scale(.96);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
@@ -711,7 +701,6 @@ body:has(.flash-container .success) .cart-count{animation:pop .7s cubic-bezier(.
 .button:hover .fa-arrow-right,.text-link:hover .fa-arrow-right,a:hover .product-inquiry .fa-arrow-right{transform:translateX(8px)}
 .ripple{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:#ffffff80;transform:scale(0);animation:ripple .65s ease-out forwards;pointer-events:none}
 .scroll-progress{position:fixed;top:0;left:0;right:0;z-index:60;height:4px;background:linear-gradient(90deg,#2a6f9e,#9acdeb,#2a6f9e);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
-.marquee:hover .marquee-track{animation-play-state:paused}
 .page-admin .button:hover,.page-admin .button:active{transform:none;box-shadow:none}
 .page-admin .button::after{display:none}
 /* Sky-blue (#9acdeb) hero and page headings; text is darkened so it stays readable on the brighter blue. */

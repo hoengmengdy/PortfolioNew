@@ -431,10 +431,6 @@ mark_new|Mark unread|សម្គាល់ថាមិនទាន់អាន
 edit|Edit|កែប្រែ
 retailers_admin_note|Locations listed on the "Find a retailer" page:|ទីតាំងដែលបង្ហាញនៅទំព័រ "ស្វែងរកហាង"៖
 order_updated|Order #{id} updated.|បានធ្វើបច្ចុប្បន្នភាពការកុម្ម៉ង់ #{id}។
-marquee_1|Simple care, every day|ការថែទាំសាមញ្ញ រាល់ថ្ងៃ
-marquee_2|Order online|កុម្ម៉ង់តាមអនឡាញ
-marquee_3|Pay with ABA, KHQR or card|បង់តាម ABA, KHQR ឬកាត
-marquee_4|Delivery to your door|ដឹកជញ្ជូនដល់ផ្ទះ
 steps_intro|From choosing your favourite to delivery at your door, caring for yourself stays simple.|ចាប់ពីការជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត រហូតដល់ការដឹកជញ្ជូនដល់ផ្ទះ ការថែទាំខ្លួនឯងនៅតែសាមញ្ញ។
 herbs_title|Our Herbs|វត្ថុធាតុដើម
 herbs_intro|Fresh herbs and natural ingredients, chosen for everyday care and healthy living.|រុក្ខជាតិស្រស់ និងគ្រឿងផ្សំធម្មជាតិ ដែលបានជ្រើសរើសសម្រាប់ការថែទាំប្រចាំថ្ងៃ និងជីវិតដែលមានសុខភាពល្អ។

@@ -26,8 +26,6 @@
   </div>
 </section>
 
-<div class="marquee" aria-hidden="true"><div class="marquee-track">{% for _ in range(2) %}<span>{% for n in range(1, 5) %}<span>{{ t('marquee_' ~ n) }}</span>{% endfor %}</span>{% endfor %}</div></div>
-
 {% if products %}
 <section class="collection section" id="collection" aria-labelledby="collection-heading">
   <div class="section-heading">
