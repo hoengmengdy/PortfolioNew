@@ -461,6 +461,10 @@ faq_store_q|Can I buy in a store?|តើខ្ញុំអាចទិញនៅ�
 faq_store_a|See our list of stores, and contact the store to confirm availability before visiting.|សូមមើលបញ្ជីហាងរបស់យើង ហើយទាក់ទងហាងដើម្បីបញ្ជាក់ថាមានផលិតផល មុនពេលទៅ។
 faq_contact_q|How can I contact you?|តើខ្ញុំទាក់ទងអ្នកដោយរបៀបណា?
 faq_contact_a|Send us a message and our team will review it.|សូមផ្ញើសារមកយើង ហើយក្រុមការងាររបស់យើងនឹងពិនិត្យមើល។
+feature_eyebrow|VISAKHA BY NATURE PLUS|VISAKHA ដោយ Nature Plus
+feature_photo_alt|A VISAKHA by Nature Plus bottle in a red knitted bag with a towel and flowers.|ដប VISAKHA by Nature Plus ក្នុងកាបូបក្រហមត្បាញ ជាមួយកន្សែង និងផ្កា។
+see_more|See more|មើលបន្ថែម
+our_story|Our story|រឿងរបស់យើង
 benefits|Benefits|អត្ថប្រយោជន៍
 view_details|View details|មើលព័ត៌មានលម្អិត
 back_to_herbs|Back to Our Herbs|ត្រឡប់ទៅវត្ថុធាតុដើម

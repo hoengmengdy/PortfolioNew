@@ -125,6 +125,14 @@ def test_homepage_has_no_steps_and_videos_have_no_shop_button(client):
     assert 'steps-grid' not in page and 'band-navy' not in page
     assert 'video-shop' not in page
 
+def test_homepage_feature_section_lists_real_products(client):
+    page = client.get('/').text
+    section = page[page.index('class="feature-section'):page.index('id="active-heading"')]
+    assert 'src="/static/images/visakha-feature-1200.webp"' in section
+    assert 'The Daily Glow' in section and 'href="/shop/1"' in section
+    assert 'href="/shop"' in section and 'href="/about"' in section
+    assert client.get('/static/images/visakha-feature-700.webp').status_code == 200
+
 def test_about_cards_open_history_dialogs(client):
     page = client.get('/about').text
     for key in ['founded', 'brands', 'quality', 'farmers', 'protect', 'award']:

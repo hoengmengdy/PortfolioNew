@@ -291,7 +291,7 @@ def create_app(test_config=None):
         best_sellers = [by_id[row['product_id']] for row in sold if row['product_id'] in by_id]
         best_sellers = best_sellers if len(best_sellers) >= 2 else []
         new_arrivals = [product for product in products if product not in best_sellers][:3]
-        return render_template('index.html', page='home', best_sellers=best_sellers, new_arrivals=new_arrivals, active_ingredients=ACTIVE_INGREDIENTS, payment_methods=payment_methods())
+        return render_template('index.html', page='home', best_sellers=best_sellers, new_arrivals=new_arrivals, feature_products=products[::-1][:3], active_ingredients=ACTIVE_INGREDIENTS, payment_methods=payment_methods())
 
     @app.get('/videos/<name>')
     def video(name):

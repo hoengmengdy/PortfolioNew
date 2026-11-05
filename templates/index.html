@@ -31,6 +31,24 @@
 {% endif %}
 {% endfor %}
 
+<section class="feature-section section" aria-labelledby="feature-heading">
+  <a class="feature-photo" href="{{ url_for('shop') }}"><img src="{{ url_for('static', filename='images/visakha-feature-1200.webp') }}" srcset="{{ url_for('static', filename='images/visakha-feature-700.webp') }} 700w, {{ url_for('static', filename='images/visakha-feature-1200.webp') }} 1200w" sizes="(max-width: 800px) 100vw, 580px" alt="{{ t('feature_photo_alt') }}" loading="lazy" width="1200" height="1200"></a>
+  <div class="feature-copy">
+    <p class="eyebrow">{{ t('feature_eyebrow') }}</p>
+    <h2 id="feature-heading">{{ t('hero_title') }} <em>{{ t('hero_emphasis') }}</em></h2>
+    <p>{{ t('hero_description') }}</p>
+    {% if feature_products %}
+    <ul class="feature-list">
+      {% for product in feature_products %}<li><i class="fa-solid fa-leaf" aria-hidden="true"></i><a href="{{ url_for('product_detail', product_id=product.id) }}">{{ localized(product, 'name') }}</a></li>{% endfor %}
+    </ul>
+    {% endif %}
+    <div class="feature-actions">
+      <a class="button" href="{{ url_for('shop') }}">{{ t('see_more') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      <a class="button button-outline" href="{{ url_for('about') }}">{{ t('our_story') }}</a>
+    </div>
+  </div>
+</section>
+
 <div class="band band-soft">
 <section class="section herbs-section" id="active-ingredients" aria-labelledby="active-heading">
   <div class="section-heading">
