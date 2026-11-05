@@ -13,7 +13,6 @@
         <img src="{{ url_for('static', filename='images/videos/koc-' ~ n ~ '.webp') }}" alt="" loading="lazy" width="480" height="853" draggable="false">
         <span class="video-play-icon"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
       </a>
-      <a class="button button-small video-shop" href="{{ url_for('shop') }}">{{ t('shop_now') }}</a>
     </article>
     {% endfor %}
   </div>

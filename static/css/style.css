@@ -248,24 +248,13 @@ textarea{resize:vertical;min-height:150px}
 .danger{border:0;background:transparent;color:#a33f33;padding:0;font-family:inherit;font-size:13px}
 
 /* Numbered steps on the home page. */
-.steps{border-top:1px solid var(--line)}
-.steps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;list-style:none;padding:0;margin:0}
-.step-card{min-width:0}
-.step-card img{height:240px;border-radius:12px;margin-bottom:20px}
-.step-number{display:block;font-size:13px;font-weight:600;color:var(--primary);margin-bottom:8px}
-.step-card h3{font-size:19px;margin-bottom:8px}
-.step-card p{font-size:14px;margin:0}
 .social-link{font-size:19px;margin-right:4px}
 .footer-detail{display:flex;gap:10px;font-size:13px!important;margin:4px 0 10px!important}
 .footer-detail i{padding-top:6px;color:var(--primary)}
 @media(max-width:800px){
-  .steps-grid{gap:16px}
-  .step-card img{height:180px}
   .social-link{display:none}
 }
 @media(max-width:600px){
-  .steps-grid{grid-template-columns:1fr;gap:28px}
-  .step-card img{height:220px}
 }
 
 /* Customer sign-in with a Telegram code, and the account page. */
@@ -641,10 +630,8 @@ html:lang(km) .hero-description{font-size:16px;line-height:1.9}
 .feature-icon{display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;border-radius:50%;background:var(--peach);color:var(--primary);font-size:17px}
 .band{width:100%}
 .band-peach{background:var(--peach)}
-.band-peach .steps{border-top:0}
 .band .section-heading.centered{flex-direction:column;align-items:center;text-align:center;gap:10px}
 .band .section-heading.centered p{max-width:560px;margin:0}
-.band-peach .step-card img{border-radius:10px}
 .band-tan{background:var(--tan);color:#fff}
 .band-tan .commitment{border-top:0}
 .band-tan h2,.band-tan h3,.band-tan p,.band-tan .eyebrow,.band-tan .text-link,.band-tan .numbered-feature>span{color:#fff}
@@ -686,10 +673,10 @@ body:has(.flash-container .success) .cart-count{animation:pop .7s cubic-bezier(.
 .reveal[data-reveal=zoom]{transform:scale(.55) rotate(-8deg);filter:blur(8px)}
 .reveal[data-reveal=flip]{transform:perspective(900px) rotateX(65deg) translateY(70px);transform-origin:50% 100%}
 .reveal.is-visible{opacity:1;transform:none;filter:none}
-.product-card,.retailer-card,.three-grid article,.step-card img,.gallery-item img{transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .45s}
+.product-card,.retailer-card,.three-grid article,.gallery-item img{transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .45s}
 .product-card:hover,.retailer-card:hover,.three-grid article:hover{transform:translateY(-12px) scale(1.02);box-shadow:0 30px 55px #17293a33}
 .product-card.is-tilting{transition:transform .12s linear,box-shadow .45s}
-.step-card:hover img,.gallery-item:hover img{transform:scale(1.1) rotate(1.5deg)}
+.gallery-item:hover img{transform:scale(1.1) rotate(1.5deg)}
 .product-image>img{transition:transform .8s cubic-bezier(.16,1,.3,1)}
 .product-card a:hover .product-image>img{transform:scale(1.15) rotate(-1.5deg)}
 .button{position:relative;overflow:hidden;isolation:isolate;transition:background .2s,border-color .2s,transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
@@ -859,18 +846,6 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .page-home .ingredient-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .page-home .ingredient-card{border:0;border-radius:20px;box-shadow:0 1px 2px #17293a0f}
 .page-home .ingredient-body p,.page-home .benefit-list{font-size:15px;color:#3f5060}
-.page-home.band-navy{background:#123049;color:#d6e6f2}
-.band-navy .steps{border-top:0}
-.band-navy h2,.band-navy h3{color:#fff}
-.band-navy .section-heading.centered p{color:#c3d8e8;font-size:17px}
-.band-navy .steps-grid{gap:20px}
-.band-navy .step-card{padding:clamp(24px,2.6vw,36px);border:1px solid #ffffff24;border-radius:20px;background:#ffffff0d;transition:background .3s ease,transform .3s ease}
-.band-navy .step-card:hover{background:#ffffff1a;transform:translateY(-4px)}
-.step-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
-.step-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#9acdeb;color:#123049;font-size:20px}
-.band-navy .step-number{margin:0;font-family:var(--display);font-size:44px;font-weight:500;line-height:1;color:#9acdeb}
-.band-navy .step-card h3{font-size:21px;margin-bottom:10px}
-.band-navy .step-card p{font-size:15px;line-height:1.75;color:#c3d8e8}
 .page-home .inquiry-spacer{height:clamp(44px,6vw,80px)}
 .page-home .inquiry{margin-bottom:clamp(44px,6vw,80px);padding:clamp(32px,5vw,64px);border-radius:24px;background:linear-gradient(120deg,#2a6f9e,#123f5f);box-shadow:0 26px 54px #17293a2e}
 .page-home .inquiry h2,.page-home .inquiry h2 em,.page-home .inquiry p{color:#fff}
@@ -880,7 +855,6 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 html:lang(km) .page-home main h2{font-family:Cormorant,Khmer,serif;line-height:1.4}
 @media(max-width:1000px){.page-home .ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:800px){
-  .band-navy .steps-grid{grid-template-columns:1fr}
 }
 @media(max-width:600px){
   .page-home .product-grid{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:6px}
@@ -891,7 +865,6 @@ html:lang(km) .page-home main h2{font-family:Cormorant,Khmer,serif;line-height:1
   .page-home .ingredient-body{padding:14px}
   .page-home .ingredient-body h3{font-size:17px}
   .page-home .ingredient-body p,.page-home .benefit-list{font-size:13px}
-  .page-home .step-top{margin-bottom:18px}
 }
 /* Ingredient cards: the whole card opens the detail page through the heading link. */
 .ingredient-card{position:relative}
@@ -958,8 +931,6 @@ html:lang(km) .site-header nav a{font-family:Khmer,sans-serif;font-size:14px;fon
 .video-open:focus-visible .video-play-icon{outline:2px solid #fff;outline-offset:2px}
 .video-play-icon{position:absolute;top:50%;left:50%;display:grid;place-items:center;width:54px;height:54px;padding-left:3px;border:1px solid #ffffff66;border-radius:50%;background:#17293a99;font-size:17px;transform:translate(-50%,-50%);transition:background .2s}
 .video-open:hover .video-play-icon{background:var(--primary)}
-.video-shop{position:absolute;left:50%;bottom:14px;z-index:1;transform:translateX(-50%);white-space:nowrap}
-.video-shop:hover{transform:translateX(-50%)}
 .video-dialog{overflow:visible;padding:0;border:0;background:none;max-width:none;max-height:none}
 .video-dialog[open]{display:flex;flex-direction:column;align-items:center;gap:14px}
 .video-dialog::backdrop{background:#0b1a26e0}
@@ -1009,3 +980,16 @@ html:lang(km) .detail-dialog-copy h2{font-family:Khmer,sans-serif;line-height:1.
   .product-zoom-icon{top:6px;right:6px;width:28px;height:28px;font-size:11px}
 }
 .ingredient-image:has(img[src$='.webp']),.herb-detail-image:has(img[src$='.webp']){background:#fff}
+/* The carousel turns in 3D: the middle video is large and lit, the others angle away (set from main.js as it scrolls). */
+.video-track{position:relative;padding:36px 0 56px;scroll-snap-type:x proximity;background:radial-gradient(ellipse 46% 52% at center,#9acdeb73,transparent 72%)}
+.video-card{scroll-snap-align:center;will-change:transform;transition:box-shadow .35s ease}
+.video-card.is-center{box-shadow:0 12px 28px #1f557959,0 0 0 2px #9acdeb}
+.video-open::after{content:'';position:absolute;inset:0;height:auto;background:linear-gradient(115deg,transparent 35%,#ffffff4d 50%,transparent 65%);opacity:0;transform:translateX(-100%);pointer-events:none}
+.video-card.is-center .video-open::after{opacity:1;animation:video-sheen 1.6s ease-out}
+.video-card.is-center .video-play-icon{background:var(--primary)}
+.video-play-icon::before{content:'';position:absolute;inset:-1px;border:2px solid #fff;border-radius:50%;opacity:0}
+.video-card.is-center .video-play-icon::before{animation:video-pulse 1.6s ease-out infinite}
+@keyframes video-sheen{to{transform:translateX(100%)}}
+@keyframes video-pulse{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.7)}}
+@media(max-width:600px){.video-track{grid-auto-columns:52%;padding:26px 0 44px}}
+@media(prefers-reduced-motion:reduce){.video-card.is-center .video-open::after,.video-card.is-center .video-play-icon::before{animation:none}}

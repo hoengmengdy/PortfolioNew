@@ -349,14 +349,6 @@ error_photo|That picture could not be used. Choose a JPG, PNG or WebP file up to
 upload_photo|Upload a new picture|បញ្ចូលរូបភាពថ្មី
 upload_photo_hint|JPG, PNG or WebP, up to {mb} MB. It replaces the picture chosen above.|JPG, PNG ឬ WebP មិនលើសពី {mb} MB។ វានឹងជំនួសរូបភាពដែលបានជ្រើសខាងលើ។
 current_photo|Current uploaded picture|រូបភាពដែលបានបញ្ចូលបច្ចុប្បន្ន
-steps_eyebrow|YOUR DAILY ROUTINE|ទម្លាប់ប្រចាំថ្ងៃរបស់អ្នក
-steps_heading|Three simple steps|ជំហានសាមញ្ញបី
-step_1|Choose your favourite|ជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត
-step_1_description|Browse the collection and pick what suits your routine.|មើលបណ្តុំផលិតផល ហើយជ្រើសរើសអ្វីដែលសមនឹងទម្លាប់របស់អ្នក។
-step_2|Take a quiet moment|ចំណាយពេលស្ងប់ស្ងាត់បន្តិច
-step_2_description|Make your morning or evening care a small pause just for you.|ធ្វើឱ្យការថែទាំពេលព្រឹក ឬពេលល្ងាច ក្លាយជាពេលសម្រាកតូចមួយសម្រាប់អ្នក។
-step_3|Care, the simple way|ថែទាំតាមរបៀបសាមញ្ញ
-step_3_description|Order online, pay with ABA, KHQR or card, and we deliver to your door.|កុម្ម៉ង់តាមអនឡាញ បង់តាម ABA, KHQR ឬកាត ហើយយើងដឹកជញ្ជូនដល់ផ្ទះ។
 account_title|My account|គណនីរបស់ខ្ញុំ
 account_login_title|Sign in|ចូលគណនី
 login_intro|Enter your phone number. We will send a sign-in code to your Telegram.|បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក។ យើងនឹងផ្ញើលេខកូដចូលគណនីទៅ Telegram របស់អ្នក។
@@ -423,7 +415,6 @@ mark_new|Mark unread|សម្គាល់ថាមិនទាន់អាន
 edit|Edit|កែប្រែ
 retailers_admin_note|Locations listed on the "Find a retailer" page:|ទីតាំងដែលបង្ហាញនៅទំព័រ "ស្វែងរកហាង"៖
 order_updated|Order #{id} updated.|បានធ្វើបច្ចុប្បន្នភាពការកុម្ម៉ង់ #{id}។
-steps_intro|From choosing your favourite to delivery at your door, caring for yourself stays simple.|ចាប់ពីការជ្រើសរើសផលិតផលដែលអ្នកចូលចិត្ត រហូតដល់ការដឹកជញ្ជូនដល់ផ្ទះ ការថែទាំខ្លួនឯងនៅតែសាមញ្ញ។
 herbs_title|Our Herbs|វត្ថុធាតុដើម
 herbs_intro|Fresh herbs and natural ingredients, chosen for everyday care and healthy living.|រុក្ខជាតិស្រស់ និងគ្រឿងផ្សំធម្មជាតិ ដែលបានជ្រើសរើសសម្រាប់ការថែទាំប្រចាំថ្ងៃ និងជីវិតដែលមានសុខភាពល្អ។
 herbs_list_eyebrow|NATURAL INGREDIENTS|គ្រឿងផ្សំធម្មជាតិ

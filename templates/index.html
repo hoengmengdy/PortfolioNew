@@ -53,21 +53,6 @@
 
 {% include 'video_section.html' %}
 
-<div class="band band-navy">
-<section class="steps section" aria-labelledby="steps-heading">
-  <div class="section-heading centered"><h2 id="steps-heading">{{ t('steps_heading') }}</h2><p>{{ t('steps_intro') }}</p></div>
-  <ol class="steps-grid">
-    {% for icon in ['bag-shopping', 'spa', 'truck-fast'] %}
-    <li class="step-card">
-      <div class="step-top"><span class="step-icon"><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i></span><span class="step-number">0{{ loop.index }}</span></div>
-      <h3>{{ t('step_' ~ loop.index) }}</h3><p>{{ t('step_' ~ loop.index ~ '_description') }}</p>
-    </li>
-    {% endfor %}
-  </ol>
-  <p class="band-cta"><a class="button button-light" href="{{ url_for('shop') }}">{{ t('shop_now') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
-</section>
-</div>
-
 <div class="inquiry-spacer"></div>
 {% include 'inquiry.html' %}
 {% endblock %}

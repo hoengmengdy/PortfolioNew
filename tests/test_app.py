@@ -121,6 +121,11 @@ def test_about_videos_follow_building_cambodian_brands(client):
     names = [name.split()[0] for name in sections]
     assert names[names.index('philosophy') + 1] == 'video-section'
 
+def test_homepage_has_no_steps_and_videos_have_no_shop_button(client):
+    page = client.get('/').text
+    assert 'steps-grid' not in page and 'band-navy' not in page
+    assert 'video-shop' not in page
+
 def test_about_cards_open_history_dialogs(client):
     page = client.get('/about').text
     for key in ['founded', 'brands', 'quality', 'farmers', 'protect', 'award']:

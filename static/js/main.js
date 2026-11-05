@@ -87,7 +87,6 @@ if (!reduceMotion && publicPage && 'IntersectionObserver' in window) {
   const effects = [
     ['main .section-heading, main .numbered-feature', 'left'],
     ['main .product-card, main .retailer-card, main .three-grid article, main .inquiry, main .commitment > div:first-child', 'up'],
-    ['main .step-card', 'flip'],
     ['main .gallery-item', 'zoom'],
     ['main .ritual-image, main .story-photo, main .sustainability img', 'side'],
   ];
@@ -294,17 +293,57 @@ document.querySelectorAll('[data-video-carousel]').forEach(section => {
 
   const stepSize = () => cards[1].offsetLeft - cards[0].offsetLeft;
   const loopSize = () => stepSize() * cards.length;
+  // Scroll position, within one step, at which a card sits exactly in the middle.
+  const centerOffset = () => {
+    const step = stepSize();
+    return ((cards[0].offsetLeft + cards[0].offsetWidth / 2 - track.clientWidth / 2) % step + step) % step;
+  };
   // Silently moves back by exactly one set of cards, which looks identical.
   const wrap = () => {
     if (track.scrollLeft >= loopSize()) track.scrollLeft -= loopSize();
   };
   const move = direction => {
     wrap();
-    if (direction < 0 && track.scrollLeft < 1) track.scrollLeft += loopSize();
+    if (direction < 0 && track.scrollLeft < stepSize()) track.scrollLeft += loopSize();
     const step = stepSize();
-    const target = (Math.round(track.scrollLeft / step) + direction) * step;
+    const offset = centerOffset();
+    const target = (Math.round((track.scrollLeft - offset) / step) + direction) * step + offset;
     track.scrollTo({left: target, behavior: reduceMotion ? 'auto' : 'smooth'});
   };
+  // Starts with the first video in the middle and earlier ones on its left.
+  const showFirst = () => {
+    track.scrollLeft = loopSize() + cards[0].offsetLeft + cards[0].offsetWidth / 2 - track.clientWidth / 2;
+  };
+
+  // 3D turn: each card is angled, scaled and dimmed by how far it is from the middle.
+  const allCards = [...track.children];
+  let painting = false;
+  const paint = () => {
+    painting = false;
+    const middle = track.scrollLeft + track.clientWidth / 2;
+    const step = stepSize();
+    allCards.forEach(card => {
+      const distance = (card.offsetLeft + card.offsetWidth / 2 - middle) / step;
+      const away = Math.min(Math.abs(distance), 2);
+      card.style.transform = `perspective(1000px) rotateY(${(Math.max(-2, Math.min(2, distance)) * -24).toFixed(2)}deg) scale(${(1.1 - Math.min(away, 1) * .22 - Math.max(away - 1, 0) * .06).toFixed(3)})`;
+      card.style.opacity = (1 - away * .22).toFixed(3);
+      card.style.zIndex = String(10 - Math.round(away));
+      card.classList.toggle('is-center', away < .5);
+    });
+  };
+  const schedulePaint = () => {
+    if (!painting && !reduceMotion) {
+      painting = true;
+      requestAnimationFrame(paint);
+    }
+  };
+  track.addEventListener('scroll', schedulePaint, {passive: true});
+  window.addEventListener('resize', () => {
+    showFirst();
+    schedulePaint();
+  });
+  showFirst();
+  schedulePaint();
 
   let timer = null;
   let onScreen = false;
