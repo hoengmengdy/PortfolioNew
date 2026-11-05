@@ -853,7 +853,6 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .page-home .product-card p,.page-home .ingredient-body p,.page-home .benefit-list,.page-home .numbered-feature p,.page-home .step-card p{font-size:15px;color:#3f5060}
 /* Homepage on phones: smaller pictures and side-by-side cards, so the page is much shorter. */
 @media(max-width:600px){
-  .page-home .collection .product-image{height:210px}
   .page-home .herbs-section .ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
   .page-home .ingredient-body{padding:14px}
   .page-home .ingredient-body h3{font-size:17px}
@@ -864,3 +863,9 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
   .page-home .step-card img{flex:0 0 104px;width:104px;height:104px;margin:0}
   .page-home .step-card>div{flex:1;min-width:0}
 }
+/* Product photos always show whole: the frame is 4:5 like the product photos, and other shapes fit inside it. */
+.product-image{height:auto;aspect-ratio:4/5;background:#f5f5f7}
+.product-image>img{width:100%;height:100%;object-fit:contain}
+.product-card a:hover .product-image>img{transform:scale(1.03)}
+.step-card img,.cart-line img{object-fit:contain;background:#f5f5f7}
+.step-card:hover img{transform:scale(1.03)}
