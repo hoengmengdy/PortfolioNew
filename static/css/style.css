@@ -837,3 +837,30 @@ html:lang(km) .hero-tagline{letter-spacing:0;text-transform:none;font-size:20px}
 .hero-intro .hero-description{max-width:520px;margin-left:auto;margin-right:auto}
 .hero-intro .hero-description::before{left:50%;transform:translateX(-50%)}
 @media(max-width:600px){.hero-intro .eyebrow.hero-welcome::after{width:28px}}
+/* Larger logo. The image has no transparent margin, so these sizes are the visible size. */
+.brand-logo{width:187px;height:65px}
+.footer-brand .brand-logo{width:207px;height:72px}
+@media(max-width:800px){.brand-logo{width:150px;height:52px}.footer-brand .brand-logo{width:173px;height:60px}}
+@media(max-width:420px){.site-header .brand-logo{width:118px;height:41px}}
+@media(max-width:380px){.site-header .brand-logo{width:106px;height:37px}}
+@media(max-width:340px){.site-header .brand-logo{width:92px;height:32px}}
+/* Hover: a clearly darker blue on menus and light buttons, and darker text on links. */
+.site-header nav a:hover,.site-header .nav-submenu a:hover,.language-options a:hover,.language-selector summary:hover,.cart-link:hover,.social-link:hover,.menu-toggle:hover,.button-light:hover,.button-outline:hover{background:#b7d9f0;color:#123f5f;border-color:#b7d9f0}
+.site-header nav a:active{background:var(--primary);color:#fff}
+.site-header nav a[aria-current]:hover,.nav-group.is-active>a:hover{background:var(--primary-hover);color:#fff}
+.text-link:hover,.footer-top>div>a:hover,.product-card a:hover .product-inquiry{color:#123f5f}
+/* Homepage: easier-to-read card text. */
+.page-home .product-card p,.page-home .ingredient-body p,.page-home .benefit-list,.page-home .numbered-feature p,.page-home .step-card p{font-size:15px;color:#3f5060}
+/* Homepage on phones: smaller pictures and side-by-side cards, so the page is much shorter. */
+@media(max-width:600px){
+  .page-home .collection .product-image{height:210px}
+  .page-home .herbs-section .ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .page-home .ingredient-body{padding:14px}
+  .page-home .ingredient-body h3{font-size:17px}
+  .page-home .ingredient-body p,.page-home .benefit-list{font-size:13px}
+  .page-home .ritual-image{height:210px}
+  .page-home .steps-grid{gap:18px}
+  .page-home .step-card{display:flex;align-items:flex-start;gap:16px}
+  .page-home .step-card img{flex:0 0 104px;width:104px;height:104px;margin:0}
+  .page-home .step-card>div{flex:1;min-width:0}
+}

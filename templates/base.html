@@ -14,14 +14,14 @@
   <link rel="icon" href="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" type="image/png">
   <link rel="preload" href="{{ url_for('static', filename='fonts/' + ('khmer.woff2' if lang == 'km' else 'body.woff2')) }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='54') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='55') }}">
   <script defer src="{{ url_for('static', filename='js/main.js', v='8') }}"></script>
 </head>
 <body class="page-{{ page }}">
   <a class="skip-link" href="#main">{{ t('skip') }}</a>
   <header class="site-header">
     <a class="brand" href="{{ url_for('index') }}" aria-label="Empress Cambodia · {{ t('home_title') }}">
-      <img class="brand-logo" src="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" alt="Empress Cambodia" width="2100" height="903">
+      <img class="brand-logo" src="{{ url_for('static', filename='images/NaturePlus_LOGO-trim.png') }}" alt="Empress Cambodia" width="576" height="200">
     </a>
     <button class="menu-toggle icon-button" aria-label="{{ t('menu') }}" aria-expanded="false" aria-controls="navigation"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
     <nav id="navigation" aria-label="{{ t('navigation') }}">
@@ -55,7 +55,7 @@
   <footer class="footer">
     <div class="footer-top">
       <div>
-        <a class="brand footer-brand" href="{{ url_for('index') }}"><img class="brand-logo" src="{{ url_for('static', filename='images/NaturePlus_LOGO.png') }}" alt="Empress Cambodia" width="2100" height="903" loading="lazy"></a>
+        <a class="brand footer-brand" href="{{ url_for('index') }}"><img class="brand-logo" src="{{ url_for('static', filename='images/NaturePlus_LOGO-trim.png') }}" alt="Empress Cambodia" width="576" height="200" loading="lazy"></a>
         <div class="footer-social">
           {% if config.FACEBOOK_URL %}<a href="{{ config.FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'Facebook · Empress Cambodia' }}" title="{{ 'Facebook · Empress Cambodia' }}"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>{% endif %}
           {% if config.COMPANY_FACEBOOK_URL %}<a href="{{ config.COMPANY_FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer" aria-label="{{ 'Facebook · LSV Industry' }}" title="{{ 'Facebook · LSV Industry' }}"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>{% endif %}
