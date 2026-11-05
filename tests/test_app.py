@@ -111,6 +111,32 @@ def test_homepage_video_highlights(client):
     assert response.status_code == 206 and response.mimetype == 'video/mp4' and len(response.data) == 100
     assert client.get('/videos/missing.mp4').status_code == 404
 
+def test_homepage_videos_are_the_last_section(client):
+    page = client.get('/').text
+    main = page[page.index('<main'):page.index('</main>')]
+    assert main.rindex('<section') == main.index('class="video-section') - len('<section ')
+
+
+def test_about_cards_open_history_dialogs(client):
+    page = client.get('/about').text
+    for key in ['founded', 'brands', 'quality', 'farmers', 'protect', 'award']:
+        assert f'data-open-dialog="journey-dialog-{key}"' in page
+        assert f'<dialog class="detail-dialog" id="journey-dialog-{key}"' in page
+
+
+@pytest.mark.parametrize('path', ['/', '/shop'])
+def test_products_open_full_view(client, path):
+    page = client.get(path).text
+    opened = set(re.findall(r'data-open-dialog="(product-dialog-\d+)"', page))
+    assert opened and opened == set(re.findall(r'<dialog class="detail-dialog" id="(product-dialog-\d+)"', page))
+
+
+def test_herbs_page_shows_feature_picture(client):
+    page = client.get('/herbs').text
+    assert page.count('src="/static/images/herbs/herb-feature.webp"') == 2 and 'data-open-dialog="herb-feature-dialog"' in page
+    assert 'url_for' not in page and "t('" not in page
+    assert client.get('/static/images/herbs/herb-feature.webp').status_code == 200
+
 def test_language_remembered_and_redirects_safe(client):
     response = client.get('/set-language/km?next=https://evil.example')
     assert response.location == '/'

@@ -972,7 +972,6 @@ html:lang(km) .site-header nav a{font-family:Khmer,sans-serif;font-size:14px;fon
 .video-dialog{overflow:visible;padding:0;border:0;background:none;max-width:none;max-height:none}
 .video-dialog[open]{display:flex;flex-direction:column;align-items:center;gap:14px}
 .video-dialog::backdrop{background:#0b1a26e0}
-body:has(.video-dialog[open]){overflow:hidden}
 .video-stage{position:relative;width:min(92vw,calc(82dvh*9/16))}
 .video-stage video{display:block;width:100%;height:auto;aspect-ratio:9/16;border-radius:var(--radius);background:#000}
 .video-close{position:absolute;top:10px;right:10px}
@@ -985,4 +984,45 @@ body:has(.video-dialog[open]){overflow:hidden}
   .video-play-icon{width:46px;height:46px;font-size:15px}
   .video-stage-prev{left:8px}
   .video-stage-next{right:8px}
+}
+/* Pop-ups for products, About page history cards and the herb picture. */
+body:has(dialog[open]){overflow:hidden}
+.detail-dialog{width:min(92vw,820px);max-width:none;max-height:88dvh;padding:0;overflow:auto;border:0;border-radius:var(--radius);background:#fff;color:var(--ink)}
+.detail-dialog::backdrop{background:#0b1a26d9}
+.detail-dialog-body{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.detail-dialog-media{min-height:320px;background:#f5f5f7}
+.detail-dialog-media img{display:block;width:100%;height:100%;object-fit:cover}
+.product-dialog-media img{object-fit:contain;max-height:88dvh}
+.detail-dialog-copy{padding:44px 32px 32px}
+.detail-dialog-copy h2{margin:0 0 14px;font-size:clamp(26px,3vw,34px)}
+.detail-dialog-copy p{margin:0 0 14px;font-size:15px}
+.detail-dialog-copy .price{display:block;margin-bottom:14px;font-size:20px}
+.detail-dialog-copy .add-to-cart{padding:6px 0 0}
+.dialog-close{position:absolute;top:12px;right:12px;z-index:1}
+html:lang(km) .detail-dialog-copy h2{font-family:Khmer,sans-serif;line-height:1.5}
+.herb-feature-dialog{width:min(92vw,calc(84dvh*.74))}
+.herb-feature-dialog .detail-dialog-body{display:block}
+.herb-feature-dialog img{display:block;width:100%;height:auto}
+.product-zoom{display:block;cursor:zoom-in}
+.product-zoom-icon{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#ffffffd9;color:var(--primary);font-size:13px}
+.journey-card{position:relative;display:flex;flex-direction:column;cursor:pointer}
+.journey-card>p{flex:1}
+.three-grid .journey-more i{margin:0;font-size:11px;color:inherit;transition:transform .2s}
+.journey-more{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;font-weight:600;color:var(--primary)}
+.journey-more::after{content:'';position:absolute;inset:0;border-radius:inherit}
+.journey-more:focus-visible{outline:0}
+.journey-more:focus-visible::after{outline:2px solid var(--primary);outline-offset:-3px}
+.journey-card:hover .journey-more i{transform:translateX(4px)}
+.herbs-feature{align-items:center}
+.herbs-feature-image{display:block;flex-shrink:0;width:clamp(150px,20vw,240px);cursor:zoom-in;transition:transform .3s}
+.herbs-feature-image:hover{transform:scale(1.04)}
+.herbs-feature-image img{display:block;width:100%;height:auto}
+@media(max-width:700px){
+  .detail-dialog-body{grid-template-columns:1fr}
+  .detail-dialog-media{min-height:0;max-height:46dvh}
+  .detail-dialog-media img{max-height:46dvh}
+  .detail-dialog-copy{padding:20px 20px 24px}
+  .product-zoom-icon{top:6px;right:6px;width:28px;height:28px;font-size:11px}
+  .herbs-feature{flex-direction:row}
+  .herbs-feature-image{width:120px}
 }

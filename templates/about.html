@@ -6,10 +6,20 @@
   <p class="eyebrow">{{ t('journey_eyebrow') }}</p>
   <h2 id="journey-heading">{{ t('journey_heading') }}</h2>
   <div class="three-grid">
-    {% for key,icon in [('founded','industry'),('brands','tags'),('quality','certificate'),('farmers','seedling'),('protect','shield-halved'),('award','award')] %}
-    <article><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i><h3>{{ t('journey_' + key) }}</h3><p>{{ t('journey_' + key + '_text') }}</p></article>
+    {% set journey = [('founded','industry','founder_p1','lab',1200,1600),('brands','tags','journey_brands_more','team',1600,1484),('quality','certificate','founder_p3','oil',1541,1600),('farmers','seedling','journey_farmers_more','research',1600,1600),('protect','shield-halved','','speech',1600,1067),('award','award','founder_quote','event',1600,1066)] %}
+    {% for key,icon,more,photo,width,height in journey %}
+    <article class="journey-card"><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i><h3>{{ t('journey_' + key) }}</h3><p>{{ t('journey_' + key + '_text') }}</p><a class="journey-more" href="#journey-dialog-{{ key }}" data-open-dialog="journey-dialog-{{ key }}">{{ t('view_details') }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></article>
     {% endfor %}
   </div>
+  {% for key,icon,more,photo,width,height in journey %}
+  <dialog class="detail-dialog" id="journey-dialog-{{ key }}" aria-labelledby="journey-dialog-title-{{ key }}">
+    <div class="detail-dialog-body">
+      <div class="detail-dialog-media"><img src="{{ url_for('static', filename='images/about-' + photo + '.webp') }}" alt="{{ t('alt_about_' + photo) }}" loading="lazy" width="{{ width }}" height="{{ height }}"></div>
+      <div class="detail-dialog-copy"><h2 id="journey-dialog-title-{{ key }}">{{ t('journey_' + key) }}</h2><p>{{ t('journey_' + key + '_text') }}</p>{% if more %}<p>{{ t(more) }}</p>{% endif %}</div>
+      <button class="video-arrow dialog-close" type="button" data-close-dialog aria-label="{{ t('video_close') }}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    </div>
+  </dialog>
+  {% endfor %}
   <blockquote class="founder-quote"><i class="fa-solid fa-quote-left" aria-hidden="true"></i><p>{{ t('founder_quote') }}</p><cite>{{ t('founder_name') }}</cite></blockquote>
 </section>
 <section class="section sustainability" data-reveal><div><p class="eyebrow">{{ t('considered') }}</p><h2>{{ t('sustainability_heading') }} <em>{{ t('sustainability_emphasis') }}</em></h2><p>{{ t('sustainability_description') }}</p><a class="text-link" href="{{ url_for('contact') }}">{{ t('ask_question') }} ↗</a></div><img class="research-photo" src="{{ url_for('static', filename='images/about-research.webp') }}" alt="{{ t('alt_about_research') }}" loading="lazy" width="1600" height="1600"></section>

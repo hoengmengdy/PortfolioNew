@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% from 'product_dialogs.html' import product_dialogs with context %}
 {% block content %}
 <section class="page-hero"><h1>{{ t('shop_title') }}</h1><p>{{ t('shop_intro') }}</p></section>
 <section class="section">
   <div class="product-grid">
     {% for product in products %}
     <article class="product-card shop-card" id="product-{{ product.id }}">
-      <div class="product-image"><img src="{{ product_image_url(product.image) }}" loading="lazy" alt="{{ localized(product, 'name') }}" width="800" height="1000"></div>
+      <a class="product-zoom" href="#product-{{ product.id }}" data-open-dialog="product-dialog-{{ product.id }}"><div class="product-image"><img src="{{ product_image_url(product.image) }}" loading="lazy" alt="{{ localized(product, 'name') }}" width="800" height="1000"><span class="product-zoom-icon" aria-hidden="true"><i class="fa-solid fa-expand"></i></span></div></a>
       <div class="product-meta"><h3>{{ localized(product, 'name') }}</h3><strong class="price">{{ product.price_cents|money }}</strong></div>
       <p>{{ localized(product, 'description') }}</p>
       {% if product.stock > 0 %}
@@ -24,5 +25,6 @@
     <div class="empty-state"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i><h3>{{ t('no_products') }}</h3><a class="button" href="{{ url_for('contact') }}">{{ t('ask_us') }} ↗</a></div>
     {% endfor %}
   </div>
+  {{ product_dialogs(products) }}
 </section>
 {% endblock %}

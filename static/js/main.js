@@ -380,3 +380,16 @@ document.querySelectorAll('[data-video-carousel]').forEach(section => {
     start();
   });
 });
+
+// Pop-ups: a link with data-open-dialog opens that dialog; the close button or the dark area outside closes it.
+document.addEventListener('click', event => {
+  const opener = event.target.closest('[data-open-dialog]');
+  if (opener) {
+    event.preventDefault();
+    document.getElementById(opener.dataset.openDialog).showModal();
+    return;
+  }
+  const closer = event.target.closest('[data-close-dialog]');
+  if (closer) closer.closest('dialog').close();
+  else if (event.target.matches('.detail-dialog')) event.target.close();
+});
