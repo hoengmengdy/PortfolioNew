@@ -14,5 +14,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), tailwindcss(), seo(siteUrl)],
     define: { __SITE_URL__: JSON.stringify(siteUrl) },
     build: { target: 'es2022' },
+    // Bootstrap's Sass still uses @import and older color functions internally.
+    css: { preprocessorOptions: { scss: { quietDeps: true } } },
   };
 });

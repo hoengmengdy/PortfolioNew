@@ -20,6 +20,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.bsTheme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColors[theme]);
   }, [theme]);
 

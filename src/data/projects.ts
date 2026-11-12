@@ -6,10 +6,17 @@ const github = 'https://github.com/hoengmengdy';
  * Every link below was confirmed from the project's git remote or by opening it.
  *
  * - workday: its Vercel deployment returned HTTP 500 when checked, so no demo link.
- * - facebook-analytics: the deployment connects to real Meta accounts, so no demo link
- *   until a public demo mode is confirmed.
  */
 export const projects: Project[] = [
+  {
+    slug: 'lsv-lucky-spin',
+    featured: true,
+    filters: ['web'],
+    stack: ['HTML5', 'CSS3', 'JavaScript', 'Bootstrap', 'Canvas API', 'Vercel'],
+    cover: { kind: 'screenshot', name: 'lsv-lucky-spin' },
+    repoUrl: null,
+    demoUrl: 'https://spin-miu7.vercel.app/',
+  },
   {
     slug: 'workday',
     featured: true,
@@ -37,24 +44,6 @@ export const projects: Project[] = [
     cover: { kind: 'screenshot', name: 'lsv-industry' },
     repoUrl: `${github}/lsvproduct`,
     demoUrl: 'https://www.lsvindustrykh.com',
-  },
-  {
-    slug: 'facebook-analytics',
-    featured: true,
-    filters: ['react', 'flask'],
-    stack: [
-      'React',
-      'TypeScript',
-      'Python',
-      'Flask',
-      'Meta Graph API',
-      'REST API',
-      'PostgreSQL',
-      'Tailwind CSS',
-    ],
-    cover: { kind: 'art', art: 'analytics' },
-    repoUrl: `${github}/report-page-`,
-    demoUrl: null,
   },
   {
     slug: 'empress',
@@ -90,24 +79,6 @@ export const projects: Project[] = [
     cover: { kind: 'screenshot', name: 'smm-digital' },
     repoUrl: `${github}/sellpage`,
     demoUrl: 'https://www.smmdigital.shop',
-  },
-  {
-    slug: 'dy-news',
-    featured: false,
-    filters: ['flask'],
-    stack: ['Python', 'Flask', 'PostgreSQL', 'SQLite', 'HTML5', 'CSS3', 'JavaScript'],
-    cover: { kind: 'art', art: 'news' },
-    repoUrl: `${github}/dynews`,
-    demoUrl: 'https://dynews-1.onrender.com',
-  },
-  {
-    slug: 'khmer-calendar',
-    featured: false,
-    filters: ['node', 'web'],
-    stack: ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'Express', 'Python', 'Google Cloud TTS'],
-    cover: { kind: 'screenshot', name: 'khmer-calendar' },
-    repoUrl: null,
-    demoUrl: null,
   },
   {
     slug: 'qrpage',

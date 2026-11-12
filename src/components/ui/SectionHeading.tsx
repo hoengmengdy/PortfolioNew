@@ -17,7 +17,7 @@ export function SectionHeading({ id, index, eyebrow, title, lead }: SectionHeadi
     <Reveal className="relative mb-12 md:mb-16">
       <p className="eyebrow flex items-center gap-3">
         <span aria-hidden="true">{formatIndex(index, language)}</span>
-        <span aria-hidden="true" className="h-px w-10 bg-gold" />
+        <span aria-hidden="true" className="h-px w-14 bg-gradient-to-r from-gold to-transparent" />
         {eyebrow}
       </p>
       <h2 id={id} className="mt-5 max-w-3xl text-4xl font-medium md:text-6xl">

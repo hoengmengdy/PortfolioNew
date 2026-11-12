@@ -1,0 +1,22 @@
+@use 'sass:meta';
+
+/*
+ * Bootstrap lives in the lowest cascade layer with its !important utilities switched off,
+ * so the site's Tailwind styles always win where class names overlap (btn, mt-5, text-muted…)
+ * and every Bootstrap-only class (row, col-*, card, d-flex, container, accordion…) still works.
+ */
+@layer bootstrap {
+  @include meta.load-css(
+    'bootstrap/scss/bootstrap',
+    $with: (
+      'enable-important-utilities': false,
+      'primary': #d4af37,
+      'font-family-sans-serif': (
+        'Inter Variable',
+        'Noto Sans Khmer Variable',
+        system-ui,
+        sans-serif,
+      ),
+    )
+  );
+}

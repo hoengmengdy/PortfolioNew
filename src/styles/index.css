@@ -1,3 +1,5 @@
+/* Bootstrap first = lowest priority; see bootstrap.scss. */
+@layer bootstrap, theme, base, components, utilities;
 @import 'tailwindcss';
 
 @theme inline {
@@ -319,6 +321,202 @@
     background: var(--bg);
     padding: 0;
   }
+}
+
+@layer components {
+  /* Cursor-following spotlight + glowing border. --mx/--my are set by useSpotlight. */
+  .panel,
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .panel::before,
+  .spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in srgb, var(--gold) 13%, transparent),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+  }
+
+  .panel::after,
+  .spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      320px circle at var(--mx, 50%) var(--my, 50%),
+      var(--gold-light),
+      transparent 55%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+  }
+
+  .panel:hover::before,
+  .panel:hover::after,
+  .spotlight:hover::before,
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+
+  /* Gold headline with a slow light sweep. */
+  .gold-shimmer {
+    background: linear-gradient(
+      100deg,
+      #b8922a 0%,
+      #f5d76e 20%,
+      #fff3c4 30%,
+      #d4af37 45%,
+      #b8922a 60%,
+      #f5d76e 80%,
+      #d4af37 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shimmer-text 7s linear infinite;
+  }
+
+  [data-theme='light'] .gold-shimmer {
+    background-image: linear-gradient(
+      100deg,
+      #5e4606 0%,
+      #8f6c0c 25%,
+      #b8922a 35%,
+      #755808 50%,
+      #5e4606 65%,
+      #8f6c0c 85%,
+      #755808 100%
+    );
+  }
+
+  /* Light sweep across gold buttons. */
+  .btn-gold {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn-gold::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 70%
+    );
+    transform: translateX(-120%);
+    transition: transform 700ms ease;
+  }
+
+  .btn-gold:hover::after {
+    transform: translateX(120%);
+  }
+
+  .btn-gold:hover {
+    box-shadow: 0 20px 60px -18px rgba(212, 175, 55, 0.75);
+  }
+
+  /* Soft moving color fields behind the hero. */
+  .aurora {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(90px);
+    opacity: 0.5;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  [data-theme='light'] .aurora {
+    opacity: 0.35;
+  }
+
+  .marquee {
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 38s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Fine film grain over the whole page for a richer, less flat finish. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes shimmer-text {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes aurora-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(12%, 10%) scale(1.15);
+  }
+}
+
+@keyframes aurora-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1.1);
+  }
+  50% {
+    transform: translate(-14%, -8%) scale(0.95);
+  }
+}
+
+.animate-aurora-a {
+  animation: aurora-a 18s ease-in-out infinite;
+}
+
+.animate-aurora-b {
+  animation: aurora-b 22s ease-in-out infinite;
 }
 
 @keyframes spin-slow {

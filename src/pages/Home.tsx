@@ -8,6 +8,7 @@ import { Contact } from '../components/sections/Contact';
 import { Education } from '../components/sections/Education';
 import { Hero } from '../components/sections/Hero';
 import { Journey } from '../components/sections/Journey';
+import { ManagedPages } from '../components/sections/ManagedPages';
 import { Projects } from '../components/sections/Projects';
 import { Services } from '../components/sections/Services';
 import { Skills } from '../components/sections/Skills';
@@ -55,6 +56,7 @@ export default function Home() {
         <Projects />
         <Education />
         <Services />
+        <ManagedPages />
         <Journey />
         <Contact />
       </main>

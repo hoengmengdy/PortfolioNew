@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { Spinner } from './components/ui/Spinner';
 import { LanguageProvider, useLanguage } from './hooks/useLanguage';
+import { useSpotlight } from './hooks/useSpotlight';
 import { ThemeProvider } from './hooks/useTheme';
 import Home from './pages/Home';
 
@@ -18,6 +19,8 @@ function PageFallback() {
 }
 
 export default function App() {
+  useSpotlight();
+
   return (
     <ThemeProvider>
       <LanguageProvider>

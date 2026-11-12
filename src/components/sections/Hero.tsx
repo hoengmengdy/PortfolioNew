@@ -96,6 +96,11 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="relative isolate flex min-h-svh flex-col overflow-hidden pt-[4.5rem]"
     >
+      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="aurora animate-aurora-a top-[-10%] left-[-10%] size-[32rem] bg-[radial-gradient(circle,#d4af37,transparent_65%)]" />
+        <div className="aurora animate-aurora-b right-[-12%] bottom-[-5%] size-[36rem] bg-[radial-gradient(circle,#b8922a,transparent_65%)]" />
+        <div className="aurora animate-aurora-a top-[30%] left-[40%] size-[22rem] bg-[radial-gradient(circle,#7c5cff,transparent_65%)] opacity-25 [animation-delay:-8s]" />
+      </div>
       <div aria-hidden="true" className="hero-grid absolute inset-0 -z-10" />
 
       <div className="wrap grid flex-1 items-center gap-12 py-12 lg:grid-cols-[1.5fr_1fr] lg:py-16">
@@ -107,12 +112,16 @@ export function Hero() {
         >
           <m.p
             variants={rise}
-            className="inline-flex items-center gap-2.5 rounded-full border border-line px-4 py-1.5 text-sm text-muted"
+            className="inline-flex items-center gap-2.5 rounded-full border border-line bg-[var(--glass)] px-4 py-1.5 text-sm text-muted backdrop-blur-sm"
           >
-            <span
-              aria-hidden="true"
-              className={`size-1.5 rounded-full ${profile.availableForOpportunities ? 'bg-emerald-400' : 'bg-gold'}`}
-            />
+            <span aria-hidden="true" className="relative flex size-2">
+              <span
+                className={`absolute inline-flex size-full animate-ping rounded-full opacity-70 ${profile.availableForOpportunities ? 'bg-emerald-400' : 'bg-gold'}`}
+              />
+              <span
+                className={`relative inline-flex size-2 rounded-full ${profile.availableForOpportunities ? 'bg-emerald-400' : 'bg-gold'}`}
+              />
+            </span>
             {profile.availableForOpportunities ? t.hero.available : t.hero.badge}
           </m.p>
 
@@ -124,7 +133,7 @@ export function Hero() {
               {t.hero.titleLine1}
             </m.span>
             <m.span variants={rise} className="block">
-              <span className="gold-text">{t.hero.titleLine2}</span>
+              <span className="gold-text gold-shimmer">{t.hero.titleLine2}</span>
             </m.span>
           </h1>
 
@@ -158,13 +167,27 @@ export function Hero() {
         </m.div>
       </div>
 
-      <div className="border-t border-line">
-        <ul className="wrap flex flex-wrap items-center gap-x-8 gap-y-1 py-4 text-sm text-muted">
-          {t.hero.roles.map((role) => (
-            <li key={role}>{role}</li>
+      <div className="marquee overflow-hidden border-y border-line bg-[var(--glass)] backdrop-blur-sm">
+        <div className="marquee-track">
+          {[0, 1].map((copy) => (
+            <ul
+              key={copy}
+              aria-hidden={copy === 1 ? 'true' : undefined}
+              className="flex shrink-0 items-center gap-10 py-4 pr-10 font-display text-sm text-muted md:text-base"
+            >
+              {[...t.hero.roles, t.common.brand, ...t.hero.roles, t.common.brand].map((role, i) => (
+                <li key={`${role}-${i}`} className="flex items-center gap-10 whitespace-nowrap">
+                  <span className={role === t.common.brand ? 'gold-text font-medium' : undefined}>
+                    {role}
+                  </span>
+                  <span aria-hidden="true" className="text-gold">
+                    ✦
+                  </span>
+                </li>
+              ))}
+            </ul>
           ))}
-          <li className="gold-text font-display font-medium lg:ml-auto">{t.common.brand}</li>
-        </ul>
+        </div>
       </div>
     </section>
   );

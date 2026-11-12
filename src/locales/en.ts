@@ -119,6 +119,23 @@ export const en = {
     previous: 'Previous project',
     next: 'Next project',
     items: defineProjects({
+      'lsv-lucky-spin': {
+        title: 'LSV Lucky Spin',
+        category: 'Promotional web app',
+        summary:
+          'A mobile-first prize wheel for LSV Industry: customers scan a QR code, spin once, and win a product.',
+        description:
+          'A lucky-spin promotion page built for LSV Industry customers. The wheel is drawn on a high-resolution canvas with a product photo in every slice and the LSV logo at its centre. Each prize has its own win chance, so the business decides the odds, and a prize can stay on the wheel while being set so it is never won. After one spin, a Bootstrap modal shows the prize with its photo.',
+        features: [
+          'Prize wheel drawn on canvas, sharp on phone screens',
+          'Weighted odds set per prize, including display-only prizes',
+          'One spin per visit, with a smooth five-second spin animation',
+          'Winner pop-up with the prize name and product photo',
+          'Responsive Bootstrap 5 layout with Khmer Kantumruy Pro font',
+        ],
+        coverAlt:
+          'The LSV Lucky Spin page: a green prize wheel with product photos and a SPIN button',
+      },
       workday: {
         title: 'Employee Task Management & Daily Reporting System',
         category: 'Full-stack web application',
@@ -137,28 +154,6 @@ export const en = {
           'Khmer and English interface with a dark theme',
         ],
         coverAlt: 'The new task form in the Workday application, with a repeat daily option',
-      },
-      'facebook-analytics': {
-        title: 'Facebook Page Analytics Dashboard',
-        category: 'Analytics dashboard',
-        summary:
-          'A dashboard for managing Facebook Pages and understanding their performance through charts, comparisons, and exports.',
-        description:
-          'A React dashboard with a Flask REST API that helps users manage Facebook Pages and understand Page performance. It is built on the official Facebook Login and Meta Graph API, and it stores Page tokens encrypted on the server. A built-in demo mode runs on clearly labelled synthetic data, so the interface can be explored without Meta credentials.',
-        features: [
-          'Overview, Content, Audience, and Reports views',
-          'Facebook Login flow with encrypted server-side tokens',
-          'Page connection and a list of authorized Pages',
-          'Daily performance charts with previous-period comparison',
-          'Custom date ranges, post search, filtering, and sorting',
-          'CSV export for analytics and posts',
-          'Demo mode with clearly labelled synthetic data',
-        ],
-        unverified: [
-          'Real Facebook analytics have not yet been verified with a live Meta app and an authorized Page.',
-          'Serving other users would need Meta App Review and the related permissions. No approval is claimed.',
-        ],
-        coverAlt: 'Illustration of analytics charts in gold on a dark background',
       },
       empress: {
         title: 'Empress',
@@ -237,45 +232,6 @@ export const en = {
         coverAlt:
           'The SMM Digital home page, with a Facebook Pages headline on a dark and gold design',
       },
-      'dy-news': {
-        title: 'DY News',
-        category: 'News platform',
-        summary:
-          'A news website and content management platform with category pages, search, RSS imports, and a protected admin area.',
-        description:
-          'A news website and content management platform designed to display and manage news articles. A background importer collects headlines into the database and removes duplicates, while administrators sign in to run imports and remove articles. It also offers a paginated JSON API.',
-        features: [
-          'News homepage with featured and latest stories',
-          'Category pages, search, and pagination',
-          'Article pages with source attribution',
-          'Admin login with import and delete actions',
-          'RSS import with caching and duplicate protection',
-          'Paginated JSON API',
-          'SQLite for development and PostgreSQL for production',
-          'Responsive layout with light and dark modes',
-        ],
-        note: 'Headlines and excerpts come from NBC News RSS feeds with attribution. Readers go to the original article for the full story.',
-        coverAlt: 'Illustration of a newspaper layout in gold on a dark background',
-      },
-      'khmer-calendar': {
-        title: 'Khmer Calendar 2026',
-        category: 'Bilingual web application',
-        summary:
-          'A Khmer calendar that makes dates and holidays easy to browse, search, share, and listen to in Khmer.',
-        description:
-          'A Khmer calendar project designed to make Khmer date information and calendar content accessible through a web interface. Visitors can move between month and year views, look up holidays, open any date for details, and have that date read aloud.',
-        features: [
-          'Monthly and yearly calendar views',
-          'Khmer numerals, date details, and a holiday list',
-          'Search for dates and holidays',
-          'Read-aloud with voice, speed, and auto-read settings',
-          'Khmer and English interface with a dark theme',
-          'Print and share options',
-          'Responsive layout',
-        ],
-        note: 'The Google Cloud Text-to-Speech integration is built, but Google does not currently list a Khmer voice. Khmer playback therefore uses bundled audio and browser voices.',
-        coverAlt: 'The Khmer Calendar 2026 page showing a monthly calendar and a holiday list',
-      },
       qrpage: {
         title: 'QRpage',
         category: 'Landing page',
@@ -351,6 +307,17 @@ export const en = {
       },
     ],
   },
+  pages: {
+    eyebrow: 'Facebook Pages',
+    title: 'Pages I Manage',
+    lead: 'I run these Facebook Pages day to day: creating posts, replying to messages, and promoting content.',
+    managedLabel: 'Pages managed',
+    role: 'Admin',
+    viewPage: 'View Page',
+    showAll: 'Show all Pages',
+    showLess: 'Show fewer',
+    tasks: ['Create posts', 'Reply to messages', 'Promote posts', 'Track notifications'],
+  },
   journey: {
     eyebrow: 'My Journey',
     title: 'How I Got Here',
@@ -370,7 +337,7 @@ export const en = {
       {
         title: 'Exploring web technologies',
         body: 'Working with Flask, Laravel, Node.js, and React showed me how the different layers of the web fit together.',
-        projects: ['dy-news', 'khmer-calendar'],
+        projects: [],
       },
       {
         title: 'Developing full-stack applications',
@@ -380,7 +347,7 @@ export const en = {
       {
         title: 'Improving software engineering skills',
         body: 'Now I focus on what makes software last: automated tests, security, clean structure, and being honest about what is finished and what is not.',
-        projects: ['facebook-analytics'],
+        projects: [],
       },
     ] satisfies Array<{ title: string; body: string; projects: ProjectSlug[] }>,
   },

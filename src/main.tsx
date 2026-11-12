@@ -3,7 +3,9 @@ import { createRoot } from 'react-dom/client';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/space-grotesk';
 import '@fontsource-variable/noto-sans-khmer';
+import './styles/bootstrap.scss';
 import './styles/index.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import App from './App';
 
 const root = document.getElementById('root');

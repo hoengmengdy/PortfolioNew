@@ -7,7 +7,7 @@ export const profile = {
   /** Path to a real photo in `public/images`, e.g. '/images/hoeng-mengdy.webp'. */
   photo: null as string | null,
   /** Path to the CV in `public`, e.g. '/hoeng-mengdy-cv.pdf'. Unset, buttons offer "Request CV". */
-  cvUrl: null as string | null,
+  cvUrl: '/hoeng-meng-dy-cv.pdf' as string | null,
   /** Set to true only when actively open to opportunities. Shows the availability badge. */
   availableForOpportunities: false,
 };

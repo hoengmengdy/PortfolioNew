@@ -18,6 +18,11 @@ export default tseslint.config(
     },
   },
   {
+    // Build scripts run in Node, not the browser.
+    files: ['cv/**/*.mjs'],
+    languageOptions: { globals: globals.node },
+  },
+  {
     // Providers live beside their hooks, so these files export both.
     files: ['src/hooks/**/*.tsx'],
     rules: { 'react-refresh/only-export-components': 'off' },

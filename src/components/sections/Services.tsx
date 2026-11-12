@@ -37,13 +37,13 @@ export function Services() {
               return (
                 <li
                   key={title}
-                  className="group bg-bg p-7 transition-colors duration-300 hover:bg-card"
+                  className="spotlight group bg-bg p-7 transition-colors duration-300 hover:bg-card"
                 >
                   <div className="flex items-start justify-between">
                     <Icon
                       aria-hidden="true"
                       strokeWidth={1.25}
-                      className="size-8 text-gold-text transition-transform duration-300 group-hover:-translate-y-1"
+                      className="size-8 text-gold-text transition-[transform,filter] duration-300 group-hover:-translate-y-1 group-hover:scale-110 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.7)]"
                     />
                     <span aria-hidden="true" className="font-display text-xs text-muted">
                       {formatIndex(index + 1, language)}
