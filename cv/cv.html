@@ -74,22 +74,43 @@
         height: 100%;
         background: linear-gradient(180deg, #f5d76e, #d4af37 50%, #8f6c0c);
       }
+      /* Rectangular passport-style frame with a thin gold border and corner accents. */
       .photo {
-        width: 44mm;
-        height: 44mm;
+        position: relative;
+        width: 46mm;
+        height: 57mm;
         margin: 0 auto;
-        border-radius: 50%;
-        padding: 1.4mm;
-        background: conic-gradient(from 200deg, #f5d76e, #8f6c0c, #f5d76e, #d4af37, #f5d76e);
+        border-radius: 2.5mm;
+        padding: 1mm;
+        background: linear-gradient(145deg, #f5d76e, #8f6c0c 45%, #d4af37 70%, #f5d76e);
         box-shadow: 0 6mm 14mm -6mm rgba(212, 175, 55, 0.55);
+      }
+      .photo::before,
+      .photo::after {
+        content: '';
+        position: absolute;
+        width: 7mm;
+        height: 7mm;
+        border: 0.5mm solid #f5d76e;
+      }
+      .photo::before {
+        top: -2.2mm;
+        left: -2.2mm;
+        border-right: 0;
+        border-bottom: 0;
+      }
+      .photo::after {
+        bottom: -2.2mm;
+        right: -2.2mm;
+        border-left: 0;
+        border-top: 0;
       }
       .photo img {
         width: 100%;
         height: 100%;
-        border-radius: 50%;
+        border-radius: 1.8mm;
         object-fit: cover;
-        object-position: 50% 12%;
-        border: 1.2mm solid var(--side);
+        object-position: 50% 20%;
         display: block;
       }
       .side h2 {
